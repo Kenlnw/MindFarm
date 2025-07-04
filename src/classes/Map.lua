@@ -3,7 +3,7 @@ Map.__index = Map
 
 function Map:load(world, map)
     sti = require("libraries.sti")
-    CollisionComponent = require("src.components.CollisionComponent")
+    MapCollisionComponent = require("src.components.MapCollisionComponent")
 
     local self = setmetatable({}, Map)
 
@@ -18,9 +18,13 @@ function Map:load(world, map)
     self.width = self.map.width * self.map.tilewidth * self.map_scale
     self.height = self.map.height * self.map.tileheight * self.map_scale
 
-    self.collision = CollisionComponent:load(self.world, self.map.layers, self.map_scale)
+    self.collision = MapCollisionComponent:load(self.world, self.map.layers, self.map_scale)
 
     return self
+end
+
+function Map:update(dt)
+    self.collision:update(dt)
 end
 
 function Map:draw()

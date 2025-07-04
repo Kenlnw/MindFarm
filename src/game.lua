@@ -19,19 +19,22 @@ function game.load()
 
     game.prototype_town = Map:load(game.world, "maps/prototype_town.lua")
     
-    game.player = Player:load(game.world, game.width/2, game.height/2)
+    game.player = Player:load(game.world, game.width/2, game.height/2, game.prototype_town.collision)
+    game.prototype_town.collision:add_player_collider(game.player.collider)
     game.camera = Camera()
     game.interface = Interface:load()
 
 end
 
 function game.update(dt)
+    game.prototype_town:update(dt)
     game.player:update(dt)
     game:set_camera()
 
     
 
     game.world:update(dt)
+
 end
 
 function game.set_camera()
@@ -61,6 +64,7 @@ function game.draw()
     game.camera:detach()
 
     game.interface:draw()
+    debug_print()
 end
 
 return game
