@@ -18,7 +18,7 @@ function game.load()
     game.world = wf.newWorld(0, 0)
 
     game.start_map = Map:load()
-    game.player = Player:load(game.width/2, game.height/2)
+    game.player = Player:load(game.world, game.width/2, game.height/2)
     game.camera = Camera()
     game.interface = Interface:load()
 
@@ -28,7 +28,7 @@ function game.update(dt)
     game.player:update(dt)
     game:set_camera()
 
-    -- game.interface:update(dt)
+    game.world:update(dt)
 end
 
 function game.set_camera()
@@ -54,6 +54,7 @@ function game.draw()
     game.camera:attach()
         game.start_map:draw()
         game.player:draw()
+        game.world:draw()
     game.camera:detach()
 
     game.interface:draw()

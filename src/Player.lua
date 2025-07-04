@@ -1,15 +1,17 @@
 local Player = {}
 Player.__index = Player
 
-function Player:load(x, y)
+function Player:load(world, x, y)
     AnimComponent = require("src.components.AnimComponent")
     anim8 = require("libraries.anim8")
+    wf = require("libraries.windfield")
 
     local self = setmetatable({}, Player)
 
+    self.world = world
     self.x = x
     self.y = y
-    self.speed = 200
+    self.speed = 10000
     
     self.anim_duration = 0.1
     self.sprite_scale = 4
@@ -42,6 +44,16 @@ function Player:load(x, y)
 
     self.states = {}
     self.states.moving = false
+
+    self.width = self.sprites.idle.anim.frame_width/2 * self.sprite_scale - 35
+    self.height = self.sprites.idle.anim.frame_height/1.5 * self.sprite_scale - 20
+
+    self.collider = self.world:newRectangleCollider(
+        self.x, 
+        self.y, 
+        self.width,
+        self.height
+    )
     
     return self
 end
@@ -103,8 +115,14 @@ function Player:normalized_move(dx, dy, dt)
         dy = dy / vector_size
     end
 
-    self.x = self.x + (dx * self.speed * dt)
-    self.y = self.y + (dy * self.speed * dt)
+    local vx = dx * self.speed * dt
+    local vy = dy * self.speed * dt
+    
+    self.collider:setLinearVelocity(vx, vy)
+    self.collider:setFixedRotation(true)
+
+    self.x = self.collider:getX()
+    self.y = self.collider:getY()
 end
 
 function Player:draw_anim(sprite_sheet)
