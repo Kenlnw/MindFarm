@@ -2,12 +2,12 @@ local game = {}
 game.__index = game
 
 function game.load()
-    require("src.Utils")
+    require("src.utils")
     wf = require("libraries.windfield")
-    Map = require("src.Map")
-    Player = require("src.Player")
+    Map = require("src.classes.Map")
+    Player = require("src.classes.Player")
     Camera = require("libraries.camera")
-    Interface = require("src.Interface")
+    Interface = require("src.classes.Interface")
 
     game.title = "MindFarm"
     love.window.setTitle(game.title)
@@ -17,7 +17,8 @@ function game.load()
     game.height = love.graphics.getHeight()
     game.world = wf.newWorld(0, 0)
 
-    game.start_map = Map:load()
+    game.prototype_town = Map:load(game.world, "maps/prototype_town.lua")
+    
     game.player = Player:load(game.world, game.width/2, game.height/2)
     game.camera = Camera()
     game.interface = Interface:load()
@@ -39,22 +40,22 @@ function game.set_camera()
 
     if game.camera.x < game.width/2 then
         game.camera.x = game.width/2
-    elseif game.camera.x > (game.start_map.width - game.width/2) then
-        game.camera.y = game.start_map.width - game.width/2
+    elseif game.camera.x > (game.prototype_town.width - game.width/2) then
+        game.camera.y = game.prototype_town.width - game.width/2
     end
 
     if game.camera.y < game.height/2 then
         game.camera.y = game.height/2
-    elseif game.camera.y > (game.start_map.height - game.height/2) then
-        game.camera.y = game.start_map.height - game.height/2
+    elseif game.camera.y > (game.prototype_town.height - game.height/2) then
+        game.camera.y = game.prototype_town.height - game.height/2
     end
 end
 
 function game.draw()
     game.camera:attach()
-        game.start_map:draw()
+        game.prototype_town:draw()
         game.player:draw()
-        game.world:draw()
+        -- game.world:draw()
     game.camera:detach()
 
     game.interface:draw()

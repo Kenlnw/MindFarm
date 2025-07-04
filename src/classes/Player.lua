@@ -46,7 +46,7 @@ function Player:load(world, x, y)
     self.states.moving = false
 
     self.width = self.sprites.idle.anim.frame_width/2 * self.sprite_scale - 35
-    self.height = self.sprites.idle.anim.frame_height/1.5 * self.sprite_scale - 20
+    self.height = self.sprites.idle.anim.frame_height/1.5 * self.sprite_scale - 45
 
     self.collider = self.world:newRectangleCollider(
         self.x, 
@@ -54,6 +54,7 @@ function Player:load(world, x, y)
         self.width,
         self.height
     )
+    -- self.collider:setCollisionClass("Player")
     
     return self
 end
@@ -65,28 +66,28 @@ function Player:update(dt)
     self.flip_x = 1
 
     if love.keyboard.isDown("s") then
-        dy = dy + 1
+        dy = 1
 
         self.current_anim = self.sprites.walk.anim.anims[1]
         self.facing_index = 1
         self.states.moving = true
     end
     if love.keyboard.isDown("w") then
-        dy = dy - 1
+        dy = -1
 
         self.current_anim = self.sprites.walk.anim.anims[2]
         self.facing_index = 2
         self.states.moving = true
     end
     if love.keyboard.isDown("d") then
-        dx = dx + 1
+        dx = 1
 
         self.current_anim = self.sprites.walk.anim.anims[3]
         self.facing_index = 3
         self.states.moving = true  
     end
     if love.keyboard.isDown("a") then
-        dx = dx - 1
+        dx = -1
 
         self.current_anim = self.sprites.walk.anim.anims[3]
         self.facing_index = 4
@@ -129,7 +130,7 @@ function Player:draw_anim(sprite_sheet)
     self.current_anim:draw(
             sprite_sheet, 
             self.x, 
-            self.y, 
+            self.y - 15, 
             nil, 
             self.sprite_scale * self.flip_x, 
             self.sprite_scale, 

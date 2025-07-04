@@ -2,7 +2,7 @@ local Interface = {}
 Interface.__index = Interface
 
 function Interface:load()
-    SlotBar = require("src.SlotBar")
+    SlotBar = require("src.classes.SlotBar")
 
     local self = setmetatable({}, Interface)
 
