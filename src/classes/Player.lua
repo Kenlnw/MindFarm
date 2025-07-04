@@ -48,13 +48,14 @@ function Player:load(world, x, y)
     self.width = self.sprites.idle.anim.frame_width/2 * self.sprite_scale - 35
     self.height = self.sprites.idle.anim.frame_height/1.5 * self.sprite_scale - 45
 
+    self.world:addCollisionClass("Player")
     self.collider = self.world:newRectangleCollider(
         self.x, 
         self.y, 
         self.width,
         self.height
     )
-    -- self.collider:setCollisionClass("Player")
+    self.collider:setCollisionClass("Player")
     
     return self
 end

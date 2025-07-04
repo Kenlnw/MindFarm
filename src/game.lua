@@ -29,6 +29,8 @@ function game.update(dt)
     game.player:update(dt)
     game:set_camera()
 
+    
+
     game.world:update(dt)
 end
 
@@ -55,7 +57,7 @@ function game.draw()
     game.camera:attach()
         game.prototype_town:draw()
         game.player:draw()
-        -- game.world:draw()
+        game.world:draw()
     game.camera:detach()
 
     game.interface:draw()

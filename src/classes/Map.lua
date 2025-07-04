@@ -18,8 +18,7 @@ function Map:load(world, map)
     self.width = self.map.width * self.map.tilewidth * self.map_scale
     self.height = self.map.height * self.map.tileheight * self.map_scale
 
-    self.collision = CollisionComponent:load(self.world, self.map.layers["Collision"], self.map_scale)
-    self.collision:create_collisions()
+    self.collision = CollisionComponent:load(self.world, self.map.layers, self.map_scale)
 
     return self
 end
@@ -29,7 +28,7 @@ function Map:draw()
     love.graphics.scale(self.map_scale, self.map_scale)
 
     for _, layer in ipairs(self.map.layers) do
-        if layer.visible and layer.name ~= "Collision" then
+        if layer.visible then
             self.map:drawLayer(layer)
         end
     end
