@@ -64,7 +64,7 @@ function game.draw()
     game.camera:attach()
         game.prototype_town:draw()
         game.player:draw()
-        game.world:draw()
+        -- game.world:draw()
     game.camera:detach()
 
     game.interface:draw()
