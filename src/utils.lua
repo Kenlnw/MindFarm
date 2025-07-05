@@ -19,9 +19,8 @@ function is_overlap(col1, col2)
 end
 
 
-function distance_between_rec(obj_1, obj_2)
-    return obj_1.x > obj_2.x - obj_2.width/2 and obj_1.x < obj_2.x + obj_2.width/2 and
-            obj_1.y > obj_2.y - obj_2.height/2 and obj_1.y < obj_2.y + obj_2.height/2
+function distance_between(x1, x2, y1, y2)
+    return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
 end
 
 function debug_init()

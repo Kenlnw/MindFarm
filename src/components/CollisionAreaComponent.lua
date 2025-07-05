@@ -1,16 +1,20 @@
 local CollisionAreaComponent = {}
 CollisionAreaComponent.__index = CollisionAreaComponent
 
-function CollisionAreaComponent:load(world, layer, map_scale)
+function CollisionAreaComponent:new()
     local self = setmetatable({}, CollisionAreaComponent)
 
+    self.collision_areas = {}
+
+    return self
+end
+
+function CollisionAreaComponent:load(world, layer, map_scale)
     self.world = world
     self.layer = layer
     self.map_scale = map_scale
 
     self.collision_areas = self:create_collisions(self.layer)
-
-    return self
 end
 
 function CollisionAreaComponent:create_collisions(layer)
@@ -25,7 +29,7 @@ function CollisionAreaComponent:create_collisions(layer)
         collision_area.height = obj.height * self.map_scale
 
         collision_area.body = love.physics.newBody(self.world, collision_area.x, collision_area.y, "static")
-        collision_area.shape = love.physics.newRectangleShape(collision_area.width/2 + 16, collision_area.height/2, collision_area.width, collision_area.height)
+        collision_area.shape = love.physics.newRectangleShape(collision_area.width/2, collision_area.height/2, collision_area.width, collision_area.height)
         collision_area.fixture = love.physics.newFixture(collision_area.body, collision_area.shape)
         collision_area.body:setFixedRotation(true)
         collision_area.fixture:setUserData(collision_area)

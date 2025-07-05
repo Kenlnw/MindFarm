@@ -10,10 +10,11 @@ function Player:load(world, x, y)
     self.world = world
     self.x = x
     self.y = y
-    self.speed = 20000
+    self.speed = 10000
     
     self.anim_duration = 0.1
     self.sprite_scale = 4
+    self.sprite_offset = 7
 
     self.sprites = {idle, walk}
 
@@ -46,16 +47,26 @@ function Player:load(world, x, y)
 
     self.collider = {}
     self.collider.tag = "player"
-    self.collider.width = self.sprites.idle.anim.frame_width/2 * self.sprite_scale - 25
-    self.collider.height = self.sprites.idle.anim.frame_height/1.5 * self.sprite_scale - 45
-    self.collider.x = self.x + 28
-    self.collider.y = self.y + 28
+    self.collider.width = self.sprites.idle.anim.frame_width/2 * self.sprite_scale
+    self.collider.height = self.sprite_offset * self.sprite_scale
+    self.collider.x = self.x
+    self.collider.y = self.y
 
     self.collider.body = love.physics.newBody(self.world, self.collider.x, self.collider.y, "dynamic")
-    self.collider.shape = love.physics.newRectangleShape(self.collider.width/2, self.collider.height/2, self.collider.width, self.collider.height)
+    self.collider.shape = love.physics.newRectangleShape(
+        self.collider.width/2 - self.sprite_offset * self.sprite_scale, 
+        self.collider.height, 
+        self.collider.width, 
+        self.collider.height
+    )
     self.collider.fixture = love.physics.newFixture(self.collider.body, self.collider.shape)
     self.collider.body:setFixedRotation(true)
     self.collider.fixture:setUserData(self.collider)
+
+    self.sensor_point = {}
+    self.sensor_point.x = self.x
+    self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height/2 - self.sprite_offset) * self.sprite_scale
+    self.sensor_point.radius = 10
     
     return self
 end
@@ -109,8 +120,6 @@ function Player:update(dt)
 
     self.current_anim:update(dt)
 
-    
-
 end
 
 function Player:normalized_move(dx, dy, dt)
@@ -127,6 +136,9 @@ function Player:normalized_move(dx, dy, dt)
     self.collider.body:setFixedRotation(true)
 
     self.x, self.y = self.collider.body:getPosition()
+
+    self.sensor_point.x = self.x
+    self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height/2 - self.sprite_offset) * self.sprite_scale
 end
 
 function Player:draw_anim(sprite_sheet)
@@ -149,6 +161,8 @@ function Player:draw()
     else
         self:draw_anim(self.sprites.idle.sprite_sheet)
     end
+
+    love.graphics.circle("fill", self.sensor_point.x, self.sensor_point.y, self.sensor_point.radius)
 end
 
 return Player

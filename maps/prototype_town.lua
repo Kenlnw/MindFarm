@@ -310,7 +310,7 @@ return {
       height = 30,
       id = 4,
       name = "Dirts2",
-      class = "PlantableArea",
+      class = "",
       visible = true,
       opacity = 1,
       offsetx = 0,

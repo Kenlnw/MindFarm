@@ -1,7 +1,7 @@
 local Map = {}
 Map.__index = Map
 
-function Map:load(world, map)
+function Map:load(world, map, player)
     sti = require("libraries.sti")
     CollisionAreaComponent = require("src.components.CollisionAreaComponent")
     PlantableAreaComponent = require("src.components.PlantableAreaComponent")
@@ -19,6 +19,12 @@ function Map:load(world, map)
     self.width = self.map.width * self.map.tilewidth * self.map_scale
     self.height = self.map.height * self.map.tileheight * self.map_scale
 
+    self.drawable_layers = {}
+    self.collision_component = CollisionAreaComponent:new()
+    self.plantable_area_component = PlantableAreaComponent:new()
+
+    self.player = player
+
     self:load_map_layers()
 
 
@@ -26,18 +32,20 @@ function Map:load(world, map)
 end
 
 function Map:load_map_layers()
-    self.drawable_layers = {}
-
     for _, layer in ipairs(self.map.layers) do
         if layer.class == "CollisionArea" then
-            self.collision_component = CollisionAreaComponent:load(self.world, layer, self.map_scale)
+            self.collision_component:load(self.world, layer, self.map_scale)
         else
             if layer.class == "PlantableArea" then
-                self.trigger_component = PlantableAreaComponent:load(self.world, layer, self.map, self.map_scale)
+                self.plantable_area_component:load(self.world, layer, self.map, self.map_scale, self.player)
             end
             self.drawable_layers[#self.drawable_layers + 1] = layer 
         end
     end
+end
+
+function Map:update(dt)
+    self.plantable_area_component:update(dt)
 end
 
 function Map:draw()
@@ -48,11 +56,9 @@ function Map:draw()
         self.map:drawLayer(layer)
     end
 
-    if self.trigger_component then
-        self.trigger_component:draw()
-    end
-
     love.graphics.pop()
+
+    self.plantable_area_component:draw()
 end
 
 return Map

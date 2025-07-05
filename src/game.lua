@@ -18,31 +18,43 @@ function game.load()
     debug_init()
 
     game.world = love.physics.newWorld(0, 0)
-    game.world:setCallbacks(game.on_collision_enter, game.on_collision_exit)
+    -- game.world:setCallbacks(game.on_collision_enter, game.on_collision_exit)
 
-    game.prototype_town = Map:load(game.world, "maps/prototype_town.lua")
+    game.player = Player:load(game.world, game.width/2, game.height/2)
+
+    game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player)
     
-    game.player = Player:load(game.world, game.width/2, game.height/2, game.prototype_town.collision)
     game.camera = Camera()
     game.interface = Interface:load()
 
 end
 
-function game.on_collision_enter(a, b, contract)
-    local a_col, b_col = a:getUserData(), b:getUserData() 
+-- function game.on_collision_enter(a, b, contract)
+--     local a_col, b_col = a:getUserData(), b:getUserData() 
 
-    if a_col and b_col then
-        debug_text = a_col.tag .. " collided with " .. b_col.tag
-        debug_obj = a_col
-        debug_bool = true
-    end
-end
+--     if a_col and a_col.is_active ~= nil then
+--         a_col.is_active = true
+--     end
+--     if b_col and b_col.is_active ~= nil then
+--         b_col.is_active = true
+--     end
+-- end
 
-function game.on_collision_exit(a, b, contract)
-    debug_init()
-end
+-- function game.on_collision_exit(a, b, contract)
+--     local a_col, b_col = a:getUserData(), b:getUserData() 
+
+--     if a_col and a_col.is_active ~= nil then
+--         a_col.is_active = false
+--     end
+--     if b_col and b_col.is_active ~= nil then
+--         b_col.is_active = false
+--     end
+
+--     debug_init()
+-- end
 
 function game.update(dt)
+    game.prototype_town:update(dt)
     game.world:update(dt)
     game.player:update(dt)
     game:set_camera()
@@ -70,9 +82,13 @@ end
 function game.draw()
     game.camera:attach()
         game.prototype_town:draw()
-        if debug_bool == true then
-            love.graphics.rectangle("line", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
-        end
+        -- if debug_bool == true then
+        --     if debug_obj.is_planted then
+        --         love.graphics.rectangle("fill", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
+        --     else
+        --         love.graphics.rectangle("line", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
+        --     end
+        -- end
         game.player:draw()
         -- game.world:draw()
     game.camera:detach()
