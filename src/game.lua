@@ -16,6 +16,7 @@ function game.load()
     game.width = love.graphics.getWidth()
     game.height = love.graphics.getHeight()
     game.world = wf.newWorld(0, 0)
+    game.add_all_collison_classes()
 
     game.prototype_town = Map:load(game.world, "maps/prototype_town.lua")
     
@@ -23,6 +24,12 @@ function game.load()
     game.camera = Camera()
     game.interface = Interface:load()
 
+end
+
+function game.add_all_collison_classes()
+    game.world:addCollisionClass("Player")
+    game.world:addCollisionClass("Collision")
+    game.world:addCollisionClass("PlantableArea")
 end
 
 function game.update(dt)
@@ -43,7 +50,7 @@ function game.set_camera()
     if game.camera.x < game.width/2 then
         game.camera.x = game.width/2
     elseif game.camera.x > (game.prototype_town.width - game.width/2) then
-        game.camera.y = game.prototype_town.width - game.width/2
+        game.camera.x = game.prototype_town.width - game.width/2
     end
 
     if game.camera.y < game.height/2 then
