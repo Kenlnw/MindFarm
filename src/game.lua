@@ -20,7 +20,7 @@ function game.load()
 
     game.prototype_town = Map:load(game.world, "maps/prototype_town.lua")
     
-    game.player = Player:load(game.world, game.width/2, game.height/2)
+    game.player = Player:load(game.world, game.width/2, game.height/2, game.prototype_town.collision)
     game.camera = Camera()
     game.interface = Interface:load()
 
@@ -39,6 +39,7 @@ function game.update(dt)
     
 
     game.world:update(dt)
+
 end
 
 function game.set_camera()

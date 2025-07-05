@@ -107,6 +107,7 @@ function Player:update(dt)
     end
 
     self.current_anim:update(dt)
+
 end
 
 function Player:normalized_move(dx, dy, dt)
@@ -140,6 +141,7 @@ function Player:draw_anim(sprite_sheet)
 end
 
 function Player:draw()
+
     if self.states.moving == true then
         self:draw_anim(self.sprites.walk.sprite_sheet)
     else
