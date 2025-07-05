@@ -9,8 +9,8 @@ return {
   height = 30,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 11,
-  nextobjectid = 18,
+  nextlayerid = 8,
+  nextobjectid = 5,
   properties = {},
   tilesets = {
     {
@@ -355,10 +355,10 @@ return {
     {
       type = "objectgroup",
       draworder = "topdown",
-      id = 8,
-      name = "Fences_obj",
+      id = 6,
+      name = "Femces_obj",
       class = "Collision",
-      visible = false,
+      visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -367,7 +367,7 @@ return {
       properties = {},
       objects = {
         {
-          id = 6,
+          id = 1,
           name = "",
           type = "",
           shape = "rectangle",
@@ -380,7 +380,7 @@ return {
           properties = {}
         },
         {
-          id = 7,
+          id = 2,
           name = "",
           type = "",
           shape = "rectangle",
@@ -388,6 +388,48 @@ return {
           y = 32,
           width = 16,
           height = 128,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 7,
+      name = "Hills_obj",
+      class = "Collision",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 3,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 656,
+          y = 32,
+          width = 256,
+          height = 144,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 4,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 720,
+          y = 272,
+          width = 144,
+          height = 176,
           rotation = 0,
           visible = true,
           properties = {}
