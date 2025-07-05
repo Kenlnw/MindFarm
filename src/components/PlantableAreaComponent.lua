@@ -17,6 +17,8 @@ function PlantableAreaComponent:load(world, layer, map, map_scale, player)
     self.player = player
 
     self.plantable_areas = self:create_triggers(self.layer)
+
+    self.current_area = nil
 end
 
 function PlantableAreaComponent:create_triggers(layer)
@@ -42,7 +44,7 @@ function PlantableAreaComponent:create_triggers(layer)
                     plantable_area.fixture:setSensor(true)
                     plantable_area.is_active = false
                     plantable_area.is_planted = false
-                    
+
                     function plantable_area:toggle_plant_seed()
                         if not self.is_planted then
                             self.is_planted = true
@@ -66,19 +68,16 @@ end
 
 function PlantableAreaComponent:update(dt)
     if self.plantable_areas and self.player then
-        for i = 2, 2 do
-            local area = self.plantable_areas[i]
-            local area_closest_x = math.max(area.x, math.min(self.player.sensor_point.x, area.x + area.width))
-            local area_closest_y = math.max(area.y, math.min(self.player.sensor_point.y, area.y + area.height))
-            local distance = distance_between(self.player.sensor_point.x, self.player.sensor_point.y, area_closest_x, area_closest_y)
-            if distance < self.player.sensor_point.radius or distance == 0 then
-                -- self:interact()
-                -- debug_text = "collided" .." ".. distance
-                debug_text = "collided" .." ".. self.player.sensor_point.x .." ".. self.player.sensor_point.y .." ".. area_closest_x .." ".. area_closest_y
+        for _, area in ipairs(self.plantable_areas) do
+            if is_inside(self.player.sensor_point.x, self.player.sensor_point.y, area) then
+                area.is_active = true
+                debug_text = "collided " .." ".. self.player.sensor_point.x .." ".. self.player.sensor_point.y
+                self:interact()
+                self.current_area = area
                 break
             else
-                -- debug_text = "not collided" .." ".. distance
-                debug_text = "not collided" .." ".. self.player.sensor_point.x .." ".. self.player.sensor_point.y .." ".. area_closest_x .." ".. area_closest_y
+                area.is_active = false
+                debug_text = "not collided " .." ".. self.player.sensor_point.x .." ".. self.player.sensor_point.y
             end
         end
     else
@@ -94,6 +93,7 @@ function PlantableAreaComponent:interact()
             for _, area in ipairs(self.plantable_areas) do
                 if area.is_active then
                     area:toggle_plant_seed()
+                    break
                 end
             end
             self.space_pressed = true
@@ -104,13 +104,19 @@ function PlantableAreaComponent:interact()
 end
 
 function PlantableAreaComponent:draw()
-    -- if self.plantable_areas then 
-    --     for _, area in ipairs(self.plantable_areas) do
-    --         if area.is_planted == true then
-    --             love.graphics.rectangle("fill", area.x ,area.y, area.width, area.height)
-    --         end
-    --     end
-    -- end
+    if self.plantable_areas then 
+        for _, area in ipairs(self.plantable_areas) do
+            if area == self.current_area then
+                set_color(0, 0, 0)
+                love.graphics.rectangle("line", area.x ,area.y, area.width, area.height)
+                reset_color()
+            end
+
+            if area.is_planted then
+                love.graphics.rectangle("fill", area.x ,area.y, area.width, area.height)
+            end
+        end
+    end
 end
 
 return PlantableAreaComponent

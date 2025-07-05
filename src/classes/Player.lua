@@ -66,7 +66,6 @@ function Player:load(world, x, y)
     self.sensor_point = {}
     self.sensor_point.x = self.x
     self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height/2 - self.sprite_offset) * self.sprite_scale
-    self.sensor_point.radius = 10
     
     return self
 end
@@ -162,7 +161,7 @@ function Player:draw()
         self:draw_anim(self.sprites.idle.sprite_sheet)
     end
 
-    love.graphics.circle("fill", self.sensor_point.x, self.sensor_point.y, self.sensor_point.radius)
+    -- love.graphics.circle("fill", self.sensor_point.x, self.sensor_point.y, 10)
 end
 
 return Player

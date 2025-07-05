@@ -11,11 +11,8 @@ function round(n)
     return math.floor(n + 0.5)
 end
 
-function is_overlap(col1, col2)
-    return col1:getX() < col2:getX() + col2.width and
-           col1:getX() + col1.width > col2:getX() and
-           col1:getY() < col2:getY() + col2.height and
-           col1:getY() + col1.height > col2:getY()
+function is_inside(x, y, rec)
+    return x >= rec.x  and x <= rec.x + rec.width and y >= rec.y  and y <= rec.y + rec.height
 end
 
 
