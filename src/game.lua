@@ -14,8 +14,8 @@ function game.load()
 
     game.width = love.graphics.getWidth()
     game.height = love.graphics.getHeight()
-    game.obj = false
-    game.isSelect = false
+
+    debug_init()
 
     game.world = love.physics.newWorld(0, 0)
     game.world:setCallbacks(game.on_collision_enter, game.on_collision_exit)
@@ -33,15 +33,13 @@ function game.on_collision_enter(a, b, contract)
 
     if a_col and b_col then
         debug_text = a_col.tag .. " collided with " .. b_col.tag
-        game.obj = a_col
-        game.isSelect = true
+        debug_obj = a_col
+        debug_bool = true
     end
 end
 
 function game.on_collision_exit(a, b, contract)
-    debug_text = ""
-    game.obj = nil
-    game.isSelect = false
+    debug_init()
 end
 
 function game.update(dt)
@@ -72,8 +70,8 @@ end
 function game.draw()
     game.camera:attach()
         game.prototype_town:draw()
-        if game.isSelect == true then
-            love.graphics.rectangle("line", game.obj.x, game.obj.y, game.obj.width, game.obj.height)
+        if debug_bool == true then
+            love.graphics.rectangle("line", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
         end
         game.player:draw()
         -- game.world:draw()

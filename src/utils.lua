@@ -24,7 +24,11 @@ function distance_between_rec(obj_1, obj_2)
             obj_1.y > obj_2.y - obj_2.height/2 and obj_1.y < obj_2.y + obj_2.height/2
 end
 
-debug_text = ""
+function debug_init()
+    debug_text = ""
+    debug_obj = nil
+    debug_bool = nil
+end
 
 function debug_print()
     love.graphics.print(debug_text, 0, 0)
