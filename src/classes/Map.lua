@@ -3,7 +3,7 @@ Map.__index = Map
 
 function Map:load(world, map)
     sti = require("libraries.sti")
-    CollisionComponent = require("src.components.CollisionComponent")
+    CollisionAreaComponent = require("src.components.CollisionAreaComponent")
     PlantableAreaComponent = require("src.components.PlantableAreaComponent")
 
     local self = setmetatable({}, Map)
@@ -29,8 +29,8 @@ function Map:load_map_layers()
     self.drawable_layers = {}
 
     for _, layer in ipairs(self.map.layers) do
-        if layer.class == "Collision" then
-            self.collision_component = CollisionComponent:load(self.world, layer, self.map_scale)
+        if layer.class == "CollisionArea" then
+            self.collision_component = CollisionAreaComponent:load(self.world, layer, self.map_scale)
         else
             if layer.class == "PlantableArea" then
                 self.trigger_component = PlantableAreaComponent:load(self.world, layer, self.map, self.map_scale)
@@ -46,6 +46,10 @@ function Map:draw()
 
     for _, layer in ipairs(self.drawable_layers) do
         self.map:drawLayer(layer)
+    end
+
+    if self.trigger_component then
+        self.trigger_component:draw()
     end
 
     love.graphics.pop()

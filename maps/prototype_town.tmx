@@ -182,11 +182,11 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="6" name="Femces_obj" class="Collision">
+ <objectgroup id="6" name="Femces_obj" class="CollisionArea">
   <object id="1" x="336" y="32" width="16" height="128"/>
   <object id="2" x="16" y="32" width="16" height="128"/>
  </objectgroup>
- <objectgroup id="7" name="Hills_obj" class="Collision">
+ <objectgroup id="7" name="Hills_obj" class="CollisionArea">
   <object id="3" x="656" y="32" width="256" height="144"/>
   <object id="4" x="720" y="272" width="144" height="176"/>
  </objectgroup>

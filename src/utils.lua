@@ -19,16 +19,12 @@ function is_overlap(col1, col2)
 end
 
 
--- function is_overlap(col1, col2)
---     local x1, y1 = col1:getPosition()
---     local x2, y2 = col2:getPosition()
---     return x1 < x2 + col2.width and
---            x1 + col1.width > x2 and
---            y1 < y2 + col2.height and
---            y1 + col1.height > y2
--- end
+function distance_between_rec(obj_1, obj_2)
+    return obj_1.x > obj_2.x - obj_2.width/2 and obj_1.x < obj_2.x + obj_2.width/2 and
+            obj_1.y > obj_2.y - obj_2.height/2 and obj_1.y < obj_2.y + obj_2.height/2
+end
 
-debug_text = "None"
+debug_text = ""
 
 function debug_print()
     love.graphics.print(debug_text, 0, 0)

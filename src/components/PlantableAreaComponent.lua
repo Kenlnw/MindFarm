@@ -9,33 +9,45 @@ function PlantableAreaComponent:load(world, layer, map, map_scale)
     self.layer = layer
     self.map_scale = map_scale
 
-    self.area_tiles = self:create_triggers(self.layer)
+    self.plantable_areas = self:create_triggers(self.layer)
 
     return self
 end
 
 function PlantableAreaComponent:create_triggers(layer)
-    local area_tiles = {}
+    local plantable_areas = {}
 
     for y = 1, layer.height do
         for x = 1, layer.width do
-            local tile = layer.data[y][x]
-            if tile then
-                if tile.gid > 0 then 
-                    local tile_x = (x - 1) * self.map.tilewidth * self.map_scale
-                    local tile_y = (y - 1) * self.map.tileheight * self.map_scale
+            if layer.data[y][x] then
+                if layer.data[y][x].gid > 0 then 
+                    local plantable_area = {}
+                    plantable_area.tag = "plantable_area" 
+                    plantable_area.x = (x - 1) * self.map.tilewidth * self.map_scale
+                    plantable_area.y = (y - 1) * self.map.tileheight * self.map_scale
+                    plantable_area.width = self.map.tilewidth * self.map_scale
+                    plantable_area.height = self.map.tileheight * self.map_scale
                     
-                    local area_tile = self.world:newRectangleCollider(tile_x, tile_y, self.map.tilewidth * self.map_scale, self.map.tileheight * self.map_scale)
-                    area_tile:setCollisionClass(layer.class)
-                    area_tile:setSensor(true)
+                    plantable_area.body = love.physics.newBody(self.world, plantable_area.x, plantable_area.y, "static")
+                    plantable_area.shape = love.physics.newRectangleShape(plantable_area.width/2, plantable_area.height/2, plantable_area.width, plantable_area.height)
+                    plantable_area.fixture = love.physics.newFixture(plantable_area.body, plantable_area.shape)
+                    plantable_area.body:setFixedRotation(true)
+                    plantable_area.fixture:setSensor(true)
+                    plantable_area.fixture:setUserData(plantable_area)
 
-                    table.insert(area_tiles, area_tile)
+                    table.insert(plantable_areas, plantable_area)
                 end
             end
         end
     end
 
     return area_tiles
+end
+
+function PlantableAreaComponent:draw()
+    -- for _, area in ipairs(self.plantable_areas) do
+    --     love.graphics.rectangle("line", area.x ,area.y, area.width, area.height)
+    -- end
 end
 
 return PlantableAreaComponent

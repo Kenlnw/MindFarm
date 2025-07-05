@@ -3,7 +3,6 @@ game.__index = game
 
 function game.load()
     require("src.utils")
-    wf = require("libraries.windfield")
     Map = require("src.classes.Map")
     Player = require("src.classes.Player")
     Camera = require("libraries.camera")
@@ -15,8 +14,11 @@ function game.load()
 
     game.width = love.graphics.getWidth()
     game.height = love.graphics.getHeight()
-    game.world = wf.newWorld(0, 0)
-    game.add_all_collison_classes()
+    game.obj = false
+    game.isSelect = false
+
+    game.world = love.physics.newWorld(0, 0)
+    game.world:setCallbacks(game.on_collision_enter, game.on_collision_exit)
 
     game.prototype_town = Map:load(game.world, "maps/prototype_town.lua")
     
@@ -26,20 +28,26 @@ function game.load()
 
 end
 
-function game.add_all_collison_classes()
-    game.world:addCollisionClass("Player")
-    game.world:addCollisionClass("Collision")
-    game.world:addCollisionClass("PlantableArea")
+function game.on_collision_enter(a, b, contract)
+    local a_col, b_col = a:getUserData(), b:getUserData() 
+
+    if a_col and b_col then
+        debug_text = a_col.tag .. " collided with " .. b_col.tag
+        game.obj = a_col
+        game.isSelect = true
+    end
+end
+
+function game.on_collision_exit(a, b, contract)
+    debug_text = ""
+    game.obj = nil
+    game.isSelect = false
 end
 
 function game.update(dt)
+    game.world:update(dt)
     game.player:update(dt)
     game:set_camera()
-
-    
-
-    game.world:update(dt)
-
 end
 
 function game.set_camera()
@@ -64,11 +72,15 @@ end
 function game.draw()
     game.camera:attach()
         game.prototype_town:draw()
+        if game.isSelect == true then
+            love.graphics.rectangle("line", game.obj.x, game.obj.y, game.obj.width, game.obj.height)
+        end
         game.player:draw()
-        game.world:draw()
+        -- game.world:draw()
     game.camera:detach()
 
     game.interface:draw()
+    debug_print()
 end
 
 return game

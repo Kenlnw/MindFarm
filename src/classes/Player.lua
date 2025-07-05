@@ -4,7 +4,6 @@ Player.__index = Player
 function Player:load(world, x, y)
     AnimComponent = require("src.components.AnimComponent")
     anim8 = require("libraries.anim8")
-    wf = require("libraries.windfield")
 
     local self = setmetatable({}, Player)
 
@@ -45,16 +44,18 @@ function Player:load(world, x, y)
     self.states = {}
     self.states.moving = false
 
-    self.width = self.sprites.idle.anim.frame_width/2 * self.sprite_scale - 35
-    self.height = self.sprites.idle.anim.frame_height/1.5 * self.sprite_scale - 45
+    self.collider = {}
+    self.collider.tag = "player"
+    self.collider.width = self.sprites.idle.anim.frame_width/2 * self.sprite_scale - 25
+    self.collider.height = self.sprites.idle.anim.frame_height/1.5 * self.sprite_scale - 45
+    self.collider.x = self.x + 28
+    self.collider.y = self.y + 28
 
-    self.collider = self.world:newRectangleCollider(
-        self.x, 
-        self.y, 
-        self.width,
-        self.height
-    )
-    self.collider:setCollisionClass("Player")
+    self.collider.body = love.physics.newBody(self.world, self.collider.x, self.collider.y, "dynamic")
+    self.collider.shape = love.physics.newRectangleShape(self.collider.width/2, self.collider.height/2, self.collider.width, self.collider.height)
+    self.collider.fixture = love.physics.newFixture(self.collider.body, self.collider.shape)
+    self.collider.body:setFixedRotation(true)
+    self.collider.fixture:setUserData(self.collider)
     
     return self
 end
@@ -108,6 +109,8 @@ function Player:update(dt)
 
     self.current_anim:update(dt)
 
+    
+
 end
 
 function Player:normalized_move(dx, dy, dt)
@@ -120,18 +123,17 @@ function Player:normalized_move(dx, dy, dt)
     local vx = dx * self.speed * dt
     local vy = dy * self.speed * dt
     
-    self.collider:setLinearVelocity(vx, vy)
-    self.collider:setFixedRotation(true)
+    self.collider.body:setLinearVelocity(vx, vy)
+    self.collider.body:setFixedRotation(true)
 
-    self.x = self.collider:getX()
-    self.y = self.collider:getY()
+    self.x, self.y = self.collider.body:getPosition()
 end
 
 function Player:draw_anim(sprite_sheet)
     self.current_anim:draw(
             sprite_sheet, 
             self.x, 
-            self.y - 15, 
+            self.y, 
             nil, 
             self.sprite_scale * self.flip_x, 
             self.sprite_scale, 
