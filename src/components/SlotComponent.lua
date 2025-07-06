@@ -1,7 +1,7 @@
 local SlotComponent = {}
 SlotComponent.__index = SlotComponent
 
-function SlotComponent:load(x, y, width, height, id)
+function SlotComponent:load(x, y, width, height, id, item)
     require("src.utils")
 
     local self = setmetatable({}, SlotComponent)
@@ -15,7 +15,7 @@ function SlotComponent:load(x, y, width, height, id)
     self.id = id
 
     self.is_selected = false
-    self.item = nil
+    self.item = item or nil
 
     return self
 end
@@ -28,6 +28,13 @@ function SlotComponent:select()
     love.graphics.pop()
 end
 
+function SlotComponent:update(dt)
+    if self.item then
+        debug_text = "update"
+        self.item:update(dt)
+    end
+end
+
 function SlotComponent:draw()
     set_color(0, 0, 0, 0.3)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
@@ -36,6 +43,14 @@ function SlotComponent:draw()
     if self.is_selected == true then
         self:select()
     end
+
+    if self.item then
+        -- debug_text = "have item"
+        self.item:draw()
+    else
+        debug_text = "dont have item"
+    end
+
 end
 
 return SlotComponent

@@ -2,6 +2,7 @@ local PlantableAreaComponent = {}
 PlantableAreaComponent.__index = PlantableAreaComponent
 
 function PlantableAreaComponent:new()
+    require("src.utils")
     local self = setmetatable({}, PlantableAreaComponent)
 
     self.plantable_areas = nil
@@ -9,11 +10,11 @@ function PlantableAreaComponent:new()
     return self
 end
 
-function PlantableAreaComponent:load(world, layer, map, map_scale, player)
+function PlantableAreaComponent:load(world, layer, map, player)
     self.map = map
     self.world = world
     self.layer = layer
-    self.map_scale = map_scale
+    self.map_scale = TILE_SCALE
     self.player = player
 
     self.plantable_areas = self:create_triggers(self.layer)
@@ -70,7 +71,6 @@ function PlantableAreaComponent:update(dt)
             if is_inside(self.player.sensor_point.x, self.player.sensor_point.y, area) then
                 area.is_active = true
                 debug_text = "collided " .." ".. self.player.sensor_point.x .." ".. self.player.sensor_point.y
-                debug_text = "speed " .. self.player.speed 
                 self:interact()
                 self.current_area = area
                 break

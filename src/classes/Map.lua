@@ -5,6 +5,7 @@ function Map:load(world, map, player)
     sti = require("libraries.sti")
     CollisionAreaComponent = require("src.components.CollisionAreaComponent")
     PlantableAreaComponent = require("src.components.PlantableAreaComponent")
+    require("src.utils")
 
     local self = setmetatable({}, Map)
 
@@ -14,7 +15,7 @@ function Map:load(world, map, player)
     self.world = world
     self.map = sti(map)
 
-    self.map_scale = 4
+    self.map_scale = TILE_SCALE
 
     self.width = self.map.width * self.map.tilewidth * self.map_scale
     self.height = self.map.height * self.map.tileheight * self.map_scale
@@ -34,10 +35,10 @@ end
 function Map:load_map_layers()
     for _, layer in ipairs(self.map.layers) do
         if layer.class == "CollisionArea" then
-            self.collision_component:load(self.world, layer, self.map_scale)
+            self.collision_component:load(self.world, layer)
         else
             if layer.class == "PlantableArea" then
-                self.plantable_area_component:load(self.world, layer, self.map, self.map_scale, self.player)
+                self.plantable_area_component:load(self.world, layer, self.map, self.player)
             end
             self.drawable_layers[#self.drawable_layers + 1] = layer 
         end

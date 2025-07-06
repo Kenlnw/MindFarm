@@ -2,6 +2,7 @@ local SlotBar = {}
 SlotBar.__index = SlotBar
 
 function SlotBar:load()
+    Strawberry = require("src.items.Strawberry")
     SlotComponent = require("src.components.SlotComponent")
 
     local self = setmetatable({}, SlotBar)
@@ -41,9 +42,20 @@ function SlotBar:load_slots()
     for i = 1, self.max_slots do
         local id = i - 1
         
-        self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id)
+        local item = Strawberry:load(slot_x + self.slot_width/2, self.y)
+        if i ~= 1 then
+            item = nil
+        end
+
+        self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, item)
         
         slot_x = slot_x + self.slots[i].width + self.offset_x
+    end
+end
+
+function SlotBar:update(dt)
+    for _, slot in ipairs(self.slots) do
+        slot:update(dt)
     end
 end
 

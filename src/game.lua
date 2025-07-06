@@ -29,34 +29,11 @@ function game.load()
 
 end
 
--- function game.on_collision_enter(a, b, contract)
---     local a_col, b_col = a:getUserData(), b:getUserData() 
-
---     if a_col and a_col.is_active ~= nil then
---         a_col.is_active = true
---     end
---     if b_col and b_col.is_active ~= nil then
---         b_col.is_active = true
---     end
--- end
-
--- function game.on_collision_exit(a, b, contract)
---     local a_col, b_col = a:getUserData(), b:getUserData() 
-
---     if a_col and a_col.is_active ~= nil then
---         a_col.is_active = false
---     end
---     if b_col and b_col.is_active ~= nil then
---         b_col.is_active = false
---     end
-
---     debug_init()
--- end
-
 function game.update(dt)
     game.prototype_town:update(dt)
     game.world:update(dt)
     game.player:update(dt)
+    game.interface:update(dt)
     game:set_camera()
 end
 

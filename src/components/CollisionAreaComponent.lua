@@ -9,10 +9,10 @@ function CollisionAreaComponent:new()
     return self
 end
 
-function CollisionAreaComponent:load(world, layer, map_scale)
+function CollisionAreaComponent:load(world, layer)
     self.world = world
     self.layer = layer
-    self.map_scale = map_scale
+    self.map_scale = TILE_SCALE
 
     self.collision_areas = self:create_collisions(self.layer)
 end

@@ -12,7 +12,7 @@ function Interface:load()
 end
 
 function Interface:update(dt)
-
+    self.slot_bar:update(dt)
 end
 
 function Interface:draw()

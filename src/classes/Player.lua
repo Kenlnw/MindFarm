@@ -4,6 +4,7 @@ Player.__index = Player
 function Player:load(world, x, y)
     AnimComponent = require("src.components.AnimComponent")
     anim8 = require("libraries.anim8")
+    require("src.utils")
 
     local self = setmetatable({}, Player)
 
@@ -15,7 +16,7 @@ function Player:load(world, x, y)
     self.acc_max = 20000
     
     self.anim_duration = 0.1
-    self.sprite_scale = 4
+    self.sprite_scale = TILE_SCALE
     self.sprite_offset = 7
 
     self.sprites = {idle, walk}
@@ -25,10 +26,8 @@ function Player:load(world, x, y)
         columns = 4,
         rows = 3,
         duration = 0.2
-
     }
-    self.sprites.idle.anim = AnimComponent:load(self.sprites.idle)
-    self.sprites.idle.anim:create_frames("rows")
+    self.sprites.idle.anim = AnimComponent:load(self.sprites.idle, "rows")
 
     self.sprites.walk = {
         sprite_sheet = love.graphics.newImage("sprites/player_walk.png"),
@@ -36,8 +35,7 @@ function Player:load(world, x, y)
         rows = 3,
         duration = 0.1
     }
-    self.sprites.walk.anim = AnimComponent:load(self.sprites.walk)
-    self.sprites.walk.anim:create_frames("rows")
+    self.sprites.walk.anim = AnimComponent:load(self.sprites.walk, "rows")
 
     self.current_anim = self.sprites.idle.anim.anims[1]
 

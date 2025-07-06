@@ -1,7 +1,7 @@
 local AnimComponent = {}
 AnimComponent.__index = AnimComponent
 
-function AnimComponent:load(sprite)
+function AnimComponent:load(sprite, start_state)
     anim8 = require("libraries.anim8")
 
     local self = setmetatable({}, AnimComponent)
@@ -22,6 +22,8 @@ function AnimComponent:load(sprite)
     self.anim_duration = sprite.duration
     self.anims = {}
     self.current_amin = nil
+
+    self:create_frames(start_state)
 
     return self
 end
