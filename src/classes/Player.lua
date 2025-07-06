@@ -1,7 +1,7 @@
 local Player = {}
 Player.__index = Player
 
-function Player:load(world, x, y)
+function Player:load(world, x, y, interface)
     AnimComponent = require("src.components.AnimComponent")
     anim8 = require("libraries.anim8")
     require("src.utils")
@@ -66,6 +66,8 @@ function Player:load(world, x, y)
     self.sensor_point = {}
     self.sensor_point.x = self.x
     self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height/2 - self.sprite_offset) * self.sprite_scale
+
+    self.slot_bar = interface.slot_bar
     
     return self
 end

@@ -47,10 +47,8 @@ function PlantableAreaComponent:create_triggers(layer)
                     function plantable_area:toggle_plant_seed()
                         if not self.is_planted then
                             self.is_planted = true
-                            debug_text = "planted"
                         else
                             self.is_planted = false
-                            debug_text = "remove planted"
                         end
                     end
 
@@ -67,20 +65,27 @@ end
 
 function PlantableAreaComponent:update(dt)
     if self.plantable_areas and self.player then
+        local is_have_plants = false
+        for _, slot in pairs(self.player.slot_bar.slots) do
+            if slot.item and slot.is_selected then
+                is_have_plants = true
+            end
+        end
+
         for _, area in ipairs(self.plantable_areas) do
             if is_inside(self.player.sensor_point.x, self.player.sensor_point.y, area) then
                 area.is_active = true
-                debug_text = "collided " .." ".. self.player.sensor_point.x .." ".. self.player.sensor_point.y
-                self:interact()
+
+                if is_have_plants then 
+                    self:interact() 
+                end
+
                 self.current_area = area
                 break
             else
                 area.is_active = false
-                debug_text = "not collided " .." ".. self.player.sensor_point.x .." ".. self.player.sensor_point.y
             end
         end
-    else
-        debug_text = "not found player"
     end
 end
 

@@ -20,12 +20,12 @@ function game.load()
     game.world = love.physics.newWorld(0, 0)
     -- game.world:setCallbacks(game.on_collision_enter, game.on_collision_exit)
 
-    game.player = Player:load(game.world, game.width/2, game.height/2)
+    game.interface = Interface:load()
+    game.player = Player:load(game.world, game.width/2, game.height/2, game.interface)
 
     game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player)
     
     game.camera = Camera()
-    game.interface = Interface:load()
 
 end
 

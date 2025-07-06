@@ -30,7 +30,6 @@ end
 
 function SlotComponent:update(dt)
     if self.item then
-        debug_text = "update"
         self.item:update(dt)
     end
 end
@@ -45,10 +44,7 @@ function SlotComponent:draw()
     end
 
     if self.item then
-        -- debug_text = "have item"
         self.item:draw()
-    else
-        debug_text = "dont have item"
     end
 
 end
