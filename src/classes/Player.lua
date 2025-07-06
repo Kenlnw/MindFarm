@@ -11,6 +11,8 @@ function Player:load(world, x, y)
     self.x = x
     self.y = y
     self.speed = 10000
+    self.acc = 0
+    self.acc_max = 20000
     
     self.anim_duration = 0.1
     self.sprite_scale = 4
@@ -104,6 +106,14 @@ function Player:update(dt)
         self.facing_index = 4
         self.states.moving = true
         self.flip_x = -1
+    end
+
+    if love.keyboard.isDown("lshift") then
+        if self.acc >= self.acc_max then self.acc = self.acc_max else self.acc = self.acc + 1000 end
+        self.speed = 10000 + self.acc
+    else
+        self.speed = 10000
+        self.acc = 0
     end
 
     self:normalized_move(dx, dy, dt)

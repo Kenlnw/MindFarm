@@ -34,8 +34,6 @@ function PlantableAreaComponent:create_triggers(layer)
                     plantable_area.y = (y - 1) * self.map.tileheight * self.map_scale
                     plantable_area.width = self.map.tilewidth * self.map_scale
                     plantable_area.height = self.map.tileheight * self.map_scale
-                    plantable_area.top_x = plantable_area.x - plantable_area.width
-                    plantable_area.top_y = plantable_area.y - plantable_area.height
                     
                     plantable_area.body = love.physics.newBody(self.world, plantable_area.x, plantable_area.y, "static")
                     plantable_area.shape = love.physics.newRectangleShape(plantable_area.width/2, plantable_area.height/2, plantable_area.width, plantable_area.height)
@@ -72,6 +70,7 @@ function PlantableAreaComponent:update(dt)
             if is_inside(self.player.sensor_point.x, self.player.sensor_point.y, area) then
                 area.is_active = true
                 debug_text = "collided " .." ".. self.player.sensor_point.x .." ".. self.player.sensor_point.y
+                debug_text = "speed " .. self.player.speed 
                 self:interact()
                 self.current_area = area
                 break
