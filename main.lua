@@ -21,3 +21,9 @@ function love.keypressed(key)
         game.interface.slot_bar:change_slot_at(tonumber(key))
     end
 end
+
+function love.mousepressed(x, y, button)
+    if button == 1 then
+        game.prototype_town.plantable_area_component:interact()
+    end
+end

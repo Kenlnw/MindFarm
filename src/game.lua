@@ -23,10 +23,9 @@ function game.load()
     game.interface = Interface:load()
     game.player = Player:load(game.world, game.width/2, game.height/2, game.interface)
 
-    game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player)
-    
     game.camera = Camera()
 
+    game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player, game.camera)
 end
 
 function game.update(dt)
@@ -89,7 +88,7 @@ function game.draw()
         --         love.graphics.rectangle("line", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
         --     end
         -- end
-        game.draw_world()
+        -- game.draw_world()
         game.player:draw()
     game.camera:detach()
 

@@ -11,16 +11,19 @@ function PlantableAreaComponent:new()
     return self
 end
 
-function PlantableAreaComponent:load(world, layer, map, player)
+function PlantableAreaComponent:load(world, layer, map, player, camera)
     self.map = map
     self.world = world
     self.layer = layer
     self.map_scale = TILE_SCALE
     self.player = player
+    self.camera = camera
 
     self.plantable_areas = self:create_triggers(self.layer)
 
     self.current_area = nil
+
+    self.seed = nil
 end
 
 function PlantableAreaComponent:create_triggers(layer)
@@ -44,18 +47,16 @@ function PlantableAreaComponent:create_triggers(layer)
                     plantable_area.fixture:setSensor(true)
                     plantable_area.is_active = false
                     plantable_area.is_planted = false
-                    plantable_area.plant_seed = nil
+                    plantable_area.seed = nil
 
-                    function plantable_area:toggle_plant_seed(plant_seed_id)
+                    function plantable_area:plant_seed(seed_id)
                         if not self.is_planted then
                             self.is_planted = true
                             for id, item in pairs(plantable_items) do
-                                if id == plant_seed_id then
-                                    self.plant_seed = item:load(self.x + self.width/2, self.y, 1)
+                                if id == seed_id then
+                                    self.seed = item:load(self.x + self.width/2, self.y, 1)
                                 end
                             end
-                        else
-                            self.is_planted = false
                         end
                     end
 
@@ -72,53 +73,49 @@ end
 
 function PlantableAreaComponent:update(dt)
     if self.plantable_areas and self.player then
-        local plant_seed_id = nil
+        self.plant_seed_id = nil
         for _, slot in pairs(self.player.slot_bar.slots) do
             if slot.item and slot.is_selected then
-                plant_seed_id = slot.item.id
-                debug_text = plant_seed_id
+                self.plant_seed_id = slot.item.id
+                debug_text = self.plant_seed_id
                 break
             else
                 debug_text = ""
             end
         end
 
-        for _, area in ipairs(self.plantable_areas) do
-            if is_inside(self.player.sensor_point.x, self.player.sensor_point.y, area) then
-                area.is_active = true
+        local mouse_x, mouse_y = self.camera:mousePosition()
+        local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
+        debug_text = mouse_x .." ".. mouse_y .." ".. mouse_distance
 
-                if plant_seed_id then 
-                    self:interact(plant_seed_id) 
+        -- if  then
+            
+            for _, area in ipairs(self.plantable_areas) do
+    
+                if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width*2 then
+                    area.is_active = true
+                    self.current_area = area
+                    break
+                else
+                    area.is_active = false
+                    self.current_area = nil
                 end
-
-                self.current_area = area
-                break
-            else
-                area.is_active = false
+    
+                if area.seed then
+                    area.seed:update(dt)
+                end
             end
+        -- end
 
-            if area.plant_seed then
-                area.plant_seed:update(dt)
-            end
-        end
     end
 end
 
-function PlantableAreaComponent:interact(plant_seed_id)
-    self.space_pressed = self.space_pressed or false
-
-    if love.keyboard.isDown("space") then
-        if not self.space_pressed then
-            for _, area in ipairs(self.plantable_areas) do
-                if area.is_active then
-                    area:toggle_plant_seed(plant_seed_id)
-                    break
-                end
-            end
-            self.space_pressed = true
+function PlantableAreaComponent:interact()
+    for _, area in ipairs(self.plantable_areas) do
+        if self.plant_seed_id and area.is_active then
+            area:plant_seed(self.plant_seed_id)
+            break
         end
-    else
-        self.space_pressed = false
     end
 end
 
@@ -133,7 +130,7 @@ function PlantableAreaComponent:draw()
 
             if area.is_planted then
                 -- love.graphics.rectangle("fill", area.x ,area.y, area.width, area.height)
-                area.plant_seed:draw()
+                area.seed:draw()
             end
         end
     end

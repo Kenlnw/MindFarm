@@ -1,7 +1,7 @@
 local Map = {}
 Map.__index = Map
 
-function Map:load(world, map, player)
+function Map:load(world, map, player, camera)
     sti = require("libraries.sti")
     CollisionAreaComponent = require("src.components.CollisionAreaComponent")
     PlantableAreaComponent = require("src.components.PlantableAreaComponent")
@@ -25,6 +25,7 @@ function Map:load(world, map, player)
     self.plantable_area_component = PlantableAreaComponent:new()
 
     self.player = player
+    self.camera = camera
 
     self:load_map_layers()
 
@@ -38,7 +39,7 @@ function Map:load_map_layers()
             self.collision_component:load(self.world, layer)
         else
             if layer.class == "PlantableArea" then
-                self.plantable_area_component:load(self.world, layer, self.map, self.player)
+                self.plantable_area_component:load(self.world, layer, self.map, self.player, self.camera)
             end
             self.drawable_layers[#self.drawable_layers + 1] = layer 
         end
