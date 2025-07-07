@@ -30,7 +30,7 @@ function PlantableAreaComponent:create_triggers(layer)
             if layer.data[y][x] then
                 if layer.data[y][x].gid > 0 then 
                     local plantable_area = {}
-                    plantable_area.tag = "plantable_area" 
+                    plantable_area.id = "plantable_area" 
                     plantable_area.x = (x - 1) * self.map.tilewidth * self.map_scale
                     plantable_area.y = (y - 1) * self.map.tileheight * self.map_scale
                     plantable_area.width = self.map.tilewidth * self.map_scale
@@ -52,7 +52,7 @@ function PlantableAreaComponent:create_triggers(layer)
                         end
                     end
 
-                    plantable_area.fixture:setUserData(plantable_area)
+                    -- plantable_area.fixture:setUserData(plantable_area)
 
                     table.insert(plantable_areas, plantable_area)
                 end

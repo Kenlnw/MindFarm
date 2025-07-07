@@ -47,15 +47,15 @@ function Player:load(world, x, y, interface)
 
     self.collider = {}
     self.collider.tag = "player"
-    self.collider.width = self.sprites.idle.anim.frame_width/2 * self.sprite_scale
-    self.collider.height = self.sprite_offset * self.sprite_scale
+    self.collider.width = self.sprites.idle.anim.frame_width/3 * self.sprite_scale
+    self.collider.height = self.sprites.idle.anim.frame_height/3 * self.sprite_scale
     self.collider.x = self.x
     self.collider.y = self.y
 
     self.collider.body = love.physics.newBody(self.world, self.collider.x, self.collider.y, "dynamic")
     self.collider.shape = love.physics.newRectangleShape(
-        self.collider.width/2 - self.sprite_offset * self.sprite_scale, 
-        self.collider.height, 
+        0,
+        self.collider.height/2,
         self.collider.width, 
         self.collider.height
     )

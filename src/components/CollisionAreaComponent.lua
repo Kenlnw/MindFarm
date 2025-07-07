@@ -22,7 +22,7 @@ function CollisionAreaComponent:create_collisions(layer)
     
     for _, obj in ipairs(layer.objects) do
         local collision_area  = {}
-        collision_area.tag = "collision_area"
+        collision_area.id = "collision_area"
         collision_area.x = obj.x * self.map_scale
         collision_area.y = obj.y * self.map_scale
         collision_area.width = obj.width * self.map_scale

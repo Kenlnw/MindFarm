@@ -8,6 +8,7 @@ function Strawberry:load(x, y)
     self.x = x
     self.y = y
     self.sprite_scale = TILE_SCALE
+    self.id = "strawberry"
 
     self.sprites = {
         sprite_sheet = love.graphics.newImage("sprites/spring_crops.png"),

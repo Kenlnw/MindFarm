@@ -56,6 +56,29 @@ function game.set_camera()
     end
 end
 
+function game.draw_world()
+    for _, body in pairs(game.world:getBodies()) do
+        for _, fixture in pairs(body:getFixtures()) do
+            local shape = fixture:getShape()
+
+            if fixture:isSensor() then
+                set_color(255, 0, 0)
+            end
+
+            if shape:typeOf("CircleShape") then
+                local cx, cy = body:getWorldPoints(shape:getPoint())
+                love.graphics.circle("line", cx, cy, shape:getRadius())
+            elseif shape:typeOf("PolygonShape") then
+                love.graphics.polygon("line", body:getWorldPoints(shape:getPoints()))
+            else
+                love.graphics.line(body:getWorldPoints(shape:getPoints()))
+            end
+
+            reset_color()
+        end
+    end
+end
+
 function game.draw()
     game.camera:attach()
         game.prototype_town:draw()
@@ -66,8 +89,8 @@ function game.draw()
         --         love.graphics.rectangle("line", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
         --     end
         -- end
+        game.draw_world()
         game.player:draw()
-        -- game.world:draw()
     game.camera:detach()
 
     game.interface:draw()
