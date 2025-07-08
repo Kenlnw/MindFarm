@@ -1,6 +1,9 @@
 local Strawberry = {}
 Strawberry.__index = Strawberry
 
+Strawberry.id = "strawberry"
+Strawberry.is_plantable = true
+
 function Strawberry:load(x, y, frame, flip_x, flip_y)
     AnimComponent = require("src.components.AnimComponent")
     require("src.utils")
@@ -8,7 +11,6 @@ function Strawberry:load(x, y, frame, flip_x, flip_y)
     self.x = x or 0
     self.y = y or 0
     self.sprite_scale = TILE_SCALE
-    self.id = "strawberry"
 
     self.sprites = {
         sprite_sheet = love.graphics.newImage("sprites/spring_crops.png"),
@@ -31,7 +33,6 @@ end
 function Strawberry:update(dt)
     self.current_sprite:gotoFrame(self.frame)
     self.current_sprite:update(dt)
-
 end
 
 function Strawberry:draw()

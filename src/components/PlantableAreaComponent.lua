@@ -2,7 +2,7 @@ local PlantableAreaComponent = {}
 PlantableAreaComponent.__index = PlantableAreaComponent
 
 function PlantableAreaComponent:new()
-    require("src.data.plantableItems")
+    require("src.data.itemsList")
     require("src.utils")
     local self = setmetatable({}, PlantableAreaComponent)
 
@@ -63,10 +63,9 @@ function PlantableAreaComponent:create_triggers(layer)
                     function plantable_area:plant_seed(seed_id)
                         if not self.is_planted then
                             self.is_planted = true
-                            for id, item in pairs(plantable_items) do
-                                if id == seed_id then
-                                    self.seed = item:load(self.x, self.y, 1, self.seed_flip_x, self.seed_flip_y)
-                                end
+                            local seed = plantable_items[seed_id]
+                            if seed then
+                                self.seed = seed:load(self.x, self.y, 1, self.seed_flip_x, self.seed_flip_y)
                             end
                         end
                     end
@@ -94,25 +93,22 @@ function PlantableAreaComponent:update(dt)
 
         local mouse_x, mouse_y = self.camera:mousePosition()
         local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
-
-        -- if  then
             
-            for _, area in ipairs(self.plantable_areas) do
-    
-                if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width*2 then
-                    area.is_active = true
-                    self.current_area = area
-                    break
-                else
-                    area.is_active = false
-                    self.current_area = nil
-                end
-    
-                if area.seed then
-                    area.seed:update(dt)
-                end
+        for _, area in ipairs(self.plantable_areas) do
+
+            if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width*2 then
+                area.is_active = true
+                self.current_area = area
+                break
+            else
+                area.is_active = false
+                self.current_area = nil
             end
-        -- end
+
+            if area.seed then
+                area.seed:update(dt)
+            end
+        end
 
     end
 end
@@ -129,7 +125,7 @@ end
 function PlantableAreaComponent:draw()
     if self.plantable_areas then 
         for _, area in ipairs(self.plantable_areas) do
-            if area == self.current_area then
+            if area == self.current_area  then
                 set_color(0, 0, 0)
                 love.graphics.rectangle("line", area.x ,area.y, area.width, area.height)
                 reset_color()

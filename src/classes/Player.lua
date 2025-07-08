@@ -148,6 +148,8 @@ function Player:normalized_move(dx, dy, dt)
 
     self.sensor_point.x = self.x
     self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height/2 - self.sprite_offset) * self.sprite_scale
+
+    self.current_item = nil
 end
 
 function Player:draw_anim(sprite_sheet)
