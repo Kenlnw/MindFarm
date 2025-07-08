@@ -2,9 +2,17 @@ local game = require("src.game")
 
 function love.load()
     game.load()
+
+    scroll_timer = 0
+    scroll_delay = 0.075
 end
 
 function love.update(dt)
+    if scroll_timer > 0 then
+        scroll_timer = scroll_timer - dt
+        if scroll_timer < 0 then scroll_timer = 0 end
+    end
+
     game.update(dt)
 end
 
@@ -26,4 +34,17 @@ function love.mousepressed(x, y, button)
     if button == 1 then
         game.prototype_town.plantable_area_component:interact()
     end
+end
+
+function love.wheelmoved(x, y)
+    if scroll_timer > 0 then return end
+
+    if y > 0 then
+        game.interface.slot_bar:change_slot_slide("right")
+        scroll_timer = scroll_delay
+    elseif y < 0 then
+        game.interface.slot_bar:change_slot_slide("left")
+        scroll_timer = scroll_delay
+    end
+
 end

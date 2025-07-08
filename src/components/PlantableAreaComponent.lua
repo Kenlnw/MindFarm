@@ -88,16 +88,12 @@ function PlantableAreaComponent:update(dt)
         for _, slot in pairs(self.player.slot_bar.slots) do
             if slot.item and slot.is_selected then
                 self.plant_seed_id = slot.item.id
-                debug_text = self.plant_seed_id
                 break
-            else
-                debug_text = ""
             end
         end
 
         local mouse_x, mouse_y = self.camera:mousePosition()
         local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
-        debug_text = mouse_x .." ".. mouse_y .." ".. mouse_distance
 
         -- if  then
             

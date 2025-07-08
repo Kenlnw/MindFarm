@@ -25,6 +25,7 @@ end
 function debug_init()
     debug_text = ""
     debug_obj = nil
+    debug_int = 0
     debug_bool = nil
 end
 
