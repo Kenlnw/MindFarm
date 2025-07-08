@@ -42,7 +42,7 @@ function SlotBar:load_slots()
     for i = 1, self.max_slots do
         local id = i - 1
         
-        local item = Strawberry:load(slot_x + self.slot_width/2, self.y)
+        local item = Strawberry:load(slot_x, self.y)
         if i ~= 1 then
             item = nil
         end

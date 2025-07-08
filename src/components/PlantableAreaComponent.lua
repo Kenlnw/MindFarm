@@ -31,9 +31,20 @@ function PlantableAreaComponent:create_triggers(layer)
 
     for y = 1, layer.height do
         for x = 1, layer.width do
-            if layer.data[y][x] then
-                if layer.data[y][x].gid > 0 then 
+            local data = layer.data[y][x]
+            if data then
+                if data.gid > 0 then 
                     local plantable_area = {}
+                    plantable_area.seed_flip_x = 1
+                    plantable_area.seed_flip_y = 1
+
+                    if data.gid == 105 or data.gid == 117 or data.gid == 141 then
+                        plantable_area.seed_flip_x = -1
+                    end
+                    if data.gid == 141 or data.gid == 142 or data.gid == 144 then
+                        plantable_area.seed_flip_y = -1
+                    end
+
                     plantable_area.id = "plantable_area" 
                     plantable_area.x = (x - 1) * self.map.tilewidth * self.map_scale
                     plantable_area.y = (y - 1) * self.map.tileheight * self.map_scale
@@ -54,7 +65,7 @@ function PlantableAreaComponent:create_triggers(layer)
                             self.is_planted = true
                             for id, item in pairs(plantable_items) do
                                 if id == seed_id then
-                                    self.seed = item:load(self.x + self.width/2, self.y, 1)
+                                    self.seed = item:load(self.x, self.y, 1, self.seed_flip_x, self.seed_flip_y)
                                 end
                             end
                         end
