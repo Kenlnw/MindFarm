@@ -23,7 +23,6 @@ function PlantableAreaComponent:load(world, layer, map, player, camera)
 
     self.current_area = nil
 
-    self.seed = nil
 end
 
 function PlantableAreaComponent:create_triggers(layer)
@@ -35,14 +34,14 @@ function PlantableAreaComponent:create_triggers(layer)
             if data then
                 if data.gid > 0 then 
                     local plantable_area = {}
-                    plantable_area.seed_flip_x = 1
-                    plantable_area.seed_flip_y = 1
+                    plantable_area.crop_flip_x = 1
+                    plantable_area.crop_flip_y = 1
 
                     if data.gid == 105 or data.gid == 117 or data.gid == 141 then
-                        plantable_area.seed_flip_x = -1
+                        plantable_area.crop_flip_x = -1
                     end
                     if data.gid == 141 or data.gid == 142 or data.gid == 144 then
-                        plantable_area.seed_flip_y = -1
+                        plantable_area.crop_flip_y = -1
                     end
 
                     plantable_area.id = "plantable_area" 
@@ -58,14 +57,14 @@ function PlantableAreaComponent:create_triggers(layer)
                     plantable_area.fixture:setSensor(true)
                     plantable_area.is_active = false
                     plantable_area.is_planted = false
-                    plantable_area.seed = nil
+                    plantable_area.crop = nil
 
-                    function plantable_area:plant_seed(seed_id)
+                    function plantable_area:plant_crop(crops_id)
                         if not self.is_planted then
                             self.is_planted = true
-                            local seed = plantable_items[seed_id]
-                            if seed then
-                                self.seed = seed:load(self.x, self.y, 1, self.seed_flip_x, self.seed_flip_y)
+                            local crop = crops[crops_id]
+                            if crop then
+                                self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y)
                             end
                         end
                     end
@@ -83,10 +82,10 @@ end
 
 function PlantableAreaComponent:update(dt)
     if self.plantable_areas and self.player then
-        self.plant_seed_id = nil
+        self.crops_id = nil
         for _, slot in pairs(self.player.slot_bar.slots) do
             if slot.item and slot.is_selected then
-                self.plant_seed_id = slot.item.id
+                self.crops_id = slot.item.id
                 break
             end
         end
@@ -105,8 +104,8 @@ function PlantableAreaComponent:update(dt)
                 self.current_area = nil
             end
 
-            if area.seed then
-                area.seed:update(dt)
+            if area.crop then
+                area.crop:update(dt)
             end
         end
 
@@ -115,8 +114,8 @@ end
 
 function PlantableAreaComponent:interact()
     for _, area in ipairs(self.plantable_areas) do
-        if self.plant_seed_id and area.is_active then
-            area:plant_seed(self.plant_seed_id)
+        if self.crops_id and area.is_active then
+            area:plant_crop(self.crops_id)
             break
         end
     end
@@ -133,7 +132,7 @@ function PlantableAreaComponent:draw()
 
             if area.is_planted then
                 -- love.graphics.rectangle("fill", area.x ,area.y, area.width, area.height)
-                area.seed:draw()
+                area.crop:draw()
             end
         end
     end

@@ -1,9 +1,9 @@
 items = require("src.items")
 
-plantable_items = {}
+crops = {}
 
 for _, item in pairs(items) do
     if item.is_plantable then
-        plantable_items[item.id] = item
+        crops[item.id] = item
     end
 end
