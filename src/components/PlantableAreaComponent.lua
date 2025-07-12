@@ -32,7 +32,7 @@ function PlantableAreaComponent:create_triggers(layer)
         for x = 1, layer.width do
             local data = layer.data[y][x]
             if data then
-                if data.gid > 0 then 
+                if data.gid > 0 then
                     local plantable_area = {}
                     plantable_area.crop_flip_x = 1
                     plantable_area.crop_flip_y = 1
@@ -44,14 +44,15 @@ function PlantableAreaComponent:create_triggers(layer)
                         plantable_area.crop_flip_y = -1
                     end
 
-                    plantable_area.id = "plantable_area" 
+                    plantable_area.id = "plantable_area"
                     plantable_area.x = (x - 1) * self.map.tilewidth * self.map_scale
                     plantable_area.y = (y - 1) * self.map.tileheight * self.map_scale
                     plantable_area.width = self.map.tilewidth * self.map_scale
                     plantable_area.height = self.map.tileheight * self.map_scale
-                    
+
                     plantable_area.body = love.physics.newBody(self.world, plantable_area.x, plantable_area.y, "static")
-                    plantable_area.shape = love.physics.newRectangleShape(plantable_area.width/2, plantable_area.height/2, plantable_area.width, plantable_area.height)
+                    plantable_area.shape = love.physics.newRectangleShape(plantable_area.width / 2,
+                        plantable_area.height / 2, plantable_area.width, plantable_area.height)
                     plantable_area.fixture = love.physics.newFixture(plantable_area.body, plantable_area.shape)
                     plantable_area.body:setFixedRotation(true)
                     plantable_area.fixture:setSensor(true)
@@ -91,11 +92,12 @@ function PlantableAreaComponent:update(dt)
         end
 
         local mouse_x, mouse_y = self.camera:mousePosition()
-        local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
-            
+        local mouse_distance =
+            distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
+
         for _, area in ipairs(self.plantable_areas) do
 
-            if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width*2 then
+            if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
                 area.is_active = true
                 self.current_area = area
                 break
@@ -122,11 +124,11 @@ function PlantableAreaComponent:interact()
 end
 
 function PlantableAreaComponent:draw()
-    if self.plantable_areas then 
+    if self.plantable_areas then
         for _, area in ipairs(self.plantable_areas) do
-            if area == self.current_area  then
+            if area == self.current_area then
                 set_color(0, 0, 0)
-                love.graphics.rectangle("line", area.x ,area.y, area.width, area.height)
+                love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
                 reset_color()
             end
 

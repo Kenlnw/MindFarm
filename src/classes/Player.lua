@@ -14,7 +14,7 @@ function Player:load(world, x, y, interface)
     self.speed = 10000
     self.acc = 0
     self.acc_max = 20000
-    
+
     self.anim_duration = 0.1
     self.sprite_scale = TILE_SCALE
     self.sprite_offset = 7
@@ -47,28 +47,24 @@ function Player:load(world, x, y, interface)
 
     self.collider = {}
     self.collider.tag = "player"
-    self.collider.width = self.sprites.idle.anim.frame_width/3 * self.sprite_scale
-    self.collider.height = self.sprites.idle.anim.frame_height/3 * self.sprite_scale
+    self.collider.width = self.sprites.idle.anim.frame_width / 3 * self.sprite_scale
+    self.collider.height = self.sprites.idle.anim.frame_height / 3 * self.sprite_scale
     self.collider.x = self.x
     self.collider.y = self.y
 
     self.collider.body = love.physics.newBody(self.world, self.collider.x, self.collider.y, "dynamic")
-    self.collider.shape = love.physics.newRectangleShape(
-        0,
-        self.collider.height/2,
-        self.collider.width, 
-        self.collider.height
-    )
+    self.collider.shape = love.physics.newRectangleShape(0, self.collider.height / 2, self.collider.width,
+        self.collider.height)
     self.collider.fixture = love.physics.newFixture(self.collider.body, self.collider.shape)
     self.collider.body:setFixedRotation(true)
     self.collider.fixture:setUserData(self.collider)
 
     self.sensor_point = {}
     self.sensor_point.x = self.x
-    self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height/2 - self.sprite_offset) * self.sprite_scale
+    self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height / 2 - self.sprite_offset) * self.sprite_scale
 
     self.slot_bar = interface.slot_bar
-    
+
     return self
 end
 
@@ -97,7 +93,7 @@ function Player:update(dt)
 
         self.current_anim = self.sprites.walk.anim.anims[3]
         self.facing_index = 3
-        self.states.moving = true  
+        self.states.moving = true
     end
     if love.keyboard.isDown("a") then
         dx = -1
@@ -109,7 +105,11 @@ function Player:update(dt)
     end
 
     if love.keyboard.isDown("lshift") then
-        if self.acc >= self.acc_max then self.acc = self.acc_max else self.acc = self.acc + 1000 end
+        if self.acc >= self.acc_max then
+            self.acc = self.acc_max
+        else
+            self.acc = self.acc + 1000
+        end
         self.speed = 10000 + self.acc
     else
         self.speed = 10000
@@ -132,7 +132,7 @@ function Player:update(dt)
 end
 
 function Player:normalized_move(dx, dy, dt)
-    local vector_size = math.sqrt(dx*dx + dy*dy)
+    local vector_size = math.sqrt(dx * dx + dy * dy)
     if vector_size > 0 then
         dx = dx / vector_size
         dy = dy / vector_size
@@ -140,29 +140,21 @@ function Player:normalized_move(dx, dy, dt)
 
     local vx = dx * self.speed * dt
     local vy = dy * self.speed * dt
-    
+
     self.collider.body:setLinearVelocity(vx, vy)
     self.collider.body:setFixedRotation(true)
 
     self.x, self.y = self.collider.body:getPosition()
 
     self.sensor_point.x = self.x
-    self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height/2 - self.sprite_offset) * self.sprite_scale
+    self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height / 2 - self.sprite_offset) * self.sprite_scale
 
     self.current_item = nil
 end
 
 function Player:draw_anim(sprite_sheet)
-    self.current_anim:draw(
-            sprite_sheet, 
-            self.x, 
-            self.y, 
-            nil, 
-            self.sprite_scale * self.flip_x, 
-            self.sprite_scale, 
-            self.sprites.walk.anim.frame_width/2,
-            self.sprites.walk.anim.frame_height/2
-        )
+    self.current_anim:draw(sprite_sheet, self.x, self.y, nil, self.sprite_scale * self.flip_x, self.sprite_scale,
+        self.sprites.walk.anim.frame_width / 2, self.sprites.walk.anim.frame_height / 2)
 end
 
 function Player:draw()
@@ -172,7 +164,6 @@ function Player:draw()
     else
         self:draw_anim(self.sprites.idle.sprite_sheet)
     end
-
     -- love.graphics.circle("fill", self.sensor_point.x, self.sensor_point.y, 10)
 end
 

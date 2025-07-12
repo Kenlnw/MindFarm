@@ -42,7 +42,7 @@ function game.set_camera()
 
     game.camera:lookAt(round_x, round_y)
 
-    if game.camera.x < game.width/2 then
+if game.camera.x < game.width/2 then
         game.camera.x = game.width/2
     elseif game.camera.x > (game.prototype_town.width - game.width/2) then
         game.camera.x = game.prototype_town.width - game.width/2
