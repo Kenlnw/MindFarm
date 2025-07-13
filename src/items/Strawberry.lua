@@ -12,15 +12,9 @@ function Strawberry:load(x, y, frame, flip_x, flip_y)
     self.y = y or 0
     self.sprite_scale = TILE_SCALE
 
-    self.sprites = {
-        sprite_sheet = love.graphics.newImage("sprites/spring_crops.png"),
-        columns = 14,
-        rows = 8,
-        duration = 0.2
-    }
-    self.sprites.anim = AnimComponent:load(self.sprites, "rows")
+    self.sprites = AnimComponent:load("sprites/spring_crops.png", 14, 8, 1, "rows")
 
-    self.current_sprite = self.sprites.anim.anims[2]
+    self.sprites.current_anim = self.sprites.anims[2]
     self.frame = frame or 8
     self.flip_x =  flip_x or 1
     self.flip_y = flip_y or 1
@@ -31,28 +25,19 @@ function Strawberry:load(x, y, frame, flip_x, flip_y)
 end
 
 function Strawberry:update(dt)
-    self.current_sprite:gotoFrame(self.frame)
-    self.current_sprite:update(dt)
+    self.sprites.current_anim:gotoFrame(self.frame)
+    self.sprites.current_anim:update(dt)
 end
 
 function Strawberry:draw()
     if self.flip_x == -1 then
-        self.offset_x = self.sprites.anim.frame_width
+        self.offset_x = self.sprites.frame_width
     end
     if self.flip_y == -1 then
-        self.offset_y = self.sprites.anim.frame_height        
+        self.offset_y = self.sprites.frame_height
     end
 
-    self.current_sprite:draw(
-        self.sprites.sprite_sheet, 
-            self.x, 
-            self.y, 
-            nil, 
-            self.sprite_scale * self.flip_x, 
-            self.sprite_scale * self.flip_y, 
-            self.offset_x,
-            self.offset_y
-    )
+    self.sprites:draw_anim(self)
 end
 
 return Strawberry

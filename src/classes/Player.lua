@@ -19,36 +19,23 @@ function Player:load(world, x, y, interface)
     self.sprite_scale = TILE_SCALE
     self.sprite_offset = 7
 
-    self.sprites = {idle, walk}
-
-    self.sprites.idle = {
-        sprite_sheet = love.graphics.newImage("sprites/player_idle.png"),
-        columns = 4,
-        rows = 3,
-        duration = 0.2
-    }
-    self.sprites.idle.anim = AnimComponent:load(self.sprites.idle, "rows")
-
-    self.sprites.walk = {
-        sprite_sheet = love.graphics.newImage("sprites/player_walk.png"),
-        columns = 6,
-        rows = 3,
-        duration = 0.1
-    }
-    self.sprites.walk.anim = AnimComponent:load(self.sprites.walk, "rows")
-
-    self.current_anim = self.sprites.idle.anim.anims[1]
+    self.sprites = {}
+    self.sprites.idle = AnimComponent:load("sprites/player_idle.png", 4, 3, 0.2, "rows")
+    self.sprites.walk = AnimComponent:load("sprites/player_walk.png", 6, 3, 0.1, "rows")
 
     self.facing_index = 1
     self.flip_x = 1
+    self.flip_y = 1
+    self.offset_x = self.sprites.idle.frame_width / 2
+    self.offset_y = self.sprites.idle.frame_height / 2
 
     self.states = {}
     self.states.moving = false
 
     self.collider = {}
     self.collider.tag = "player"
-    self.collider.width = self.sprites.idle.anim.frame_width / 3 * self.sprite_scale
-    self.collider.height = self.sprites.idle.anim.frame_height / 3 * self.sprite_scale
+    self.collider.width = self.sprites.idle.frame_width / 3 * self.sprite_scale
+    self.collider.height = self.sprites.idle.frame_height / 3 * self.sprite_scale
     self.collider.x = self.x
     self.collider.y = self.y
 
@@ -61,7 +48,7 @@ function Player:load(world, x, y, interface)
 
     self.sensor_point = {}
     self.sensor_point.x = self.x
-    self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height / 2 - self.sprite_offset) * self.sprite_scale
+    self.sensor_point.y = self.y + (self.sprites.idle.frame_height / 2 - self.sprite_offset) * self.sprite_scale
 
     self.slot_bar = interface.slot_bar
 
@@ -77,28 +64,28 @@ function Player:update(dt)
     if love.keyboard.isDown("s") then
         dy = 1
 
-        self.current_anim = self.sprites.walk.anim.anims[1]
+        self.sprites.walk.current_anim = self.sprites.walk.anims[1]
         self.facing_index = 1
         self.states.moving = true
     end
     if love.keyboard.isDown("w") then
         dy = -1
 
-        self.current_anim = self.sprites.walk.anim.anims[2]
+        self.sprites.walk.current_anim = self.sprites.walk.anims[2]
         self.facing_index = 2
         self.states.moving = true
     end
     if love.keyboard.isDown("d") then
         dx = 1
 
-        self.current_anim = self.sprites.walk.anim.anims[3]
+        self.sprites.walk.current_anim = self.sprites.walk.anims[3]
         self.facing_index = 3
         self.states.moving = true
     end
     if love.keyboard.isDown("a") then
         dx = -1
 
-        self.current_anim = self.sprites.walk.anim.anims[3]
+        self.sprites.walk.current_anim = self.sprites.walk.anims[3]
         self.facing_index = 4
         self.states.moving = true
         self.flip_x = -1
@@ -120,14 +107,16 @@ function Player:update(dt)
 
     if self.states.moving == false then
         if self.facing_index == 4 then
-            self.current_anim = self.sprites.idle.anim.anims[3]
+            self.sprites.idle.current_anim = self.sprites.idle.anims[3]
             self.flip_x = -1
         else
-            self.current_anim = self.sprites.idle.anim.anims[self.facing_index]
+            self.sprites.idle.current_anim = self.sprites.idle.anims[self.facing_index]
         end
-    end
 
-    self.current_anim:update(dt)
+         self.sprites.idle.current_anim:update(dt)
+    else
+        self.sprites.walk.current_anim:update(dt)
+    end
 
 end
 
@@ -147,22 +136,17 @@ function Player:normalized_move(dx, dy, dt)
     self.x, self.y = self.collider.body:getPosition()
 
     self.sensor_point.x = self.x
-    self.sensor_point.y = self.y + (self.sprites.idle.anim.frame_height / 2 - self.sprite_offset) * self.sprite_scale
+    self.sensor_point.y = self.y + (self.sprites.idle.frame_height / 2 - self.sprite_offset) * self.sprite_scale
 
     self.current_item = nil
-end
-
-function Player:draw_anim(sprite_sheet)
-    self.current_anim:draw(sprite_sheet, self.x, self.y, nil, self.sprite_scale * self.flip_x, self.sprite_scale,
-        self.sprites.walk.anim.frame_width / 2, self.sprites.walk.anim.frame_height / 2)
 end
 
 function Player:draw()
 
     if self.states.moving == true then
-        self:draw_anim(self.sprites.walk.sprite_sheet)
+        self.sprites.walk:draw_anim(self)
     else
-        self:draw_anim(self.sprites.idle.sprite_sheet)
+        self.sprites.idle:draw_anim(self)
     end
     -- love.graphics.circle("fill", self.sensor_point.x, self.sensor_point.y, 10)
 end
