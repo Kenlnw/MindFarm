@@ -81,15 +81,10 @@ function PlantableAreaComponent:update(dt)
             else
                 area.is_active = false
                 self.current_area = nil
-                debug_text = ""
             end
 
             if area.crop then
                 area.crop:update(dt)
-            end
-
-            if area.is_watered then
-                debug_text = "watered"
             end
         end
 

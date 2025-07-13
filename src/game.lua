@@ -93,7 +93,7 @@ function game.draw()
     game.camera:detach()
 
     game.interface:draw()
-    debug_print()
+    -- debug_print()
 end
 
 return game

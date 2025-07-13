@@ -6,7 +6,6 @@ Strawberry.is_plantable = true
 
 function Strawberry:load(x, y, frame, flip_x, flip_y)
     AnimComponent = require("src.components.AnimComponent")
-    require("src.utils")
     local self = setmetatable({}, Strawberry)
     self.x = x or 0
     self.y = y or 0
