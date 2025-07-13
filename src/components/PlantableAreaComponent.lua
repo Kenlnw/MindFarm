@@ -4,7 +4,6 @@ PlantableAreaComponent.__index = PlantableAreaComponent
 function PlantableAreaComponent:new()
     PlantableTileComponent = require("src.components.PlantableTileComponent")
     require("src.data.itemsList")
-    require("src.utils")
     local self = setmetatable({}, PlantableAreaComponent)
 
     self.plantable_areas = nil
@@ -74,6 +73,10 @@ function PlantableAreaComponent:update(dt)
             distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
 
         for _, area in ipairs(self.plantable_areas) do
+            if area.crop then
+                area.crop:update(dt)
+            end
+
             if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
                 area.is_active = true
                 self.current_area = area
@@ -82,12 +85,7 @@ function PlantableAreaComponent:update(dt)
                 area.is_active = false
                 self.current_area = nil
             end
-
-            if area.crop then
-                area.crop:update(dt)
-            end
         end
-
     end
 end
 

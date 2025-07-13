@@ -2,7 +2,6 @@ local game = {}
 game.__index = game
 
 function game.load()
-    require("src.utils")
     Map = require("src.classes.Map")
     Player = require("src.classes.Player")
     Camera = require("libraries.camera")

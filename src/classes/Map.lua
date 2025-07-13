@@ -5,7 +5,6 @@ function Map:load(world, map, player, camera)
     sti = require("libraries.sti")
     CollisionAreaComponent = require("src.components.CollisionAreaComponent")
     PlantableAreaComponent = require("src.components.PlantableAreaComponent")
-    require("src.utils")
 
     local self = setmetatable({}, Map)
 
@@ -41,7 +40,7 @@ function Map:load_map_layers()
             if layer.class == "PlantableArea" then
                 self.plantable_area_component:load(self.world, layer, self.map, self.player, self.camera)
             end
-            self.drawable_layers[#self.drawable_layers + 1] = layer 
+            self.drawable_layers[#self.drawable_layers + 1] = layer
         end
     end
 end

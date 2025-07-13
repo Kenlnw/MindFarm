@@ -1,4 +1,5 @@
 local game = require("src.game")
+require("src.utils")
 
 function love.load()
     game.load()

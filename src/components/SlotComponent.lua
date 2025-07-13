@@ -2,8 +2,6 @@ local SlotComponent = {}
 SlotComponent.__index = SlotComponent
 
 function SlotComponent:load(x, y, width, height, id, item)
-    require("src.utils")
-
     local self = setmetatable({}, SlotComponent)
 
     self.x = x or 0

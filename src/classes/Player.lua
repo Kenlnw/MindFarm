@@ -4,7 +4,6 @@ Player.__index = Player
 function Player:load(world, x, y, interface)
     AnimComponent = require("src.components.AnimComponent")
     anim8 = require("libraries.anim8")
-    require("src.utils")
 
     local self = setmetatable({}, Player)
 

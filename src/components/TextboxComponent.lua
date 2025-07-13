@@ -2,7 +2,6 @@ local TextBoxComponent = {}
 TextBoxComponent.__index = TextBoxComponent
 
 function TextBoxComponent:load(text, x, y, width, height,text_size)
-    require("src.utils")
     local self = setmetatable({}, TextBoxComponent)
     self.x = x
     self.y = y
