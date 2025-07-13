@@ -33,7 +33,18 @@ function Player:load(world, x, y, interface)
     self.states.moving = false
 
     self.collider = {}
-    self.collider.tag = "player"
+    self:set_collider()
+
+    self.sensor_point = {}
+    self:set_sensor_point()
+
+    self.slot_bar = interface.slot_bar
+
+    return self
+end
+
+function Player:set_collider()
+    self.collider.id = "player"
     self.collider.width = self.sprites.idle.frame_width / 3 * self.sprite_scale
     self.collider.height = self.sprites.idle.frame_height / 3 * self.sprite_scale
     self.collider.x = self.x
@@ -44,15 +55,11 @@ function Player:load(world, x, y, interface)
         self.collider.height)
     self.collider.fixture = love.physics.newFixture(self.collider.body, self.collider.shape)
     self.collider.body:setFixedRotation(true)
-    self.collider.fixture:setUserData(self.collider)
+end
 
-    self.sensor_point = {}
+function Player:set_sensor_point()
     self.sensor_point.x = self.x
     self.sensor_point.y = self.y + (self.sprites.idle.frame_height / 2 - self.sprite_offset) * self.sprite_scale
-
-    self.slot_bar = interface.slot_bar
-
-    return self
 end
 
 function Player:update(dt)
@@ -137,8 +144,6 @@ function Player:normalized_move(dx, dy, dt)
 
     self.sensor_point.x = self.x
     self.sensor_point.y = self.y + (self.sprites.idle.frame_height / 2 - self.sprite_offset) * self.sprite_scale
-
-    self.current_item = nil
 end
 
 function Player:draw()
