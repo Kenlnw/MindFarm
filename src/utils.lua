@@ -1,4 +1,5 @@
 TILE_SCALE = 4
+DAYS = 1
 
 function set_color(r, g, b, a)
     local alpha = a or 1

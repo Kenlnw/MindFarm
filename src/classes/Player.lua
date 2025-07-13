@@ -40,6 +40,8 @@ function Player:load(world, x, y, interface)
 
     self.slot_bar = interface.slot_bar
 
+    self.current_item = nil
+
     return self
 end
 

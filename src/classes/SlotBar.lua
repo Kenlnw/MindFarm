@@ -41,14 +41,14 @@ function SlotBar:load_slots()
 
     for i = 1, self.max_slots do
         local id = i - 1
-        
+
         local item = Strawberry:load(slot_x, self.y)
         if i ~= 1 then
             item = nil
         end
 
         self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, item)
-        
+
         slot_x = slot_x + self.slots[i].width + self.offset_x
     end
 end
@@ -69,7 +69,7 @@ function SlotBar:change_slot_slide(direction)
 end
 
 function SlotBar:change_slot_at(num)
-    if num <= self.max_slots then     
+    if num <= self.max_slots then
         self.current_slot_id = num - 1
         self:find_slots()
     end

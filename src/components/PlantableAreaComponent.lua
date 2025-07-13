@@ -58,6 +58,7 @@ function PlantableAreaComponent:create_triggers(layer)
                     plantable_area.fixture:setSensor(true)
                     plantable_area.is_active = false
                     plantable_area.is_planted = false
+                    plantable_area.is_watered = false
                     plantable_area.crop = nil
 
                     function plantable_area:plant_crop(crops_id)
@@ -68,6 +69,12 @@ function PlantableAreaComponent:create_triggers(layer)
                                 self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y)
                             end
                         end
+                    end
+
+                    function plantable_area:reset_area()
+                        self.is_planted = false
+                        self.is_watered = false
+                        self.crop = nil
                     end
 
                     plantable_area.fixture:setUserData(plantable_area)
@@ -86,7 +93,9 @@ function PlantableAreaComponent:update(dt)
         self.crops_id = nil
         for _, slot in pairs(self.player.slot_bar.slots) do
             if slot.item and slot.is_selected then
-                self.crops_id = slot.item.id
+                if slot.item.is_plantable and slot.item.frame == 8 then
+                    self.crops_id = slot.item.id
+                end
                 break
             end
         end
@@ -96,7 +105,6 @@ function PlantableAreaComponent:update(dt)
             distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
 
         for _, area in ipairs(self.plantable_areas) do
-
             if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
                 area.is_active = true
                 self.current_area = area
@@ -104,22 +112,63 @@ function PlantableAreaComponent:update(dt)
             else
                 area.is_active = false
                 self.current_area = nil
+                debug_text = ""
             end
 
             if area.crop then
                 area.crop:update(dt)
+            end
+
+            if area.is_watered then
+                debug_text = "watered"
             end
         end
 
     end
 end
 
-function PlantableAreaComponent:interact()
+function PlantableAreaComponent:interactLC()
     for _, area in ipairs(self.plantable_areas) do
-        if self.crops_id and area.is_active then
+        if area.is_active == false then
+            goto continue
+        end
+
+        if self.player.current_item == "water_can" and area.crop then
+            area.is_watered = true
+            area.crop.is_watered = true
+        end
+        if self.crops_id then
             area:plant_crop(self.crops_id)
             break
         end
+        ::continue::
+    end
+end
+
+function PlantableAreaComponent:interactRC()
+    for _, area in ipairs(self.plantable_areas) do
+        if area.is_active == false then
+            goto continue
+        end
+
+        if area.crop and area.crop.can_harvest then
+            for _, slot in ipairs(self.player.slot_bar.slots) do
+                if slot.item then
+                    goto continue
+                end
+                local crop = crops[area.crop.id]
+                if crop then
+                    local fruit = crop:load(slot.x, slot.y, 9)
+                    slot.item = fruit
+                    break
+                end
+
+                ::continue::
+            end
+            area:reset_area()
+            break
+        end
+        ::continue::
     end
 end
 
@@ -132,10 +181,13 @@ function PlantableAreaComponent:draw()
                 reset_color()
             end
 
-            if area.is_planted then
-                -- love.graphics.rectangle("fill", area.x ,area.y, area.width, area.height)
+            if area.is_watered then
+                love.graphics.rectangle("fill", area.x, area.y, area.width, area.height)
+            end
+            if area.is_planted and area.crop then
                 area.crop:draw()
             end
+
         end
     end
 end

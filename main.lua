@@ -27,12 +27,22 @@ function love.keypressed(key)
         game.interface.slot_bar:change_slot_slide(key)
     elseif tonumber(key) ~= nil then
         game.interface.slot_bar:change_slot_at(tonumber(key))
+    elseif key == "c" then
+        if game.player.current_item == "water_can" then
+            game.player.current_item = nil
+        else
+            game.player.current_item = "water_can"
+        end
+    elseif key == "l" then
+        DAYS = DAYS + 1;
     end
 end
 
 function love.mousepressed(x, y, button)
     if button == 1 then
-        game.prototype_town.plantable_area_component:interact()
+        game.prototype_town.plantable_area_component:interactLC()
+    elseif button == 2 then
+        game.prototype_town.plantable_area_component:interactRC()
     end
 end
 
