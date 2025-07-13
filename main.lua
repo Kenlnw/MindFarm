@@ -40,9 +40,9 @@ end
 
 function love.mousepressed(x, y, button)
     if button == 1 then
-        game.prototype_town.plantable_area_component:interactLC()
+        game.prototype_town.plantable_area_component:interact_left_click()
     elseif button == 2 then
-        game.prototype_town.plantable_area_component:interactRC()
+        game.prototype_town.plantable_area_component:interact_right_click()
     end
 end
 

@@ -1,0 +1,51 @@
+local PlantableTileComponent = {}
+PlantableTileComponent.__index = PlantableTileComponent
+
+function PlantableTileComponent:load(world, x, y, width, height)
+    require("src.data.itemsList")
+    local self = setmetatable({}, PlantableTileComponent)
+
+    self.world = world
+    self.x = x
+    self.y = y
+    self.width = width
+    self.height = height
+
+    self.is_active = false
+    self.is_planted = false
+    self.is_watered = false
+    self.crop = nil
+    self.crop_flip_x = 1
+    self.crop_flip_y = 1
+
+    self.area = {}
+    self:set_area()
+
+    return self
+end
+
+function PlantableTileComponent:set_area()
+    self.body = love.physics.newBody(self.world, self.x, self.y, "static")
+    self.shape = love.physics.newRectangleShape(self.width / 2, self.height / 2, self.width, self.height)
+    self.fixture = love.physics.newFixture(self.body, self.shape)
+    self.body:setFixedRotation(true)
+    self.fixture:setSensor(true)
+end
+
+function PlantableTileComponent:plant_crop(crops_id)
+    if not self.is_planted then
+        self.is_planted = true
+        local crop = crops[crops_id]
+        if crop then
+            self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y)
+        end
+    end
+end
+
+function PlantableTileComponent:reset_area()
+    self.is_planted = false
+    self.is_watered = false
+    self.crop = nil
+end
+
+return PlantableTileComponent

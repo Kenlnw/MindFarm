@@ -2,6 +2,7 @@ local PlantableAreaComponent = {}
 PlantableAreaComponent.__index = PlantableAreaComponent
 
 function PlantableAreaComponent:new()
+    PlantableTileComponent = require("src.components.PlantableTileComponent")
     require("src.data.itemsList")
     require("src.utils")
     local self = setmetatable({}, PlantableAreaComponent)
@@ -33,53 +34,21 @@ function PlantableAreaComponent:create_triggers(layer)
             local data = layer.data[y][x]
             if data then
                 if data.gid > 0 then
-                    local plantable_area = {}
-                    plantable_area.crop_flip_x = 1
-                    plantable_area.crop_flip_y = 1
+                    local plantable_tile = PlantableTileComponent:load(
+                        self.world,
+                        (x - 1) * self.map.tilewidth * self.map_scale,
+                        (y - 1) * self.map.tileheight * self.map_scale,
+                        self.map.tilewidth * self.map_scale,
+                        self.map.tileheight * self.map_scale
+                    )
 
                     if data.gid == 105 or data.gid == 117 or data.gid == 141 then
-                        plantable_area.crop_flip_x = -1
+                        plantable_tile.crop_flip_x = -1
                     end
                     if data.gid == 141 or data.gid == 142 or data.gid == 144 then
-                        plantable_area.crop_flip_y = -1
+                        plantable_tile.crop_flip_y = -1
                     end
-
-                    plantable_area.id = "plantable_area"
-                    plantable_area.x = (x - 1) * self.map.tilewidth * self.map_scale
-                    plantable_area.y = (y - 1) * self.map.tileheight * self.map_scale
-                    plantable_area.width = self.map.tilewidth * self.map_scale
-                    plantable_area.height = self.map.tileheight * self.map_scale
-
-                    plantable_area.body = love.physics.newBody(self.world, plantable_area.x, plantable_area.y, "static")
-                    plantable_area.shape = love.physics.newRectangleShape(plantable_area.width / 2,
-                        plantable_area.height / 2, plantable_area.width, plantable_area.height)
-                    plantable_area.fixture = love.physics.newFixture(plantable_area.body, plantable_area.shape)
-                    plantable_area.body:setFixedRotation(true)
-                    plantable_area.fixture:setSensor(true)
-                    plantable_area.is_active = false
-                    plantable_area.is_planted = false
-                    plantable_area.is_watered = false
-                    plantable_area.crop = nil
-
-                    function plantable_area:plant_crop(crops_id)
-                        if not self.is_planted then
-                            self.is_planted = true
-                            local crop = crops[crops_id]
-                            if crop then
-                                self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y)
-                            end
-                        end
-                    end
-
-                    function plantable_area:reset_area()
-                        self.is_planted = false
-                        self.is_watered = false
-                        self.crop = nil
-                    end
-
-                    plantable_area.fixture:setUserData(plantable_area)
-
-                    table.insert(plantable_areas, plantable_area)
+                    table.insert(plantable_areas, plantable_tile)
                 end
             end
         end
@@ -127,7 +96,7 @@ function PlantableAreaComponent:update(dt)
     end
 end
 
-function PlantableAreaComponent:interactLC()
+function PlantableAreaComponent:interact_left_click()
     for _, area in ipairs(self.plantable_areas) do
         if area.is_active == false then
             goto continue
@@ -145,7 +114,7 @@ function PlantableAreaComponent:interactLC()
     end
 end
 
-function PlantableAreaComponent:interactRC()
+function PlantableAreaComponent:interact_right_click()
     for _, area in ipairs(self.plantable_areas) do
         if area.is_active == false then
             goto continue
