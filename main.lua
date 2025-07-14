@@ -36,6 +36,12 @@ function love.keypressed(key)
         end
     elseif key == "l" then
         DAYS = DAYS + 1;
+    elseif key == "p" then
+        if game.can_check_collider then
+            game.can_check_collider = false
+        else
+            game.can_check_collider = true
+        end
     end
 end
 

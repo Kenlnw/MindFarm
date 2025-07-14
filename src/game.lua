@@ -25,6 +25,8 @@ function game.load()
     game.camera = Camera()
 
     game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player, game.camera)
+
+    game.can_check_collider = false
 end
 
 function game.update(dt)
@@ -87,7 +89,9 @@ function game.draw()
         --         love.graphics.rectangle("line", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
         --     end
         -- end
-        -- game.draw_world()
+        if game.can_check_collider then
+            game.draw_world()
+        end
         game.player:draw()
     game.camera:detach()
 
