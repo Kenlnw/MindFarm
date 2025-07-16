@@ -25,7 +25,7 @@ function AnimComponent:load(sprite_sheet_src, columns, rows, duration, start_sta
 
     self:create_frames(start_state)
 
-    self.current_amin = self.anims[1]
+    self.current_anim = self.anims[1]
 
     return self
 end
@@ -45,7 +45,7 @@ function AnimComponent:create_frames(start_state)
 end
 
 function AnimComponent:draw_anim(parent)
-    if self.current_amin then
+    if self.current_anim then
         self.current_anim:draw(
             self.sprite_sheet,
             parent.x,

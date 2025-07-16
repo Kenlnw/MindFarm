@@ -19,15 +19,14 @@ function Player:load(world, x, y, interface)
     self.sprite_offset = 7
 
     self.sprites = {}
-    self.sprites.idle = AnimComponent:load("sprites/player_idle.png", 4, 3, 0.2, "rows")
-    self.sprites.walk = AnimComponent:load("sprites/player_walk.png", 6, 3, 0.1, "rows")
-    self.sprites.test = AnimComponent:load("sprites/player-test.png", 10, 1, 0.1, "rows")
+    self.sprites.idle = AnimComponent:load("sprites/player-test.png", 10, 3, 0.1, "rows")
+    self.sprites.walk = AnimComponent:load("sprites/player-test_walk.png", 10, 3, 0.1, "rows")
 
     self.facing_index = 1
     self.flip_x = 1
     self.flip_y = 1
-    self.offset_x = self.sprites.test.frame_width / 2
-    self.offset_y = self.sprites.test.frame_height / 2
+    self.offset_x = self.sprites.idle.frame_width / 2
+    self.offset_y = self.sprites.idle.frame_height / 2
 
     self.states = {}
     self.states.moving = false
@@ -47,8 +46,8 @@ end
 
 function Player:set_collider()
     self.collider.id = "player"
-    self.collider.width = self.sprites.test.frame_width * self.sprite_scale
-    self.collider.height = self.sprites.test.frame_height/2 * self.sprite_scale
+    self.collider.width = self.sprites.idle.frame_width * self.sprite_scale
+    self.collider.height = self.sprites.idle.frame_height/2 * self.sprite_scale
     self.collider.x = self.x
     self.collider.y = self.y
 
@@ -61,7 +60,7 @@ end
 
 function Player:set_sensor_point()
     self.sensor_point.x = self.x
-    self.sensor_point.y = self.y + (self.sprites.test.frame_height / 2 - self.sprite_offset) * self.sprite_scale
+    self.sensor_point.y = self.y + (self.sprites.idle.frame_height / 2 - self.sprite_offset) * self.sprite_scale
 end
 
 function Player:update(dt)
@@ -126,9 +125,6 @@ function Player:update(dt)
     else
         self.sprites.walk.current_anim:update(dt)
     end
-
-    self.sprites.test.current_anim = self.sprites.test.anims[1]
-    self.sprites.test.current_anim:update(dt)
 end
 
 function Player:normalized_move(dx, dy, dt)
@@ -151,13 +147,11 @@ function Player:normalized_move(dx, dy, dt)
 end
 
 function Player:draw()
-
-    -- if self.states.moving == true then
-    --     self.sprites.walk:draw_anim(self)
-    -- else
-    --     self.sprites.idle:draw_anim(self)
-    -- end
-    self.sprites.test:draw_anim(self)
+    if self.states.moving == true then
+        self.sprites.walk:draw_anim(self)
+    else
+        self.sprites.idle:draw_anim(self)
+    end
     -- love.graphics.circle("fill", self.sensor_point.x, self.sensor_point.y, 10)
 end
 
