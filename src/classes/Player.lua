@@ -19,8 +19,8 @@ function Player:load(world, x, y, interface)
     self.sprite_offset = 7
 
     self.sprites = {}
-    self.sprites.idle = AnimComponent:load("sprites/player-test.png", 10, 3, 0.1, "rows")
-    self.sprites.walk = AnimComponent:load("sprites/player-test_walk.png", 10, 3, 0.1, "rows")
+    self.sprites.idle = AnimComponent:load("sprites/player_idle.png", 10, 3, 0.1, "rows")
+    self.sprites.walk = AnimComponent:load("sprites/player_walk.png", 10, 3, 0.1, "rows")
 
     self.facing_index = 1
     self.flip_x = 1
