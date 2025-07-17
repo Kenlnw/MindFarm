@@ -3,7 +3,7 @@ PlantableAreaComponent.__index = PlantableAreaComponent
 
 function PlantableAreaComponent:load(world, layer, map, player, camera)
     PlantableTileComponent = require("src.components.PlantableTileComponent")
-    
+
     local self = setmetatable({}, PlantableAreaComponent)
     self.map = map
     self.world = world
@@ -50,7 +50,7 @@ function PlantableAreaComponent:create_triggers()
 end
 
 function PlantableAreaComponent:update(dt)
-    if self.plantable_areas and self.player.current_item and self.player.current_item.is_plantable then
+    if self.plantable_areas then
         local mouse_x, mouse_y = self.camera:mousePosition()
         local mouse_distance =
             distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
@@ -95,8 +95,8 @@ function PlantableAreaComponent:interact_right_click()
 
         if area.is_active and area.crop and area.crop.can_harvest then
             for _, slot in ipairs(self.player.slot_bar.slots) do
-                if not slot.item then
-                    slot.item = area.crop:harvest(slot.x, slot.y)
+                if not slot.item or slot.item_amount <= slot.capacity then
+                    slot:store_item(area.crop:harvest(slot.x, slot.y), 1)
                     break
                 end
             end
@@ -108,9 +108,9 @@ function PlantableAreaComponent:interact_right_click()
 end
 
 function PlantableAreaComponent:draw()
-    if self.plantable_areas then
+    if self.plantable_areas  then
         for _, area in ipairs(self.plantable_areas) do
-            if area == self.current_area and self.player.current_item and self.player.current_item.is_plantable then
+            if area == self.current_area then
                 set_color(0, 0, 0)
                 love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
                 reset_color()

@@ -140,13 +140,7 @@ function Player:update(dt)
         self.sprites.walk.current_anim:update(dt)
     end
 
-    if self.slot_bar then
-        for _, slot in ipairs(self.slot_bar.slots) do
-            if slot.is_selected then
-                self.current_item = slot.item
-            end
-        end
-    end
+    self.current_item = self:set_current_item()
 end
 
 function Player:normalized_move(dx, dy, dt)

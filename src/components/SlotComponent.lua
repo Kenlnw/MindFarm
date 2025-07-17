@@ -1,7 +1,7 @@
 local SlotComponent = {}
 SlotComponent.__index = SlotComponent
 
-function SlotComponent:load(x, y, width, height, id, item)
+function SlotComponent:load(x, y, width, height, id, item, item_amount)
     local self = setmetatable({}, SlotComponent)
     self.x = x or 0
     self.y = y or 0
@@ -13,6 +13,8 @@ function SlotComponent:load(x, y, width, height, id, item)
 
     self.is_selected = false
     self.item = item or nil
+    self.item_amount = item_amount or 4
+    self.capacity = 3
 
     return self
 end
@@ -25,10 +27,20 @@ function SlotComponent:select()
     love.graphics.pop()
 end
 
+function SlotComponent:store_item(item, amount)
+    self.item = item
+    self.item_amount = self.item_amount + amount
+end
+
 function SlotComponent:update(dt)
-    -- if self.item then
-    --     self.item:update(dt)
-    -- end
+    if self.item and self.item.is_used then
+        self.item_amount = self.item_amount - 1
+        if self.item_amount == 0 then
+            self.item = nil
+        else
+            self.item.is_used = false
+        end
+    end
 end
 
 function SlotComponent:draw()
