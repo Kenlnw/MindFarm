@@ -120,7 +120,7 @@ function PlantableAreaComponent:interact_right_click()
                 end
                 local crop = crops[area.crop.id]
                 if crop then
-                    local fruit = crop:load(slot.x, slot.y, 9)
+                    local fruit = crop:load(slot.x, slot.y, 9, 1, 1, "fruit")
                     slot.item = fruit
                     break
                 end

@@ -4,16 +4,26 @@ Strawberry.__index = Strawberry
 Strawberry.id = "strawberry"
 Strawberry.is_plantable = true
 
-function Strawberry:load(x, y, frame, flip_x, flip_y)
+function Strawberry:load(x, y, frame, flip_x, flip_y, state)
     AnimComponent = require("src.components.AnimComponent")
     local self = setmetatable({}, Strawberry)
     self.x = x or 0
     self.y = y or 0
     self.sprite_scale = TILE_SCALE
+    self.state = state
 
-    self.sprites = AnimComponent:load("sprites/spring_crops.png", 14, 8, 1, "rows")
+    self.sprites = AnimComponent:load("sprites/Strawberry.png",6, 3, 1, "rows")
 
-    self.sprites.current_anim = self.sprites.anims[2]
+    if self.state == "seed" then
+        self.sprites.current_anim = self.sprites.anims[1]
+        self.sprites.current_anim:gotoFrame(1)
+    elseif self.state == "crop" then
+        self.sprites.current_anim = self.sprites.anims[2]
+    elseif self.state == "fruit" then
+        self.sprites.current_anim = self.sprites.anims[3]
+        self.sprites.current_anim:gotoFrame(1)
+    end
+
     self.frame = frame or 8
     self.flip_x =  flip_x or 1
     self.flip_y = flip_y or 1
@@ -31,14 +41,16 @@ function Strawberry:load(x, y, frame, flip_x, flip_y)
 end
 
 function Strawberry:update(dt)
-    if self.frame == self.days_to_grow then
-        self.can_harvest = true
+    if self.state == "crop" then
+        if self.frame == self.days_to_grow then
+            self.can_harvest = true
+        end
+        if self.is_watered then
+            self:grow()
+        end
+        self.sprites.current_anim:gotoFrame(self.frame)
     end
-    if self.is_watered then
-        self:grow()
-    end
-    self.sprites.current_anim:gotoFrame(self.frame)
-    self.sprites.current_anim:update(dt)
+    -- self.sprites.current_anim:update(dt)
 end
 
 function Strawberry:grow()

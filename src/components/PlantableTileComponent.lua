@@ -37,7 +37,7 @@ function PlantableTileComponent:plant_crop(crops_id)
         self.is_planted = true
         local crop = crops[crops_id]
         if crop then
-            self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y)
+            self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y, "crop")
         end
     end
 end
