@@ -82,13 +82,7 @@ end
 function game.draw()
     game.camera:attach()
         game.prototype_town:draw()
-        -- if debug_bool == true then
-        --     if debug_obj.is_planted then
-        --         love.graphics.rectangle("fill", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
-        --     else
-        --         love.graphics.rectangle("line", debug_obj.x, debug_obj.y, debug_obj.width, debug_obj.height)
-        --     end
-        -- end
+
         if game.can_check_collider then
             game.draw_world()
         end

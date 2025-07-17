@@ -7,7 +7,6 @@ function Map:load(world, map, player, camera)
     PlantableAreaComponent = require("src.components.PlantableAreaComponent")
 
     local self = setmetatable({}, Map)
-
     self.x = 0
     self.y = 0
 
@@ -20,14 +19,13 @@ function Map:load(world, map, player, camera)
     self.height = self.map.height * self.map.tileheight * self.map_scale
 
     self.drawable_layers = {}
-    self.collision_component = CollisionAreaComponent:new()
-    self.plantable_area_component = PlantableAreaComponent:new()
+    self.collision_component = {}
+    self.plantable_area_component = {}
 
     self.player = player
     self.camera = camera
 
     self:load_map_layers()
-
 
     return self
 end
@@ -35,10 +33,10 @@ end
 function Map:load_map_layers()
     for _, layer in ipairs(self.map.layers) do
         if layer.class == "CollisionArea" then
-            self.collision_component:load(self.world, layer)
+            self.collision_component = CollisionAreaComponent:load(self.world, layer)
         else
             if layer.class == "PlantableArea" then
-                self.plantable_area_component:load(self.world, layer, self.map, self.player, self.camera)
+                self.plantable_area_component = PlantableAreaComponent:load(self.world, layer, self.map, self.player, self.camera)
             end
             self.drawable_layers[#self.drawable_layers + 1] = layer
         end

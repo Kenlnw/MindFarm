@@ -6,7 +6,6 @@ function Player:load(world, x, y, interface)
     anim8 = require("libraries.anim8")
 
     local self = setmetatable({}, Player)
-
     self.world = world
     self.x = x
     self.y = y
@@ -31,36 +30,51 @@ function Player:load(world, x, y, interface)
     self.states = {}
     self.states.moving = false
 
-    self.collider = {}
-    self:set_collider()
+    self.collider = self:set_collider()
 
-    self.sensor_point = {}
-    self:set_sensor_point()
+    self.sensor_point = self:set_sensor_point()
 
     self.slot_bar = interface.slot_bar
 
-    self.current_item = nil
+    self.current_item = self:set_current_item()
+    self.water_can = false
 
     return self
 end
 
-function Player:set_collider()
-    self.collider.id = "player"
-    self.collider.width = self.sprites.idle.frame_width * self.sprite_scale
-    self.collider.height = self.sprites.idle.frame_height/2 * self.sprite_scale
-    self.collider.x = self.x
-    self.collider.y = self.y
+function Player:set_current_item()
+    if self.slot_bar then
+        for _, slot in ipairs(self.slot_bar.slots) do
+            if slot.is_selected then
+                return slot.item
+            end
+        end
+    end
+end
 
-    self.collider.body = love.physics.newBody(self.world, self.collider.x, self.collider.y, "dynamic")
-    self.collider.shape = love.physics.newRectangleShape(0, self.collider.height/2, self.collider.width,
-        self.collider.height)
-    self.collider.fixture = love.physics.newFixture(self.collider.body, self.collider.shape)
-    self.collider.body:setFixedRotation(true)
+function Player:set_collider()
+    local collider = {}
+    collider.id = "player"
+    collider.width = self.sprites.idle.frame_width * self.sprite_scale
+    collider.height = self.sprites.idle.frame_height/2 * self.sprite_scale
+    collider.x = self.x
+    collider.y = self.y
+
+    collider.body = love.physics.newBody(self.world, collider.x, collider.y, "dynamic")
+    collider.shape = love.physics.newRectangleShape(0, collider.height/2, collider.width,
+        collider.height)
+    collider.fixture = love.physics.newFixture(collider.body, collider.shape)
+    collider.body:setFixedRotation(true)
+
+    return collider
 end
 
 function Player:set_sensor_point()
-    self.sensor_point.x = self.x
-    self.sensor_point.y = self.y + (self.sprites.idle.frame_height / 2 - self.sprite_offset) * self.sprite_scale
+    local sensor_point = {}
+    sensor_point.x = self.x
+    sensor_point.y = self.y + (self.sprites.idle.frame_height / 2 - self.sprite_offset) * self.sprite_scale
+
+    return sensor_point
 end
 
 function Player:update(dt)
@@ -124,6 +138,14 @@ function Player:update(dt)
          self.sprites.idle.current_anim:update(dt)
     else
         self.sprites.walk.current_anim:update(dt)
+    end
+
+    if self.slot_bar then
+        for _, slot in ipairs(self.slot_bar.slots) do
+            if slot.is_selected then
+                self.current_item = slot.item
+            end
+        end
     end
 end
 

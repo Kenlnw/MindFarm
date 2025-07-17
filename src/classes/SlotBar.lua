@@ -2,7 +2,7 @@ local SlotBar = {}
 SlotBar.__index = SlotBar
 
 function SlotBar:load()
-    Strawberry = require("src.items.seeds.Strawberry")
+    StrawberrySeed = require("src.items.seeds.StrawberrySeed")
     SlotComponent = require("src.components.SlotComponent")
 
     local self = setmetatable({}, SlotBar)
@@ -42,7 +42,7 @@ function SlotBar:load_slots()
     for i = 1, self.max_slots do
         local id = i - 1
 
-        local item = Strawberry:load(slot_x, self.y, 8, 1, 1, "seed")
+        local item = StrawberrySeed:load(slot_x, self.y)
         if i ~= 1 then
             item = nil
         end

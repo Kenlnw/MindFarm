@@ -1,17 +1,10 @@
 local PlantableAreaComponent = {}
 PlantableAreaComponent.__index = PlantableAreaComponent
 
-function PlantableAreaComponent:new()
-    PlantableTileComponent = require("src.components.PlantableTileComponent")
-    require("src.data.itemsList")
-    local self = setmetatable({}, PlantableAreaComponent)
-
-    self.plantable_areas = nil
-
-    return self
-end
-
 function PlantableAreaComponent:load(world, layer, map, player, camera)
+    PlantableTileComponent = require("src.components.PlantableTileComponent")
+    
+    local self = setmetatable({}, PlantableAreaComponent)
     self.map = map
     self.world = world
     self.layer = layer
@@ -19,18 +12,18 @@ function PlantableAreaComponent:load(world, layer, map, player, camera)
     self.player = player
     self.camera = camera
 
-    self.plantable_areas = self:create_triggers(self.layer)
-
+    self.plantable_areas = self:create_triggers()
     self.current_area = nil
 
+    return self
 end
 
-function PlantableAreaComponent:create_triggers(layer)
+function PlantableAreaComponent:create_triggers()
     local plantable_areas = {}
 
-    for y = 1, layer.height do
-        for x = 1, layer.width do
-            local data = layer.data[y][x]
+    for y = 1, self.layer.height do
+        for x = 1, self.layer.width do
+            local data = self.layer.data[y][x]
             if data then
                 if data.gid > 0 then
                     local plantable_tile = PlantableTileComponent:load(
@@ -57,17 +50,7 @@ function PlantableAreaComponent:create_triggers(layer)
 end
 
 function PlantableAreaComponent:update(dt)
-    if self.plantable_areas and self.player then
-        self.crops_id = nil
-        for _, slot in pairs(self.player.slot_bar.slots) do
-            if slot.item and slot.is_selected then
-                if slot.item.is_plantable and slot.item.frame == 8 then
-                    self.crops_id = slot.item.id
-                end
-                break
-            end
-        end
-
+    if self.plantable_areas and self.player.current_item and self.player.current_item.is_plantable then
         local mouse_x, mouse_y = self.camera:mousePosition()
         local mouse_distance =
             distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
@@ -95,12 +78,12 @@ function PlantableAreaComponent:interact_left_click()
             goto continue
         end
 
-        if self.player.current_item == "water_can" and area.crop then
+        if self.player.water_can and area.crop then
             area.is_watered = true
             area.crop.is_watered = true
         end
-        if self.crops_id then
-            area:plant_crop(self.crops_id)
+        if self.player.current_item and self.player.current_item.is_plantable then
+            area:plant_crop(self.player.current_item)
             break
         end
         ::continue::
@@ -109,35 +92,25 @@ end
 
 function PlantableAreaComponent:interact_right_click()
     for _, area in ipairs(self.plantable_areas) do
-        if area.is_active == false then
-            goto continue
-        end
 
-        if area.crop and area.crop.can_harvest then
+        if area.is_active and area.crop and area.crop.can_harvest then
             for _, slot in ipairs(self.player.slot_bar.slots) do
-                if slot.item then
-                    goto continue
-                end
-                local crop = crops[area.crop.id]
-                if crop then
-                    local fruit = crop:load(slot.x, slot.y, 9, 1, 1, "fruit")
-                    slot.item = fruit
+                if not slot.item then
+                    slot.item = area.crop:harvest(slot.x, slot.y)
                     break
                 end
-
-                ::continue::
             end
             area:reset_area()
             break
         end
-        ::continue::
+
     end
 end
 
 function PlantableAreaComponent:draw()
     if self.plantable_areas then
         for _, area in ipairs(self.plantable_areas) do
-            if area == self.current_area then
+            if area == self.current_area and self.player.current_item and self.player.current_item.is_plantable then
                 set_color(0, 0, 0)
                 love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
                 reset_color()

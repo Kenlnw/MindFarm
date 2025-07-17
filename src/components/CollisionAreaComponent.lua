@@ -1,25 +1,20 @@
 local CollisionAreaComponent = {}
 CollisionAreaComponent.__index = CollisionAreaComponent
 
-function CollisionAreaComponent:new()
-    local self = setmetatable({}, CollisionAreaComponent)
-
-    self.collision_areas = {}
-
-    return self
-end
-
 function CollisionAreaComponent:load(world, layer)
+    local self = setmetatable({}, CollisionAreaComponent)
     self.world = world
     self.layer = layer
     self.map_scale = TILE_SCALE
 
     self.collision_areas = self:create_collisions(self.layer)
+
+    return self
 end
 
 function CollisionAreaComponent:create_collisions(layer)
     local collision_areas = {}
-    
+
     for _, obj in ipairs(layer.objects) do
         local collision_area  = {}
         collision_area.id = "collision_area"

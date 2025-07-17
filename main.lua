@@ -29,10 +29,10 @@ function love.keypressed(key)
     elseif tonumber(key) ~= nil then
         game.interface.slot_bar:change_slot_at(tonumber(key))
     elseif key == "c" then
-        if game.player.current_item == "water_can" then
-            game.player.current_item = nil
+        if game.player.water_can then
+            game.player.water_can = false
         else
-            game.player.current_item = "water_can"
+            game.player.water_can = true
         end
     elseif key == "l" then
         DAYS = DAYS + 1;

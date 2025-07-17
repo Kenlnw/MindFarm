@@ -3,7 +3,6 @@ SlotComponent.__index = SlotComponent
 
 function SlotComponent:load(x, y, width, height, id, item)
     local self = setmetatable({}, SlotComponent)
-
     self.x = x or 0
     self.y = y or 0
 
@@ -27,9 +26,9 @@ function SlotComponent:select()
 end
 
 function SlotComponent:update(dt)
-    if self.item then
-        self.item:update(dt)
-    end
+    -- if self.item then
+    --     self.item:update(dt)
+    -- end
 end
 
 function SlotComponent:draw()

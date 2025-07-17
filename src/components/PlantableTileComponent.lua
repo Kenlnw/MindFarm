@@ -2,9 +2,7 @@ local PlantableTileComponent = {}
 PlantableTileComponent.__index = PlantableTileComponent
 
 function PlantableTileComponent:load(world, x, y, width, height)
-    require("src.data.itemsList")
     local self = setmetatable({}, PlantableTileComponent)
-
     self.world = world
     self.x = x
     self.y = y
@@ -32,13 +30,14 @@ function PlantableTileComponent:set_area()
     self.fixture:setSensor(true)
 end
 
-function PlantableTileComponent:plant_crop(crops_id)
-    if not self.is_planted then
+function PlantableTileComponent:plant_crop(seed)
+    if not self.is_planted and seed then
         self.is_planted = true
-        local crop = crops[crops_id]
-        if crop then
-            self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y, "crop")
-        end
+        self.crop = seed:plant_crop(self.x, self.y, self.crop_flip_x, self.crop_flip_y)
+        -- local crop = crops[seed]
+        -- if crop then
+        --     self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y, "crop")
+        -- end
     end
 end
 

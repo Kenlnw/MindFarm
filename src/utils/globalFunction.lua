@@ -1,6 +1,3 @@
-TILE_SCALE = 4
-DAYS = 1
-
 function set_color(r, g, b, a)
     local alpha = a or 1
     love.graphics.setColor(r/255, g/255, b/255, alpha)

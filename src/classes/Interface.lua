@@ -6,7 +6,6 @@ function Interface:load()
     TextBox = require("src.components.TextboxComponent")
 
     local self = setmetatable({}, Interface)
-
     self.slot_bar = SlotBar:load()
     self.date_label = TextBox:load(DAYS, love.graphics.getWidth() - 100, 0, 100, 100, 40)
     self.time_label = TextBox:load("06:00", self.date_label.x, self.date_label.height, 100, 50, 20)

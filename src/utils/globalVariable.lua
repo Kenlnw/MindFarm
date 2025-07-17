@@ -1,0 +1,2 @@
+TILE_SCALE = 4
+DAYS = 1
