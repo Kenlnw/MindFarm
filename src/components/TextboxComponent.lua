@@ -17,10 +17,10 @@ function TextBoxComponent:change_text(new_text)
     self.text = new_text
 end
 
-function TextBoxComponent:draw(r1, g1, b1, r2, g2, b2)
-    set_color(r1, g1, b1)
+function TextBoxComponent:draw(r1, g1, b1, r2, g2, b2, a1, a2)
+    set_color(r1, g1, b1, a1 or 1)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-    set_color(r2 , g2, b2)
+    set_color(r2 , g2, b2, a2 or 1)
     love.graphics.printf(self.text, self.font, self.x, self.y + (self.height - self.font:getHeight()) / 2  , self.width, "center")
     reset_color()
 end

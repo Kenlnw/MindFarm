@@ -63,10 +63,8 @@ function PlantableAreaComponent:update(dt)
             if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
                 area.is_active = true
                 self.current_area = area
-                break
             else
                 area.is_active = false
-                self.current_area = nil
             end
         end
     end
@@ -95,7 +93,7 @@ function PlantableAreaComponent:interact_right_click()
 
         if area.is_active and area.crop and area.crop.can_harvest then
             for _, slot in ipairs(self.player.slot_bar.slots) do
-                if not slot.item or slot.item_amount <= slot.capacity then
+                if not slot.item or slot.item_amount < slot.capacity then
                     slot:store_item(area.crop:harvest(slot.x, slot.y), 1)
                     break
                 end
@@ -110,7 +108,7 @@ end
 function PlantableAreaComponent:draw()
     if self.plantable_areas  then
         for _, area in ipairs(self.plantable_areas) do
-            if area == self.current_area then
+            if area == self.current_area and area.is_active then
                 set_color(0, 0, 0)
                 love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
                 reset_color()

@@ -48,6 +48,7 @@ function SlotBar:load_slots()
         end
 
         self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, item)
+        self.slots[i]:store_item(item, 4)
 
         slot_x = slot_x + self.slots[i].width + self.offset_x
     end

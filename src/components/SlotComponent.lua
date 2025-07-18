@@ -1,7 +1,9 @@
 local SlotComponent = {}
 SlotComponent.__index = SlotComponent
 
-function SlotComponent:load(x, y, width, height, id, item, item_amount)
+function SlotComponent:load(x, y, width, height, id, item)
+    TextBox = require("src.components.TextboxComponent")
+
     local self = setmetatable({}, SlotComponent)
     self.x = x or 0
     self.y = y or 0
@@ -13,8 +15,10 @@ function SlotComponent:load(x, y, width, height, id, item, item_amount)
 
     self.is_selected = false
     self.item = item or nil
-    self.item_amount = item_amount or 4
+    self.item_amount =  0
     self.capacity = 3
+
+    self.amount_label = TextBox:load(self.item_amount, self.x + self.width - 20, self.y + self.height - 20, self.width / 4, self.height / 4, 20)
 
     return self
 end
@@ -28,8 +32,10 @@ function SlotComponent:select()
 end
 
 function SlotComponent:store_item(item, amount)
-    self.item = item
-    self.item_amount = self.item_amount + amount
+    if item then
+        self.item = item
+        self.item_amount = self.item_amount + amount
+    end
 end
 
 function SlotComponent:update(dt)
@@ -41,6 +47,8 @@ function SlotComponent:update(dt)
             self.item.is_used = false
         end
     end
+
+    self.amount_label:change_text(self.item_amount)
 end
 
 function SlotComponent:draw()
@@ -54,6 +62,10 @@ function SlotComponent:draw()
 
     if self.item then
         self.item:draw()
+    end
+
+    if self.item_amount > 0 then
+        self.amount_label:draw(0, 0, 0, 255, 255, 255, 0, 1)
     end
 
 end
