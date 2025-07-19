@@ -39,12 +39,12 @@ function SlotComponent:store_item(item, amount)
 end
 
 function SlotComponent:update(dt)
-    if self.item and self.item.is_used then
+    if self.item and self.item.properties.is_used then
         self.item_amount = self.item_amount - 1
         if self.item_amount == 0 then
             self.item = nil
         else
-            self.item.is_used = false
+            self.item.properties.is_used = false
         end
     end
 

@@ -43,8 +43,8 @@ function love.keypressed(key)
             game.can_check_collider = true
         end
     elseif key == "e" then
-        if game.player.current_item and game.player.current_item.is_eatable then
-            game.player.current_item:eat()
+        if game.player.current_item and game.player.current_item.properties.is_eatable then
+            game.player.current_item.properties:eat()
         end
     end
 end

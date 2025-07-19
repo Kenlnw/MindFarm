@@ -71,9 +71,9 @@ function PlantableAreaComponent:interact_left_click()
 
         if self.player.water_can and area.crop then
             area.is_watered = true
-            area.crop.is_watered = true
+            area.crop.properties.is_watered = true
         end
-        if self.player.current_item and self.player.current_item.is_plantable then
+        if self.player.current_item and self.player.current_item.properties.is_plantable then
             area:plant_crop(self.player.current_item)
             break
         end
@@ -84,10 +84,10 @@ end
 function PlantableAreaComponent:interact_right_click()
     for _, area in ipairs(self.plantable_areas) do
 
-        if area.is_active and area.crop and area.crop.can_harvest then
+        if area.is_active and area.crop and area.crop.properties.can_harvest then
             for _, slot in ipairs(self.player.slot_bar.slots) do
                 if not slot.item or slot.item_amount < slot.capacity then
-                    slot:store_item(area.crop:harvest(slot.x, slot.y), 1)
+                    slot:store_item(area.crop.properties:harvest(slot.x, slot.y), 1)
                     break
                 end
             end

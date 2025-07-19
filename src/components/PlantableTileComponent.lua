@@ -31,7 +31,7 @@ end
 function PlantableTileComponent:plant_crop(seed)
     if not self.is_planted and seed then
         self.is_planted = true
-        self.crop = seed:plant_crop(self.x, self.y)
+        self.crop = seed.properties:plant_crop(self.x, self.y)
     end
 end
 
