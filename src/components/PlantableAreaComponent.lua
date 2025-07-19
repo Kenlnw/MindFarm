@@ -33,13 +33,6 @@ function PlantableAreaComponent:create_triggers()
                         self.map.tilewidth * self.map_scale,
                         self.map.tileheight * self.map_scale
                     )
-
-                    if data.gid == 105 or data.gid == 117 or data.gid == 141 then
-                        plantable_tile.crop_flip_x = -1
-                    end
-                    if data.gid == 141 or data.gid == 142 or data.gid == 144 then
-                        plantable_tile.crop_flip_y = -1
-                    end
                     table.insert(plantable_areas, plantable_tile)
                 end
             end

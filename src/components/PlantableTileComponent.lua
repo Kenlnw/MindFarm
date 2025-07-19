@@ -13,8 +13,6 @@ function PlantableTileComponent:load(world, x, y, width, height)
     self.is_planted = false
     self.is_watered = false
     self.crop = nil
-    self.crop_flip_x = 1
-    self.crop_flip_y = 1
 
     self.area = {}
     self:set_area()
@@ -33,11 +31,7 @@ end
 function PlantableTileComponent:plant_crop(seed)
     if not self.is_planted and seed then
         self.is_planted = true
-        self.crop = seed:plant_crop(self.x, self.y, self.crop_flip_x, self.crop_flip_y)
-        -- local crop = crops[seed]
-        -- if crop then
-        --     self.crop = crop:load(self.x, self.y, 1, self.crop_flip_x, self.crop_flip_y, "crop")
-        -- end
+        self.crop = seed:plant_crop(self.x, self.y)
     end
 end
 

@@ -38,8 +38,8 @@ function game.update(dt)
 end
 
 function game.set_camera()
-    local round_x = round(game.player.x)
-    local round_y = round(game.player.y)
+    local round_x = round(game.player.sprite.x)
+    local round_y = round(game.player.sprite.y)
 
     game.camera:lookAt(round_x, round_y)
 

@@ -51,10 +51,10 @@ function AnimComponent:draw_anim(parent)
             parent.x,
             parent.y,
             nil,
-            self.sprite_scale * parent.flip_x,
-            self.sprite_scale * parent.flip_y,
-            parent.offset_x,
-            parent.offset_y
+            self.sprite_scale * parent.flip.x,
+            self.sprite_scale * parent.flip.y,
+            parent.offset.x,
+            parent.offset.y
         )
     end
 end
