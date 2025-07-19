@@ -24,7 +24,7 @@ function game.load()
 
     game.camera = Camera()
 
-    game.prototype_town = Map:load(game.world, "maps/lua_files/prototype_town.lua", game.player, game.camera)
+    game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player, game.camera)
 
     game.can_check_collider = false
 end
