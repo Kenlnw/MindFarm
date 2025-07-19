@@ -39,7 +39,7 @@ function SlotComponent:store_item(item, amount)
 end
 
 function SlotComponent:update(dt)
-    if self.item and self.item.properties.is_used then
+    if self.item and self.item.properties.is_used and not self.item.properties.is_reuseable then
         self.item_amount = self.item_amount - 1
         if self.item_amount == 0 then
             self.item = nil
@@ -64,7 +64,7 @@ function SlotComponent:draw()
         self.item:draw()
     end
 
-    if self.item_amount > 0 then
+    if self.item_amount > 0  then
         self.amount_label:draw(0, 0, 0, 255, 255, 255, 0, 1)
     end
 

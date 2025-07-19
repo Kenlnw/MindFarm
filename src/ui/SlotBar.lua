@@ -3,6 +3,7 @@ SlotBar.__index = SlotBar
 
 function SlotBar:load()
     StrawberrySeed = require("src.items.seeds.StrawberrySeed")
+    WaterCan = require("src.items.tools.WaterCan")
     SlotComponent = require("src.components.ui.SlotComponent")
 
     local self = setmetatable({}, SlotBar)
@@ -42,13 +43,17 @@ function SlotBar:load_slots()
     for i = 1, self.max_slots do
         local id = i - 1
 
-        local item = StrawberrySeed:load(slot_x, self.y)
-        if i ~= 1 then
-            item = nil
+        local item = nil
+        local item_amount = 0
+        if i == 1 then
+            item = StrawberrySeed:load(slot_x, self.y)
+            item_amount = 4
+        elseif i == 2 then
+            item = WaterCan:load(slot_x, self.y)
         end
 
         self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, item)
-        self.slots[i]:store_item(item, 4)
+        self.slots[i]:store_item(item, item_amount)
 
         slot_x = slot_x + self.slots[i].width + self.offset_x
     end
