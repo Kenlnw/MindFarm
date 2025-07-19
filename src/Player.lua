@@ -9,8 +9,8 @@ function Player:load(world, x, y, interface)
     local self = setmetatable({}, Player)
     self.world = world
     self.sprite = SpriteComponent:load(x, y)
-    self.sprite.sprites.idle = AnimComponent:load("sprites/player_idle.png", 10, 3, 0.1, "rows")
-    self.sprite.sprites.walk = AnimComponent:load("sprites/player_walk.png", 10, 3, 0.1, "rows")
+    self.sprite.sprites.idle = AnimComponent:load("sprites/player/player_idle.png", 10, 3, 0.1, "rows")
+    self.sprite.sprites.walk = AnimComponent:load("sprites/player/player_walk.png", 10, 3, 0.1, "rows")
     self.sprite.offset.x = self.sprite.sprites.idle.frame_width / 2
     self.sprite.offset.y = self.sprite.sprites.idle.frame_height / 2
 

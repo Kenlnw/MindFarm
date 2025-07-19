@@ -3,7 +3,7 @@ SlotBar.__index = SlotBar
 
 function SlotBar:load()
     StrawberrySeed = require("src.items.seeds.StrawberrySeed")
-    SlotComponent = require("src.components.SlotComponent")
+    SlotComponent = require("src.components.ui.SlotComponent")
 
     local self = setmetatable({}, SlotBar)
 

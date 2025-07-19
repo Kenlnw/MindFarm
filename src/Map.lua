@@ -3,8 +3,8 @@ Map.__index = Map
 
 function Map:load(world, map, player, camera)
     sti = require("libraries.sti")
-    CollisionAreaComponent = require("src.components.CollisionAreaComponent")
-    PlantableAreaComponent = require("src.components.PlantableAreaComponent")
+    CollisionAreaComponent = require("src.components.areas.CollisionAreaComponent")
+    PlantableAreaComponent = require("src.components.areas.PlantableAreaComponent")
 
     local self = setmetatable({}, Map)
     self.x = 0

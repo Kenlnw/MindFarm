@@ -2,7 +2,7 @@ local SlotComponent = {}
 SlotComponent.__index = SlotComponent
 
 function SlotComponent:load(x, y, width, height, id, item)
-    TextBox = require("src.components.TextboxComponent")
+    TextBox = require("src.components.ui.TextboxComponent")
 
     local self = setmetatable({}, SlotComponent)
     self.x = x or 0

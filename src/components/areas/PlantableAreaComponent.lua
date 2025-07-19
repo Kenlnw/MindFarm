@@ -2,7 +2,7 @@ local PlantableAreaComponent = {}
 PlantableAreaComponent.__index = PlantableAreaComponent
 
 function PlantableAreaComponent:load(world, layer, map, player, camera)
-    PlantableTileComponent = require("src.components.PlantableTileComponent")
+    PlantableTileComponent = require("src.components.areas.PlantableTileComponent")
 
     local self = setmetatable({}, PlantableAreaComponent)
     self.map = map

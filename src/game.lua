@@ -2,10 +2,10 @@ local game = {}
 game.__index = game
 
 function game.load()
-    Map = require("src.classes.Map")
-    Player = require("src.classes.Player")
+    Map = require("src.Map")
+    Player = require("src.Player")
     Camera = require("libraries.camera")
-    Interface = require("src.classes.Interface")
+    Interface = require("src.ui.Interface")
 
     game.title = "MindFarm"
     love.window.setTitle(game.title)
@@ -24,7 +24,7 @@ function game.load()
 
     game.camera = Camera()
 
-    game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player, game.camera)
+    game.prototype_town = Map:load(game.world, "maps/lua_files/prototype_town.lua", game.player, game.camera)
 
     game.can_check_collider = false
 end
