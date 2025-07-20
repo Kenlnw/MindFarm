@@ -134,11 +134,12 @@ function Player:update(dt)
 
     self.current_item = self:set_current_item()
 
-    if is_key_down("e") then
+    if is_mouse_down(2) then
         if self.current_item and self.current_item.properties.is_eatable then
+            mouse_current_state.is_using = true
             self.current_item.properties:eat()
+            mouse_clear_state(2)
         end
-        key_clear_state("e")
     end
 end
 

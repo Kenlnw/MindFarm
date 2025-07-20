@@ -45,15 +45,18 @@ function SlotBar:load_slots()
 
         local item = nil
         local item_amount = 0
+        local item_capacity = SLOT_CAPACITY
         if i == 1 then
             item = StrawberrySeed:load(slot_x, self.y)
-            item_amount = 4
+            item_amount = SLOT_CAPACITY
         elseif i == 2 then
             item = WaterCan:load(slot_x, self.y)
+            item_amount = 1
+            item_capacity = 1
         end
 
         self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, item)
-        self.slots[i]:store_item(item, item_amount)
+        self.slots[i]:store_item(item, item_amount, item_capacity)
 
         slot_x = slot_x + self.slots[i].width + self.offset_x
     end
@@ -72,9 +75,9 @@ function SlotBar:update(dt)
         key_clear_state("left")
     end
 
-    if tonumber(key_current_state) ~= null then
-        self:change_slot_at(tonumber(key_current_state))
-        key_clear_state(key_current_state)
+    if tonumber(key_current_state.key) ~= null then
+        self:change_slot_at(tonumber(key_current_state.key))
+        key_clear_state(key_current_state.key)
     end
 end
 

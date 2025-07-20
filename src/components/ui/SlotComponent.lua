@@ -16,9 +16,9 @@ function SlotComponent:load(x, y, width, height, id, item)
     self.is_selected = false
     self.item = item or nil
     self.item_amount =  0
-    self.capacity = 3
+    self.capacity = SLOT_CAPACITY
 
-    self.amount_label = TextBox:load(self.item_amount, self.x + self.width - 20, self.y + self.height - 20, self.width / 4, self.height / 4, 20)
+    self.amount_label = TextBox:load(self.item_amount, self.x, self.y + self.height - 20, self.width, 20, 20)
 
     return self
 end
@@ -31,14 +31,15 @@ function SlotComponent:select()
     love.graphics.pop()
 end
 
-function SlotComponent:store_item(item, amount)
+function SlotComponent:store_item(item, amount, capacity)
     if item then
         self.item = item
         self.item_amount = self.item_amount + amount
+        self.capacity = capacity or SLOT_CAPACITY
     end
 end
 
-function SlotComponent:update(dt)
+function SlotComponent:handle_item_used()
     if self.item and self.item.properties.is_used and not self.item.properties.is_reuseable then
         self.item_amount = self.item_amount - 1
         if self.item_amount == 0 then
@@ -47,6 +48,10 @@ function SlotComponent:update(dt)
             self.item.properties.is_used = false
         end
     end
+end
+
+function SlotComponent:update(dt)
+    self:handle_item_used()
 
     self.amount_label:change_text(self.item_amount)
 end
@@ -64,8 +69,8 @@ function SlotComponent:draw()
         self.item:draw()
     end
 
-    if self.item_amount > 0  then
-        self.amount_label:draw(0, 0, 0, 255, 255, 255, 0, 1)
+    if self.item_amount > 1  then
+        self.amount_label:draw(0, 0, 0, 255, 255, 255, 0.3, 1)
     end
 
 end

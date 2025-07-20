@@ -1,7 +1,7 @@
 local StrawberrySeed = {}
 StrawberrySeed.__index = StrawberrySeed
 
-StrawberrySeed.id = "StrawberrySeed"
+StrawberrySeed.id = "strawberry_seed"
 
 function StrawberrySeed:load(x, y, flip_x, flip_y)
     StrawberryPlant = require("src.items.plants.StrawberryPlant")

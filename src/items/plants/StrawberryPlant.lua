@@ -1,6 +1,8 @@
 local StrawberryPlant = {}
 StrawberryPlant.__index = StrawberryPlant
 
+StrawberryPlant.id = "strawberry_plant"
+
 function StrawberryPlant:load(x, y, flip_x, flip_y)
     Strawberry = require("src.items.crops.Strawberry")
     AnimComponent = require("src.components.AnimComponent")

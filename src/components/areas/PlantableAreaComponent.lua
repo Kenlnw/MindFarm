@@ -49,8 +49,8 @@ function PlantableAreaComponent:update(dt)
             distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
 
         for _, area in ipairs(self.plantable_areas) do
-            if area.crop then
-                area.crop:update(dt)
+            if area.plant then
+                area.plant:update(dt)
             end
 
             if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
@@ -64,11 +64,15 @@ function PlantableAreaComponent:update(dt)
         end
 
         if is_mouse_down(1) then
+            mouse_current_state.is_using = true
             self:interact_left_click()
+            mouse_current_state.is_using = false
             -- mouse_clear_state(1)
         end
         if is_mouse_down(2) then
+            mouse_current_state.is_using = true
             self:interact_right_click()
+            mouse_current_state.is_using = false
             -- mouse_clear_state(2)
         end
 
@@ -98,17 +102,17 @@ end
 function PlantableAreaComponent:interact_right_click()
     for _, area in ipairs(self.plantable_areas) do
 
-        if area.is_active and area.crop and area.crop.properties.can_harvest then
+        if area.is_active and area.plant and area.plant.properties.can_harvest then
             for _, slot in ipairs(self.player.slot_bar.slots) do
-                if not slot.item or (slot.item_amount < slot.capacity and not slot.item.properties.is_reuseable) then
-                    slot:store_item(area.crop.properties:harvest(slot.x, slot.y), 1)
+                local crop = area.plant.properties:harvest(slot.x, slot.y)
+                if not slot.item or (slot.item_amount < slot.capacity and slot.item.id == crop.id) then
+                    -- crop.sprite.x, crop.sprite.y = slot.x, slot.y
+                    slot:store_item(crop, 1)
                     break
                 end
             end
             area:reset_area()
             break
-        else
-            key_clear_state(2)
         end
 
     end
@@ -128,8 +132,8 @@ function PlantableAreaComponent:draw()
                 love.graphics.rectangle("fill", area.x, area.y, area.width, area.height)
                 reset_color()
             end
-            if area.is_planted and area.crop then
-                area.crop:draw()
+            if area.is_planted and area.plant then
+                area.plant:draw()
             end
 
         end

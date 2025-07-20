@@ -17,7 +17,8 @@ end
 
 function key_set_state(key)
     key_states[key] = true
-    key_current_state = key
+    key_current_state.is_using = true
+    key_current_state.key = key
 end
 
 function is_key_down(key)
@@ -26,7 +27,8 @@ end
 
 function key_clear_state(key)
     key_states[key] = false
-    key_current_state = nil
+    key_current_state.is_using = false
+    key_current_state.key = nil
 end
 
 function mouse_set_state(x, y, button)
@@ -37,7 +39,7 @@ function mouse_set_state(x, y, button)
 end
 
 function is_mouse_down(button)
-    return mouse_states[button] == true
+    return mouse_states[button] == true and not mouse_current_state.is_using
 end
 
 function mouse_clear_state(button)
@@ -45,6 +47,7 @@ function mouse_clear_state(button)
     mouse_current_state.x = nil
     mouse_current_state.y = nil
     mouse_current_state.button = nil
+    mouse_current_state.is_using = false
 end
 
 function distance_between(x1, y1, x2, y2)
