@@ -1,6 +1,8 @@
 local PlantableAreaComponent = {}
 PlantableAreaComponent.__index = PlantableAreaComponent
 
+PlantableAreaComponent.id = "plantable_area"
+
 function PlantableAreaComponent:load(world, layer, map, player, camera)
     PlantableTileComponent = require("src.components.areas.PlantableTileComponent")
 
@@ -23,18 +25,15 @@ function PlantableAreaComponent:create_triggers()
 
     for y = 1, self.layer.height do
         for x = 1, self.layer.width do
-            local data = self.layer.data[y][x]
-            if data then
-                if data.gid > 0 then
-                    local plantable_tile = PlantableTileComponent:load(
-                        self.world,
-                        (x - 1) * self.map.tilewidth * self.map_scale,
-                        (y - 1) * self.map.tileheight * self.map_scale,
-                        self.map.tilewidth * self.map_scale,
-                        self.map.tileheight * self.map_scale
-                    )
-                    table.insert(plantable_areas, plantable_tile)
-                end
+            if self.layer.data[y][x] and self.layer.data[y][x].gid > 0 then
+                local plantable_tile = PlantableTileComponent:load(
+                    self.world,
+                    (x - 1) * self.map.tilewidth * self.map_scale,
+                    (y - 1) * self.map.tileheight * self.map_scale,
+                    self.map.tilewidth * self.map_scale,
+                    self.map.tileheight * self.map_scale
+                )
+                table.insert(plantable_areas, plantable_tile)
             end
         end
     end
@@ -45,22 +44,28 @@ end
 function PlantableAreaComponent:update(dt)
     if self.plantable_areas then
         local mouse_x, mouse_y = self.camera:mousePosition()
-        local mouse_distance =
-            distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
+        local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
 
         for _, area in ipairs(self.plantable_areas) do
-            if area.plant then
-                area.plant:update(dt)
-            end
-
-            if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
-                area.is_active = true
-                self.current_area = area
+            if not self.player.current_item or self.player.current_item.properties.target_id ~= self.id then
+                if area.is_active then
+                    area.is_active = false
+                    break
+                end
             else
-                area.is_active = false
-            end
+                if area.plant then
+                    area.plant:update(dt)
+                end
 
-            area:update()
+                if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
+                    area.is_active = true
+                    self.current_area = area
+                else
+                    area.is_active = false
+                end
+
+                area:update()
+            end
         end
 
         if is_mouse_down(1) then

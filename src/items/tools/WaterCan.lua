@@ -15,7 +15,7 @@ function WaterCan:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[1]
     self.sprite.sprites.current_anim:gotoFrame(1)
 
-    self.properties = ToolComponent:load()
+    self.properties = ToolComponent:load("plantable_area")
 
     return self
 end
