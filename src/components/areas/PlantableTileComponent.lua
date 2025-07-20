@@ -28,6 +28,12 @@ function PlantableTileComponent:set_area()
     self.fixture:setSensor(true)
 end
 
+function PlantableTileComponent:update()
+    if self.is_watered and self.crop and not self.crop.properties.is_watered then
+        self.crop.properties.is_watered = true
+    end
+end
+
 function PlantableTileComponent:plant_crop(seed)
     if not self.is_planted and seed then
         self.is_planted = true

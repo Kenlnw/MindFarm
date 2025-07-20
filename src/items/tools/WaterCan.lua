@@ -1,6 +1,8 @@
 local WaterCan = {}
 WaterCan.__index = WaterCan
 
+WaterCan.id = "water_can"
+
 function WaterCan:load(x, y, flip_x, flip_y)
     AnimComponent = require("src.components.AnimComponent")
     SpriteComponent = require("src.components.SpriteComponent")
@@ -16,6 +18,14 @@ function WaterCan:load(x, y, flip_x, flip_y)
     self.properties = ToolComponent:load()
 
     return self
+end
+
+function WaterCan:water(target)
+    if target and not target.is_watered and not self.properties.is_used then
+        self.properties.is_used = true
+        target.is_watered = true
+        self.properties.is_used = false
+    end
 end
 
 function WaterCan:draw()

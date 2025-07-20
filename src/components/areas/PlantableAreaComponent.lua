@@ -59,6 +59,8 @@ function PlantableAreaComponent:update(dt)
             else
                 area.is_active = false
             end
+
+            area:update()
         end
     end
 end
@@ -69,9 +71,8 @@ function PlantableAreaComponent:interact_left_click()
             goto continue
         end
 
-        if self.player.water_can and area.crop then
-            area.is_watered = true
-            area.crop.properties.is_watered = true
+        if self.player.current_item.id == "water_can" then
+            self.player.current_item:water(area)
         end
         if self.player.current_item and self.player.current_item.properties.is_plantable then
             area:plant_crop(self.player.current_item)
@@ -86,7 +87,7 @@ function PlantableAreaComponent:interact_right_click()
 
         if area.is_active and area.crop and area.crop.properties.can_harvest then
             for _, slot in ipairs(self.player.slot_bar.slots) do
-                if not slot.item or slot.item_amount < slot.capacity then
+                if not slot.item or (slot.item_amount < slot.capacity and not slot.item.properties.is_reuseable) then
                     slot:store_item(area.crop.properties:harvest(slot.x, slot.y), 1)
                     break
                 end
@@ -108,7 +109,9 @@ function PlantableAreaComponent:draw()
             end
 
             if area.is_watered then
+                set_color(67, 148, 176, 0.5)
                 love.graphics.rectangle("fill", area.x, area.y, area.width, area.height)
+                reset_color()
             end
             if area.is_planted and area.crop then
                 area.crop:draw()
