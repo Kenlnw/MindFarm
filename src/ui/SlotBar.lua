@@ -63,6 +63,19 @@ function SlotBar:update(dt)
     for _, slot in ipairs(self.slots) do
         slot:update(dt)
     end
+
+    if is_key_down("right") then
+        self:change_slot_slide("right")
+        key_clear_state("right")
+    elseif is_key_down("left") then
+        self:change_slot_slide("left")
+        key_clear_state("left")
+    end
+
+    if tonumber(key_current_state) ~= null then
+        self:change_slot_at(tonumber(key_current_state))
+        key_clear_state(key_current_state)
+    end
 end
 
 function SlotBar:change_slot_slide(direction)

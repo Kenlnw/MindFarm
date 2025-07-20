@@ -15,6 +15,37 @@ function is_inside(x, y, rec)
     return x >= rec.x  and x <= rec.x + rec.width and y >= rec.y  and y <= rec.y + rec.height
 end
 
+function key_set_state(key)
+    key_states[key] = true
+    key_current_state = key
+end
+
+function is_key_down(key)
+    return key_states[key] == true
+end
+
+function key_clear_state(key)
+    key_states[key] = false
+    key_current_state = nil
+end
+
+function mouse_set_state(x, y, button)
+    mouse_states[button] = true
+    mouse_current_state.x = x
+    mouse_current_state.y = y
+    mouse_current_state.button = button
+end
+
+function is_mouse_down(button)
+    return mouse_states[button] == true
+end
+
+function mouse_clear_state(button)
+    mouse_states[button] = false
+    mouse_current_state.x = nil
+    mouse_current_state.y = nil
+    mouse_current_state.button = nil
+end
 
 function distance_between(x1, y1, x2, y2)
     return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )

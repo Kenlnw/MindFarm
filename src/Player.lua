@@ -30,7 +30,6 @@ function Player:load(world, x, y, interface)
     self.slot_bar = interface.slot_bar
 
     self.current_item = self:set_current_item()
-    self.water_can = false
 
     return self
 end
@@ -76,28 +75,28 @@ function Player:update(dt)
     self.states.moving = false
     self.sprite.flip.x = 1
 
-    if love.keyboard.isDown("s") then
+    if is_key_down("s") then
         dy = 1
 
         self.sprite.sprites.walk.current_anim = self.sprite.sprites.walk.anims[1]
         self.facing_index = 1
         self.states.moving = true
     end
-    if love.keyboard.isDown("w") then
+    if is_key_down("w") then
         dy = -1
 
         self.sprite.sprites.walk.current_anim = self.sprite.sprites.walk.anims[2]
         self.facing_index = 2
         self.states.moving = true
     end
-    if love.keyboard.isDown("d") then
+    if is_key_down("d") then
         dx = 1
 
         self.sprite.sprites.walk.current_anim = self.sprite.sprites.walk.anims[3]
         self.facing_index = 3
         self.states.moving = true
     end
-    if love.keyboard.isDown("a") then
+    if is_key_down("a") then
         dx = -1
 
         self.sprite.sprites.walk.current_anim = self.sprite.sprites.walk.anims[3]
@@ -106,7 +105,7 @@ function Player:update(dt)
         self.sprite.flip.x = -1
     end
 
-    if love.keyboard.isDown("lshift") then
+    if is_key_down("lshift") then
         if self.acc >= self.acc_max then
             self.acc = self.acc_max
         else
@@ -134,6 +133,13 @@ function Player:update(dt)
     end
 
     self.current_item = self:set_current_item()
+
+    if is_key_down("e") then
+        if self.current_item and self.current_item.properties.is_eatable then
+            self.current_item.properties:eat()
+        end
+        key_clear_state("e")
+    end
 end
 
 function Player:normalized_move(dx, dy, dt)

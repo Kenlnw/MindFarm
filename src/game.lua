@@ -30,6 +30,20 @@ function game.load()
 end
 
 function game.update(dt)
+    if is_key_down("l") then
+        DAYS = DAYS + 1
+        key_clear_state("l")
+    end
+
+    if is_key_down("p") then
+        if game.can_check_collider then
+            game.can_check_collider = false
+        else
+            game.can_check_collider = true
+        end
+        key_clear_state("p")
+    end
+
     game.prototype_town:update(dt)
     game.world:update(dt)
     game.player:update(dt)

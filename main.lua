@@ -22,39 +22,19 @@ function love.draw()
 end
 
 function love.keypressed(key)
-    if key == "right" then
-        game.interface.slot_bar:change_slot_slide(key)
-    elseif key == "left" then
-        game.interface.slot_bar:change_slot_slide(key)
-    elseif tonumber(key) ~= nil then
-        game.interface.slot_bar:change_slot_at(tonumber(key))
-    elseif key == "c" then
-        if game.player.water_can then
-            game.player.water_can = false
-        else
-            game.player.water_can = true
-        end
-    elseif key == "l" then
-        DAYS = DAYS + 1;
-    elseif key == "p" then
-        if game.can_check_collider then
-            game.can_check_collider = false
-        else
-            game.can_check_collider = true
-        end
-    elseif key == "e" then
-        if game.player.current_item and game.player.current_item.properties.is_eatable then
-            game.player.current_item.properties:eat()
-        end
-    end
+    key_set_state(key)
+end
+
+function love.keyreleased(key)
+    key_clear_state(key)
 end
 
 function love.mousepressed(x, y, button)
-    if button == 1 then
-        game.prototype_town.plantable_area_component:interact_left_click()
-    elseif button == 2 then
-        game.prototype_town.plantable_area_component:interact_right_click()
-    end
+    mouse_set_state(x, y, button)
+end
+
+function love.mousereleased(x, y, button)
+    mouse_clear_state(button)
 end
 
 function love.wheelmoved(x, y)
