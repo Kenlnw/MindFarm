@@ -54,6 +54,10 @@ function SlotComponent:update(dt)
     self:handle_item_used()
 
     self.amount_label:change_text(self.item_amount)
+
+    if self.item then
+        self.item:update(dt)
+    end
 end
 
 function SlotComponent:draw()

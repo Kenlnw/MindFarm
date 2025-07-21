@@ -28,6 +28,10 @@ function WaterCan:water(target)
     end
 end
 
+function WaterCan:update(dt)
+    
+end
+
 function WaterCan:draw()
     self.sprite:draw(self.sprite.sprites)
 end

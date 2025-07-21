@@ -47,37 +47,26 @@ function PlantableAreaComponent:update(dt)
         local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
 
         for _, area in ipairs(self.plantable_areas) do
-            if not self.player.current_item or self.player.current_item.properties.target_id ~= self.id then
-                if area.is_active then
-                    area.is_active = false
-                    break
-                end
-            else
-                if area.plant then
-                    area.plant:update(dt)
-                end
-
-                if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
-                    area.is_active = true
-                    self.current_area = area
-                else
-                    area.is_active = false
-                end
-
-                area:update()
+            if area.plant then
+                area.plant:update(dt)
             end
+
+            if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
+                area.is_active = true
+                self.current_area = area
+            else
+                area.is_active = false
+            end
+
+            area:update()
         end
 
         if is_mouse_down(1) then
-            mouse_current_state.is_using = true
             self:interact_left_click()
-            mouse_current_state.is_using = false
             -- mouse_clear_state(1)
         end
         if is_mouse_down(2) then
-            mouse_current_state.is_using = true
             self:interact_right_click()
-            mouse_current_state.is_using = false
             -- mouse_clear_state(2)
         end
 

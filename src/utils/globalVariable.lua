@@ -12,6 +12,5 @@ mouse_states = {}
 mouse_current_state = {
     x = nil,
     y = nil,
-    button = nil,
-    is_using = false
+    button = nil
 }

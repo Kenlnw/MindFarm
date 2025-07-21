@@ -19,6 +19,10 @@ function StrawberrySeed:load(x, y, flip_x, flip_y)
     return self
 end
 
+function StrawberrySeed:update(dt)
+
+end
+
 function StrawberrySeed:draw()
     self.sprite:draw(self.sprite.sprites)
 end
