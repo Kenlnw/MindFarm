@@ -32,6 +32,12 @@ function PlantableTileComponent:update()
     if self.is_watered and self.plant and not self.plant.properties.is_watered then
         self.plant.properties.is_watered = true
     end
+    if day_changed and self.is_watered then
+        self.is_watered = false
+        if self.plant then
+            self.plant.properties.is_watered = false
+        end
+    end
 end
 
 function PlantableTileComponent:plant_crop(seed)

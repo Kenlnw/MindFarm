@@ -50,6 +50,13 @@ function mouse_clear_state(button)
     mouse_current_state.is_using = false
 end
 
+function change_game_states(state)
+    game_states["menu"] = state == "menu"
+    game_states["paused"] = state == "paused"
+    game_states["running"] = state == "running"
+    game_states["ended"] = state == "ended"
+end
+
 function distance_between(x1, y1, x2, y2)
     return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
 end

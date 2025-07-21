@@ -4,7 +4,7 @@ StrawberrySeed.__index = StrawberrySeed
 StrawberrySeed.id = "strawberry_seed"
 
 function StrawberrySeed:load(x, y, flip_x, flip_y)
-    StrawberryPlant = require("src.items.plants.StrawberryPlant")
+    StrawberryPlant = require("src.entities.plants.StrawberryPlant")
     AnimComponent = require("src.components.AnimComponent")
     SpriteComponent = require("src.components.SpriteComponent")
     SeedComponent = require("src.components.items.SeedComponent")

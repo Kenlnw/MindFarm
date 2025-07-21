@@ -1,6 +1,14 @@
 TILE_SCALE = 4
 DAYS = 1
+day_changed = false
 SLOT_CAPACITY = 64
+
+game_states = {
+    menu = true,
+    paused = false,
+    running = false,
+    ended = false
+}
 
 key_states = {}
 key_current_state = {

@@ -27,28 +27,41 @@ function game.load()
     game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player, game.camera)
 
     game.can_check_collider = false
+
+    change_game_states("running")
 end
 
 function game.update(dt)
-    if is_key_down("l") then
-        DAYS = DAYS + 1
-        key_clear_state("l")
-    end
-
-    if is_key_down("p") then
-        if game.can_check_collider then
-            game.can_check_collider = false
+    if is_key_down("escape") then
+        if game_states["running"] then
+            change_game_states("paused")
         else
-            game.can_check_collider = true
+            change_game_states("running")
         end
-        key_clear_state("p")
+        key_clear_state("escape")
     end
 
-    game.prototype_town:update(dt)
-    game.world:update(dt)
-    game.player:update(dt)
-    game.interface:update(dt)
-    game:set_camera()
+    if game_states["running"] then
+        if is_key_down("l") then
+            DAYS = DAYS + 1
+            key_clear_state("l")
+        end
+
+        if is_key_down("p") then
+            if game.can_check_collider then
+                game.can_check_collider = false
+            else
+                game.can_check_collider = true
+            end
+            key_clear_state("p")
+        end
+
+        game.prototype_town:update(dt)
+        game.world:update(dt)
+        game.player:update(dt)
+        game.interface:update(dt)
+        game:set_camera()
+    end
 end
 
 function game.set_camera()

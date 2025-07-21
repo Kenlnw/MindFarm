@@ -4,52 +4,27 @@ Interface.__index = Interface
 function Interface:load()
     SlotBar = require("src.ui.SlotBar")
     TextBox = require("src.components.ui.TextboxComponent")
+    TimeComponent = require("src.components.ui.TimeComponent")
 
     local self = setmetatable({}, Interface)
     self.slot_bar = SlotBar:load()
     self.date_label = TextBox:load("Day: " .. DAYS, love.graphics.getWidth() - 180, 0, 180, 80, 40)
-    self.time_label = TextBox:load("06:00", love.graphics.getWidth() - 100, self.date_label.height, 100, 50, 20)
-    self.t = 0
-    self.time = 1400
+    self.time = TimeComponent:load(1440, 360, 2)
+    self.time:set_label(love.graphics.getWidth() - 100, self.date_label.height, 100, 50, 20)
 
     return self
 end
 
 function Interface:update(dt)
-    self.t = self.t + dt
-
-    if self.time >= 1440 then
-        self.time = 0
-    end
-
-    if self.t >= 1 then
-        self.time = self.time + 10
-        self.t = 0
-    end
-
-    local hours = math.floor(self.time / 60)
-    local mins = self.time % 60
-
-    local time_text = hours
-    if hours < 10 then
-        time_text = "0".. hours
-    end
-
-    if mins == 0 then
-        time_text = time_text ..":00"
-    else
-        time_text = time_text ..":".. mins
-    end
-
     self.slot_bar:update(dt)
     self.date_label:change_text("Day: " .. DAYS)
-    self.time_label:change_text(time_text)
+    self.time:update(dt)
 end
 
 function Interface:draw()
     self.slot_bar:draw()
     self.date_label:draw(138, 61, 83, 241, 172, 123)
-    self.time_label:draw(49, 57, 119, 255, 255, 255)
+    self.time:draw(49, 57, 119, 255, 255, 255)
 end
 
 return Interface
