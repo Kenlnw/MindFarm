@@ -42,10 +42,6 @@ function game.update(dt)
     end
 
     if game_states["running"] then
-        if is_key_down("l") then
-            DAYS = DAYS + 1
-            key_clear_state("l")
-        end
 
         if is_key_down("p") then
             if game.can_check_collider then

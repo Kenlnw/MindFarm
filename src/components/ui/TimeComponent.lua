@@ -1,13 +1,14 @@
 local TimeComponent = {}
 TimeComponent.__index = TimeComponent
 
-function TimeComponent:load(max_time, current_time, timer_speed)
+function TimeComponent:load(max_time, started_time, timer_speed)
     TextBox = require("src.components.ui.TextboxComponent")
 
     local self = setmetatable({}, TimeComponent)
     self.time_elapsed = 0
     self.max_time = max_time or 1440
-    self.current_time = current_time or 1400
+    self.current_time = started_time or 360
+    self.started_time = started_time
     self.time_speed = timer_speed or 2
     self.label = nil
 
@@ -29,29 +30,27 @@ function TimeComponent:show_time()
     end
 
     if mins == 0 then
-        time_text = time_text ..":00"
+        return time_text ..":00"
     else
-        time_text = time_text ..":".. mins
+        return time_text ..":".. mins
     end
-
-    return time_text
 end
 
 function TimeComponent:update(dt)
     self.time_elapsed = self.time_elapsed + dt
 
-    if self.current_time >= 1440 then
-        day_changed = true
-        self.current_time = 1400
-        DAYS = DAYS + 1
+    if self.current_time >= self.max_time then
+        change_days()
+        self.current_time = self.started_time
     end
 
     if self.time_elapsed >= self.time_speed then
+        self.current_time = self.current_time + 10
+        self.time_elapsed = 0
+
         if day_changed then
             day_changed = false
         end
-        self.current_time = self.current_time + 10
-        self.time_elapsed = 0
 
         if self.label then
             self.label:change_text(self:show_time())

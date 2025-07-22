@@ -61,7 +61,7 @@ function SlotComponent:update(dt)
 end
 
 function SlotComponent:draw()
-    set_color(0, 0, 0, 0.3)
+    set_color(0, 0, 0, 0.5)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     reset_color()
 

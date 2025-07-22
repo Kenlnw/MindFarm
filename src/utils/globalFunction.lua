@@ -61,6 +61,11 @@ function distance_between(x1, y1, x2, y2)
     return math.sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
 end
 
+function change_days()
+    DAYS = DAYS + 1
+    day_changed = true
+end
+
 function debug_init()
     debug_text = ""
     debug_obj = nil
