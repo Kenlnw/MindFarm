@@ -22,3 +22,8 @@ mouse_current_state = {
     y = nil,
     button = nil
 }
+
+mouse_position = {
+    x = nil,
+    y = nil
+}

@@ -39,9 +39,10 @@ end
 function TimeComponent:update(dt)
     self.time_elapsed = self.time_elapsed + dt
 
-    if self.current_time >= self.max_time then
+    if self.current_time >= self.max_time or is_key_down("l") then
         change_days()
         self.current_time = self.started_time
+        key_clear_state("l")
     end
 
     if self.time_elapsed >= self.time_speed then

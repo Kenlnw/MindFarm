@@ -32,6 +32,8 @@ function game.load()
 end
 
 function game.update(dt)
+    update_mouse_position(game.camera)
+    
     if is_key_down("escape") then
         if game_states["running"] then
             change_game_states("paused")

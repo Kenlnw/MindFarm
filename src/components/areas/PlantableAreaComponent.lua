@@ -63,11 +63,9 @@ function PlantableAreaComponent:update(dt)
 
         if is_mouse_down(1) then
             self:interact_left_click()
-            -- mouse_clear_state(1)
         end
         if is_mouse_down(2) then
             self:interact_right_click()
-            -- mouse_clear_state(2)
         end
 
     end
@@ -83,7 +81,7 @@ function PlantableAreaComponent:interact_left_click()
             if self.player.current_item.id == "water_can" then
                 self.player.current_item:water(area)
             end
-            if self.player.current_item.properties.is_plantable then
+            if self.player.current_item.properties.type == "seed" then
                 area:plant_crop(self.player.current_item)
                 break
             end

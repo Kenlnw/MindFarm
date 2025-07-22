@@ -3,6 +3,7 @@ PlantComponent.__index = PlantComponent
 
 function PlantComponent:load(crop)
     local self = setmetatable({}, PlantComponent)
+    self.type = "plant"
     self.is_watered = false
     self.days_to_grow = 6
     self.started_day = DAYS

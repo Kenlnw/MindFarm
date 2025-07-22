@@ -3,7 +3,7 @@ SeedComponent.__index = SeedComponent
 
 function SeedComponent:load(plant, target_id)
     local self = setmetatable({}, SeedComponent)
-    self.is_plantable = true
+    self.type = "seed"
     self.is_used = false
     self.plant = plant or nil
     self.target_id = target_id

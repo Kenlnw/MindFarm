@@ -15,16 +15,12 @@ function Strawberry:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim:gotoFrame(1)
 
     self.properties = CropComponent:load()
-    self.cooldown = 0
 
     return self
 end
 
 function Strawberry:update(dt)
-    self.cooldown = self.cooldown + dt
-    if not self.properties.is_eatable and not is_mouse_down(2) then
-        self.properties.is_eatable = true
-    end
+    self.properties:update(dt)
 end
 
 

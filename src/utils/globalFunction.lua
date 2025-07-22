@@ -66,6 +66,14 @@ function change_days()
     day_changed = true
 end
 
+function update_mouse_position(camera)
+    if camera then
+        mouse_position.x, mouse_position.y = camera:mousePosition()
+    else
+        mouse_position.x, mouse_position.y = nil, nil
+    end
+end
+
 function debug_init()
     debug_text = ""
     debug_obj = nil

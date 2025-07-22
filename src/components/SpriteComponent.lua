@@ -17,6 +17,11 @@ function SpriteComponent:load(x, y, flip_x, flip_y, offset_x, offset_y)
     return self
 end
 
+function SpriteComponent:update_position(x, y)
+    self.x = x or self.x
+    self.y = y or self.y
+end
+
 function SpriteComponent:draw(sprites)
     -- if self.flip.x == -1 then
     --     self.offset.x = sprites.frame_width
