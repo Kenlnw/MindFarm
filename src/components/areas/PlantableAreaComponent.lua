@@ -14,7 +14,7 @@ function PlantableAreaComponent:load(world, layer, map, player, camera)
     self.player = player
     self.camera = camera
 
-    self.plantable_areas = self:create_triggers()
+    self.placeable_areas = self:create_triggers()
     self.current_area = nil
 
     return self
@@ -42,11 +42,11 @@ function PlantableAreaComponent:create_triggers()
 end
 
 function PlantableAreaComponent:update(dt)
-    if self.plantable_areas then
+    if self.placeable_areas then
         local mouse_x, mouse_y = self.camera:mousePosition()
         local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
 
-        for _, area in ipairs(self.plantable_areas) do
+        for _, area in ipairs(self.placeable_areas) do
             if area.plant then
                 area.plant:update(dt)
             end
@@ -72,7 +72,7 @@ function PlantableAreaComponent:update(dt)
 end
 
 function PlantableAreaComponent:interact_left_click()
-    for _, area in ipairs(self.plantable_areas) do
+    for _, area in ipairs(self.placeable_areas) do
         if area.is_active == false then
             goto continue
         end
@@ -92,7 +92,7 @@ function PlantableAreaComponent:interact_left_click()
 end
 
 function PlantableAreaComponent:interact_right_click()
-    for _, area in ipairs(self.plantable_areas) do
+    for _, area in ipairs(self.placeable_areas) do
 
         if area.is_active and area.plant and area.plant.properties.can_harvest then
             for _, slot in ipairs(self.player.slot_bar.slots) do
@@ -111,8 +111,8 @@ function PlantableAreaComponent:interact_right_click()
 end
 
 function PlantableAreaComponent:draw()
-    if self.plantable_areas  then
-        for _, area in ipairs(self.plantable_areas) do
+    if self.placeable_areas  then
+        for _, area in ipairs(self.placeable_areas) do
             if area == self.current_area and area.is_active then
                 set_color(0, 0, 0)
                 love.graphics.rectangle("line", area.x, area.y, area.width, area.height)

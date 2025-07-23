@@ -15,6 +15,10 @@ function is_inside(x, y, rec)
     return x >= rec.x  and x <= rec.x + rec.width and y >= rec.y  and y <= rec.y + rec.height
 end
 
+function is_rec_to_rec(rec1, rec2)
+    return rec1.x + rec1.width >= rec2.x and rec1.x <= rec2.x + rec2.width and rec1.y + rec1.height >= rec2.y and rec1.y <= rec2.y + rec2.height
+end
+
 function key_set_state(key)
     key_states[key] = true
     key_current_state.is_using = true

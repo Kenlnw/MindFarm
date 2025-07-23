@@ -5,6 +5,7 @@ function Map:load(world, map, player, camera)
     sti = require("libraries.sti")
     CollisionAreaComponent = require("src.components.areas.CollisionAreaComponent")
     PlantableAreaComponent = require("src.components.areas.PlantableAreaComponent")
+    PlaceableAreaComponent = require("src.components.areas.PlaceableAreaComponent")
 
     local self = setmetatable({}, Map)
     self.x = 0
@@ -21,6 +22,7 @@ function Map:load(world, map, player, camera)
     self.drawable_layers = {}
     self.collision_component = {}
     self.plantable_area_component = {}
+    self.placeable_area_component = {}
 
     self.player = player
     self.camera = camera
@@ -35,8 +37,10 @@ function Map:load_map_layers()
         if layer.class == "CollisionArea" then
             self.collision_component = CollisionAreaComponent:load(self.world, layer)
         else
-            if layer.class == "PlantableArea" then
+            if layer.properties.is_plantable then
                 self.plantable_area_component = PlantableAreaComponent:load(self.world, layer, self.map, self.player, self.camera)
+            elseif layer.properties.is_placeable then
+                self.placeable_area_component = PlaceableAreaComponent:load(self.world, layer, self.map, self.player, self.camera)
             end
             self.drawable_layers[#self.drawable_layers + 1] = layer
         end
@@ -45,6 +49,7 @@ end
 
 function Map:update(dt)
     self.plantable_area_component:update(dt)
+    self.placeable_area_component:update()
 end
 
 function Map:draw()
@@ -58,6 +63,7 @@ function Map:draw()
     love.graphics.pop()
 
     self.plantable_area_component:draw()
+    self.placeable_area_component:draw()
 end
 
 return Map

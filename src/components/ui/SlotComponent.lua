@@ -58,7 +58,7 @@ function SlotComponent:update(dt)
     if self.item then
         if self.item.properties.type == "food" then
             if is_mouse_down(2) then
-                if self.item.properties.is_eatable then
+                if self.item.properties.is_eatable and self.is_selected then
                     mouse_current_state.is_using = true
                     self.item.properties:eat()
                     mouse_clear_state(2)
@@ -66,7 +66,7 @@ function SlotComponent:update(dt)
             end
         elseif self.item.properties.type == "placeable_item" then
             if self.is_selected then
-                self.item:show_object()
+                -- self.item:show_object()
                 -- if is_mouse_down(1) then
                 --     mouse_current_state.is_using = true
                 --     self.item:place()
