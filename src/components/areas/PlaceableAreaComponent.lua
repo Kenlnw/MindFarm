@@ -40,8 +40,7 @@ function PlaceableAreaComponent:create_triggers()
 end
 
 function PlaceableAreaComponent:update(dt)
-    local mouse_x, mouse_y = love.mouse.getPosition()
-    local world_x, world_y = self.camera:worldCoords(mouse_x, mouse_y)
+    local mouse_x, mouse_y = self.camera:mousePosition()
 
     if self.placeable_areas then
         local entity = { x = -1, y = -1, width = -1, height = -1 }
@@ -53,34 +52,21 @@ function PlaceableAreaComponent:update(dt)
         -- end
 
         for _, area in ipairs(self.placeable_areas) do
-            -- if area.plant then
-            --     area.plant:update(dt)
-            -- end
-
-            if is_inside(world_x, world_y, area) then
+            if is_inside(mouse_x, mouse_y, area) then
                 area.is_active = true
-                if self.player.current_item and self.player.current_item.properties.type == "placeable_item" then
-                    self.player.current_item:show_object(area.x, area.y)
-                    area.entity = self.player.current_item.properties.entity
-                else
-                    area.entity = nil
+                if is_mouse_down(1) then
+                    if self.player.current_item and self.player.current_item.properties.type == "placeable_item" and not area.entity then
+                        area.entity = self.player.current_item:place(area.x, area.y)
+                    end
+                    mouse_clear_state(1)
                 end
-                -- self.current_area = area
             else
                 area.is_active = false
-                area.entity = nil
-            end
-
-            if is_inside(mouse_x, mouse_y, area) then
-                self.current_area = area
             end
 
             area:update()
         end
 
-        -- if is_mouse_down(1) then
-        --     self:interact_left_click()
-        -- end
         -- if is_mouse_down(2) then
         --     self:interact_right_click()
         -- end
@@ -88,17 +74,31 @@ function PlaceableAreaComponent:update(dt)
     end
 end
 
+function PlaceableAreaComponent:interact_left_click()
+    for _, area in ipairs(self.placeable_areas) do
+         if self.player.current_item and self.player.current_item.properties.type == "placeable_item" and area.is_active then
+            area.is_placed = true
+            area.entity = self.player.current_item:place(area.x, area.y)
+        end
+    end
+end
+
 function PlaceableAreaComponent:draw()
     if self.placeable_areas  then
         for _, area in ipairs(self.placeable_areas) do
-            if area.is_active and self.current_area then
-                -- set_color(0, 0, 0)
-                if area.entity then
-                    area.entity:draw()
-                    love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
+            if area.entity then
+                area.entity:draw()
+            else
+                if area.is_active then
+                    if self.player.current_item and self.player.current_item.properties.type == "placeable_item" then
+                        self.player.current_item:show_object(area.x, area.y)
+                        self.player.current_item.properties.entity:draw()
+                        love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
+                        reset_color()
+                    end
                 end
-                reset_color()
             end
+
 
         end
     end

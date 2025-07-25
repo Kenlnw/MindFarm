@@ -14,6 +14,10 @@ function BedEntity:load(x, y, flip_x, flip_y)
     return self
 end
 
+function BedEntity:update(dt)
+
+end
+
 function BedEntity:draw()
     self.sprite:draw(self.sprite.sprites)
 end

@@ -28,9 +28,7 @@ end
 
 function Bed:place(x, y)
     self.properties.is_used = true
-    self.properties.entity.sprite:update_position(x, y)
-
-    return self.properties.entity.sprite
+    return BedEntity:load(x, y)
 end
 
 function Bed:update(dt)
