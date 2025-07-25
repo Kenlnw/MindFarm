@@ -77,14 +77,3 @@ function update_mouse_position(camera)
         mouse_position.x, mouse_position.y = nil, nil
     end
 end
-
-function debug_init()
-    debug_text = ""
-    debug_obj = nil
-    debug_int = 0
-    debug_bool = nil
-end
-
-function debug_print()
-    love.graphics.print(debug_text, 0, 0)
-end

@@ -7,14 +7,11 @@ function game.load()
     Camera = require("libraries.camera")
     Interface = require("src.ui.Interface")
 
-    game.title = "MindFarm"
-    love.window.setTitle(game.title)
     love.graphics.setDefaultFilter("nearest", "nearest")
 
     game.width = love.graphics.getWidth()
     game.height = love.graphics.getHeight()
 
-    debug_init()
 
     game.world = love.physics.newWorld(0, 0)
     -- game.world:setCallbacks(game.on_collision_enter, game.on_collision_exit)
@@ -33,7 +30,7 @@ end
 
 function game.update(dt)
     update_mouse_position(game.camera)
-    
+
     if is_key_down("escape") then
         if game_states["running"] then
             change_game_states("paused")
@@ -115,7 +112,6 @@ function game.draw()
     game.camera:detach()
 
     game.interface:draw()
-    -- debug_print()
 end
 
 return game
