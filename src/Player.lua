@@ -1,13 +1,12 @@
 local Player = {}
 Player.__index = Player
 
-function Player:load(world, x, y, interface)
+function Player:load(x, y, interface)
     AnimComponent = require("src.components.AnimComponent")
     SpriteComponent = require("src.components.SpriteComponent")
     anim8 = require("libraries.anim8")
 
     local self = setmetatable({}, Player)
-    self.world = world
     self.sprite = SpriteComponent:load(x, y)
     self.sprite.sprites.idle = AnimComponent:load("sprites/player/player_idle.png", 10, 3, 0.1, "rows")
     self.sprite.sprites.walk = AnimComponent:load("sprites/player/player_walk.png", 10, 3, 0.1, "rows")
@@ -47,14 +46,13 @@ end
 function Player:set_collider()
     local collider = {}
     collider.id = "player"
-    collider.width = self.sprite.sprites.idle.frame_width * self.sprite.sprite_scale
-    collider.height = self.sprite.sprites.idle.frame_height/2 * self.sprite.sprite_scale
+    collider.width = (self.sprite.sprites.idle.frame_width - 7) * self.sprite.sprite_scale
+    collider.height = (self.sprite.sprites.idle.frame_height/2 - 7) * self.sprite.sprite_scale
     collider.x = self.sprite.x
     collider.y = self.sprite.y
 
-    collider.body = love.physics.newBody(self.world, collider.x, collider.y, "dynamic")
-    collider.shape = love.physics.newRectangleShape(0, collider.height/2, collider.width,
-        collider.height)
+    collider.body = love.physics.newBody(current_map, collider.x, collider.y, "dynamic")
+    collider.shape = love.physics.newRectangleShape(0, (collider.height + 9), collider.width, collider.height)
     collider.fixture = love.physics.newFixture(collider.body, collider.shape)
     collider.body:setFixedRotation(true)
 

@@ -9,12 +9,17 @@ function SpriteComponent:load(x, y, flip_x, flip_y, offset_x, offset_y)
     self.x = x or 0
     self.y = y or 0
     self.sprite_scale = TILE_SCALE
-    -- self.sprites = AnimComponent:load(sprite_src, columns, rows, duration, anim_type)
     self.sprites = {}
     self.flip = { x = flip_x or 1, y = flip_y or 1 }
     self.offset = { x = offset_x or 0, y = offset_y or 0 }
+    self.width = nil
+    self.height = nil
 
     return self
+end
+
+function SpriteComponent:set_size(width, height)
+    self.width, self.height = width, height
 end
 
 function SpriteComponent:update_position(x, y)
@@ -23,17 +28,9 @@ function SpriteComponent:update_position(x, y)
 end
 
 function SpriteComponent:draw(sprites)
-    -- if self.flip.x == -1 then
-    --     self.offset.x = sprites.frame_width
-    -- end
-    -- if self.flip.y == -1 then
-    --     self.offset.y = sprites.frame_height
-    -- end
     if sprites then
         sprites:draw_anim(self)
     end
-
-
 end
 
 return SpriteComponent

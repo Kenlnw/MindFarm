@@ -17,7 +17,7 @@ function Bed:load(x, y, flip_x, flip_y)
     self.properties.type = "placeable_item"
     self.properties.can_show_entity = true
     self.properties.is_used = false
-    self.properties.entity = BedEntity:load()
+    self.properties.entity = BedEntity:load(current_map)
 
     return self
 end
@@ -26,9 +26,9 @@ function Bed:show_object(x, y)
     self.properties.entity.sprite:update_position(x, y)
 end
 
-function Bed:place(x, y)
+function Bed:place(world, x, y)
     self.properties.is_used = true
-    return BedEntity:load(x, y)
+    return BedEntity:load(world, x, y)
 end
 
 function Bed:update(dt)

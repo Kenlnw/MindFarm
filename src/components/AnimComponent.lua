@@ -9,7 +9,6 @@ function AnimComponent:load(sprite_sheet_src, columns, rows, duration, start_sta
     self.sprite_sheet = love.graphics.newImage(sprite_sheet_src)
     self.columns = columns
     self.rows = rows
-    self.sprite_scale = TILE_SCALE
 
     self.frame_width = self.sprite_sheet:getWidth() / self.columns
     self.frame_height = self.sprite_sheet:getHeight() / self.rows
@@ -44,6 +43,10 @@ function AnimComponent:create_frames(start_state)
     end
 end
 
+function AnimComponent:get_size()
+    return self.frame_width * TILE_SCALE, self.frame_height * TILE_SCALE
+end
+
 function AnimComponent:draw_anim(parent)
     if self.current_anim then
         self.current_anim:draw(
@@ -51,8 +54,8 @@ function AnimComponent:draw_anim(parent)
             parent.x,
             parent.y,
             nil,
-            self.sprite_scale * parent.flip.x,
-            self.sprite_scale * parent.flip.y,
+            TILE_SCALE * parent.flip.x,
+            TILE_SCALE * parent.flip.y,
             parent.offset.x,
             parent.offset.y
         )

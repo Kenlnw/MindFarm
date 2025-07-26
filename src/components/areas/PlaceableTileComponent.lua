@@ -3,7 +3,7 @@ PlaceableTileComponent.__index = PlaceableTileComponent
 
 function PlaceableTileComponent:load(world, x, y, width, height)
     local self = setmetatable({}, PlaceableTileComponent)
-    self.world = world
+    current_map = world
     self.x = x
     self.y = y
     self.width = width
@@ -22,11 +22,11 @@ function PlaceableTileComponent:load(world, x, y, width, height)
 end
 
 function PlaceableTileComponent:set_area()
-    self.body = love.physics.newBody(self.world, self.x, self.y, "static")
-    self.shape = love.physics.newRectangleShape(self.width / 2, self.height / 2, self.width, self.height)
-    self.fixture = love.physics.newFixture(self.body, self.shape)
-    self.body:setFixedRotation(true)
-    self.fixture:setSensor(true)
+    self.area.body = love.physics.newBody(current_map, self.x, self.y, "static")
+    self.area.shape = love.physics.newRectangleShape(self.width / 2, self.height / 2, self.width, self.height)
+    self.area.fixture = love.physics.newFixture(self.area.body, self.area.shape)
+    self.area.body:setFixedRotation(true)
+    self.area.fixture:setSensor(true)
 end
 
 function PlaceableTileComponent:update(dt)

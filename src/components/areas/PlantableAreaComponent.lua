@@ -3,12 +3,11 @@ PlantableAreaComponent.__index = PlantableAreaComponent
 
 PlantableAreaComponent.id = "plantable_area"
 
-function PlantableAreaComponent:load(world, layer, map, player, camera)
+function PlantableAreaComponent:load(layer, map, player, camera)
     PlantableTileComponent = require("src.components.areas.PlantableTileComponent")
 
     local self = setmetatable({}, PlantableAreaComponent)
     self.map = map
-    self.world = world
     self.layer = layer
     self.map_scale = TILE_SCALE
     self.player = player
@@ -27,7 +26,7 @@ function PlantableAreaComponent:create_triggers()
         for x = 1, self.layer.width do
             if self.layer.data[y][x] and self.layer.data[y][x].gid > 0 then
                 local plantable_tile = PlantableTileComponent:load(
-                    self.world,
+                    current_map,
                     (x - 1) * self.map.tilewidth * self.map_scale,
                     (y - 1) * self.map.tileheight * self.map_scale,
                     self.map.tilewidth * self.map_scale,
@@ -54,6 +53,30 @@ function PlantableAreaComponent:update(dt)
             if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
                 area.is_active = true
                 self.current_area = area
+                if is_mouse_down(1) then
+                    if self.player.current_item then
+                        if self.player.current_item.id == "water_can" then
+                            self.player.current_item:water(area)
+                        end
+                        if self.player.current_item.properties.type == "seed" then
+                            area:plant_crop(self.player.current_item)
+                            break
+                        end
+                    end
+                end
+                if is_mouse_down(2) then
+                    if area.plant and area.plant.properties.can_harvest then
+                        for _, slot in ipairs(self.player.slot_bar.slots) do
+                            local crop = area.plant.properties:harvest(slot.x, slot.y)
+                            if not slot.item or (slot.item_amount < slot.capacity and slot.item.id == crop.id) then
+                                slot:store_item(crop, 1)
+                                break
+                            end
+                        end
+                        area:reset_area()
+                        break
+                    end
+                end
             else
                 area.is_active = false
             end
@@ -61,51 +84,12 @@ function PlantableAreaComponent:update(dt)
             area:update()
         end
 
-        if is_mouse_down(1) then
-            self:interact_left_click()
-        end
-        if is_mouse_down(2) then
-            self:interact_right_click()
-        end
-
-    end
-end
-
-function PlantableAreaComponent:interact_left_click()
-    for _, area in ipairs(self.placeable_areas) do
-        if area.is_active == false then
-            goto continue
-        end
-
-        if self.player.current_item then
-            if self.player.current_item.id == "water_can" then
-                self.player.current_item:water(area)
-            end
-            if self.player.current_item.properties.type == "seed" then
-                area:plant_crop(self.player.current_item)
-                break
-            end
-        end
-
-        ::continue::
-    end
-end
-
-function PlantableAreaComponent:interact_right_click()
-    for _, area in ipairs(self.placeable_areas) do
-
-        if area.is_active and area.plant and area.plant.properties.can_harvest then
-            for _, slot in ipairs(self.player.slot_bar.slots) do
-                local crop = area.plant.properties:harvest(slot.x, slot.y)
-                if not slot.item or (slot.item_amount < slot.capacity and slot.item.id == crop.id) then
-                    -- crop.sprite.x, crop.sprite.y = slot.x, slot.y
-                    slot:store_item(crop, 1)
-                    break
-                end
-            end
-            area:reset_area()
-            break
-        end
+        -- if is_mouse_down(1) then
+        --     self:interact_left_click()
+        -- end
+        -- if is_mouse_down(2) then
+        --     self:interact_right_click()
+        -- end
 
     end
 end

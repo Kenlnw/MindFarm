@@ -1,7 +1,7 @@
 local Map = {}
 Map.__index = Map
 
-function Map:load(world, map, player, camera)
+function Map:load(map, player, camera)
     sti = require("libraries.sti")
     CollisionAreaComponent = require("src.components.areas.CollisionAreaComponent")
     PlantableAreaComponent = require("src.components.areas.PlantableAreaComponent")
@@ -11,7 +11,6 @@ function Map:load(world, map, player, camera)
     self.x = 0
     self.y = 0
 
-    self.world = world
     self.map = sti(map)
 
     self.map_scale = TILE_SCALE
@@ -35,12 +34,12 @@ end
 function Map:load_map_layers()
     for _, layer in ipairs(self.map.layers) do
         if layer.class == "CollisionArea" then
-            self.collision_component = CollisionAreaComponent:load(self.world, layer)
+            self.collision_component = CollisionAreaComponent:load(layer)
         else
             if layer.properties.is_plantable then
-                self.plantable_area_component = PlantableAreaComponent:load(self.world, layer, self.map, self.player, self.camera)
+                self.plantable_area_component = PlantableAreaComponent:load(layer, self.map, self.player, self.camera)
             elseif layer.properties.is_placeable then
-                self.placeable_area_component = PlaceableAreaComponent:load(self.world, layer, self.map, self.player, self.camera)
+                self.placeable_area_component = PlaceableAreaComponent:load(layer, self.map, self.player, self.camera)
             end
             self.drawable_layers[#self.drawable_layers + 1] = layer
         end

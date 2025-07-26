@@ -13,15 +13,15 @@ function game.load()
     game.height = love.graphics.getHeight()
 
 
-    game.world = love.physics.newWorld(0, 0)
+    current_map = map_lists["prototype_town"].world
     -- game.world:setCallbacks(game.on_collision_enter, game.on_collision_exit)
 
     game.interface = Interface:load()
-    game.player = Player:load(game.world, game.width/2, game.height/2, game.interface)
+    game.player = Player:load(game.width/2, game.height/2, game.interface)
 
     game.camera = Camera()
 
-    game.prototype_town = Map:load(game.world, "maps/prototype_town.lua", game.player, game.camera)
+    game.prototype_town = Map:load(map_lists["prototype_town"].src, game.player, game.camera)
 
     game.can_check_collider = false
 
@@ -52,7 +52,7 @@ function game.update(dt)
         end
 
         game.prototype_town:update(dt)
-        game.world:update(dt)
+        current_map:update(dt)
         game.player:update(dt)
         game.interface:update(dt)
         game:set_camera()
@@ -79,7 +79,7 @@ if game.camera.x < game.width/2 then
 end
 
 function game.draw_world()
-    for _, body in pairs(game.world:getBodies()) do
+    for _, body in pairs(current_map:getBodies()) do
         for _, fixture in pairs(body:getFixtures()) do
             local shape = fixture:getShape()
 
