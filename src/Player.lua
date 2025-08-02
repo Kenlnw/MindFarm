@@ -51,10 +51,13 @@ function Player:set_collider()
     collider.x = self.sprite.x
     collider.y = self.sprite.y
 
-    collider.body = love.physics.newBody(current_map, collider.x, collider.y, "dynamic")
+    collider.body = love.physics.newBody(current_world, collider.x, collider.y, "dynamic")
     collider.shape = love.physics.newRectangleShape(0, (collider.height + 9), collider.width, collider.height)
     collider.fixture = love.physics.newFixture(collider.body, collider.shape)
     collider.body:setFixedRotation(true)
+    collider.fixture:setUserData(collider)
+
+    entities[collider.id] = true
 
     return collider
 end

@@ -24,7 +24,7 @@ function PlaceableAreaComponent:create_triggers()
         for x = 1, self.layer.width do
             if self.layer.data[y][x] and self.layer.data[y][x].gid > 0 then
                 local placeable_tile = PlaceableTileComponent:load(
-                    current_map,
+                    current_world,
                     (x - 1) * self.map.tilewidth * self.map_scale,
                     (y - 1) * self.map.tileheight * self.map_scale,
                     self.map.tilewidth * self.map_scale,
@@ -46,8 +46,9 @@ function PlaceableAreaComponent:update(dt)
             if is_inside(mouse_x, mouse_y, area) then
                 area.is_active = true
                 if self.player.current_item and self.player.current_item.properties.type == "placeable_item" and not area.entity then
+                    self.player.current_item.properties.is_showed = false
                     if is_mouse_down(1) then
-                        area.entity = self.player.current_item:place(current_map, area.x, area.y)
+                        area.entity = self.player.current_item:place(current_world, area.x, area.y)
                         mouse_clear_state(1)
                     else
                         self.player.current_item:show_object(area.x, area.y)
@@ -58,7 +59,7 @@ function PlaceableAreaComponent:update(dt)
                 area.is_active = false
             end
 
-            area:update()
+            area:update(dt)
         end
     end
 end
@@ -73,7 +74,6 @@ function PlaceableAreaComponent:draw()
                     if self.player.current_item and self.player.current_item.properties.type == "placeable_item" then
                         self.player.current_item.properties.entity:draw()
                         love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
-                        reset_color()
                     end
                 end
             end

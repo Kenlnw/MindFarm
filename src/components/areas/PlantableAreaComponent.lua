@@ -26,7 +26,7 @@ function PlantableAreaComponent:create_triggers()
         for x = 1, self.layer.width do
             if self.layer.data[y][x] and self.layer.data[y][x].gid > 0 then
                 local plantable_tile = PlantableTileComponent:load(
-                    current_map,
+                    current_world,
                     (x - 1) * self.map.tilewidth * self.map_scale,
                     (y - 1) * self.map.tileheight * self.map_scale,
                     self.map.tilewidth * self.map_scale,

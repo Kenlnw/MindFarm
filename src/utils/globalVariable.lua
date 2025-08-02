@@ -27,3 +27,5 @@ mouse_position = {
     x = nil,
     y = nil
 }
+
+entities = {}

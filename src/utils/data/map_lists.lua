@@ -1,4 +1,4 @@
-current_map = nil
+current_world = nil
 
 map_lists = {
     ["prototype_town"] = {

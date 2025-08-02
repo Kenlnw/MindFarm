@@ -22,13 +22,14 @@ function CollisionAreaComponent:create_collisions(layer)
         collision_area.width = obj.width * self.map_scale
         collision_area.height = obj.height * self.map_scale
 
-        collision_area.body = love.physics.newBody(current_map, collision_area.x, collision_area.y, "static")
+        collision_area.body = love.physics.newBody(current_world, collision_area.x, collision_area.y, "static")
         collision_area.shape = love.physics.newRectangleShape(collision_area.width/2, collision_area.height/2, collision_area.width, collision_area.height)
         collision_area.fixture = love.physics.newFixture(collision_area.body, collision_area.shape)
         collision_area.body:setFixedRotation(true)
         collision_area.fixture:setUserData(collision_area)
 
         table.insert(collision_areas, collision_area)
+        entities[collision_area.id] = true
     end
 
     return collision_areas

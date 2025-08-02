@@ -13,8 +13,7 @@ function game.load()
     game.height = love.graphics.getHeight()
 
 
-    current_map = map_lists["prototype_town"].world
-    -- game.world:setCallbacks(game.on_collision_enter, game.on_collision_exit)
+    current_world = map_lists["prototype_town"].world
 
     game.interface = Interface:load()
     game.player = Player:load(game.width/2, game.height/2, game.interface)
@@ -51,8 +50,8 @@ function game.update(dt)
             key_clear_state("p")
         end
 
+        current_world:update(dt)
         game.prototype_town:update(dt)
-        current_map:update(dt)
         game.player:update(dt)
         game.interface:update(dt)
         game:set_camera()
@@ -79,7 +78,7 @@ if game.camera.x < game.width/2 then
 end
 
 function game.draw_world()
-    for _, body in pairs(current_map:getBodies()) do
+    for _, body in pairs(current_world:getBodies()) do
         for _, fixture in pairs(body:getFixtures()) do
             local shape = fixture:getShape()
 
