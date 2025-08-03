@@ -37,6 +37,7 @@ function Bed:place(world, x, y)
     self.properties.is_used = true
     local bed_entity = BedEntity:load(world, x, y)
     bed_entity:updateColliderPosition(false)
+    bed_entity.properties.is_placed = true
     return bed_entity
 end
 

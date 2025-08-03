@@ -22,6 +22,7 @@ function BedEntity:load(world, x, y, flip_x, flip_y)
 
     self.properties = {}
     self.properties.is_cannot_place = false
+    self.properties.is_placed = false
 
     return self
 end
@@ -74,10 +75,12 @@ function BedEntity:update(dt)
 end
 
 function BedEntity:draw()
-    if self.properties.is_cannot_place then
-        set_color(255, 0, 0, 0.7)
-    else
-        set_color(255, 255, 255, 0.7)
+    if not self.properties.is_placed then
+        if self.properties.is_cannot_place then
+            set_color(255, 0, 0, 0.7)
+        else
+            set_color(255, 255, 255, 0.7)
+        end
     end
 
     self.sprite:draw(self.sprite.sprites)
