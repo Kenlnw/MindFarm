@@ -17,26 +17,24 @@ function BedEntity:load(world, x, y, flip_x, flip_y)
     self.area = nil
 
     if current_world  then
-        self.area = self:set_area()
+        self.area = self:set_collider()
     end
 
     self.properties = {}
     self.properties.is_cannot_place = false
     self.properties.is_placed = false
+    self.properties.is_activated = false
 
     return self
 end
 
-function BedEntity:set_area()
+function BedEntity:set_collider()
     local area = {}
     area.id = nil
     area.body = love.physics.newBody(current_world, self.sprite.x, self.sprite.y, "kinematic")
     area.shape = love.physics.newRectangleShape(self.sprite.width / 2, self.sprite.height / 2, self.sprite.width, self.sprite.height)
     area.body:setFixedRotation(true)
     area.fixture = nil
-    -- area.fixture = love.physics.newFixture(area.body, area.shape)
-    -- area.fixture:setSensor(sensor_state)
-    -- area.fixture:setUserData(area)
 
     return area
 end
@@ -64,13 +62,27 @@ function BedEntity:update(dt)
       local br = { x = self.sprite.x + self.sprite.width, y = self.sprite.y + self.sprite.height }
 
       self.properties.is_cannot_place = false
+      self.properties.is_activated = false
+
       current_world:queryBoundingBox(tl.x, tl.y, br.x, br.y, function(fixture)
         if entities[fixture:getUserData().id] then
             self.properties.is_cannot_place = true
+            if self.properties.is_placed and fixture:getUserData().id == "player" then
+                print("Well done")
+                self.properties.is_activated = true
+                self:use()
+            end
             return false
         end
         return true
       end)
+    end
+end
+
+function BedEntity:use()
+    if is_mouse_down(2) then
+        day_changed = true
+        mouse_clear_state(2)
     end
 end
 
@@ -85,6 +97,11 @@ function BedEntity:draw()
 
     self.sprite:draw(self.sprite.sprites)
     reset_color()
+
+    if self.properties.is_activated then
+        love.graphics.circle("fill", self.sprite.x + self.sprite.width / 2, self.sprite.y + self.sprite.height / 2, 10)
+    end
+
 end
 
 return BedEntity
