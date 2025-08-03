@@ -7,6 +7,16 @@ function reset_color()
     set_color(255, 255, 255, 1)
 end
 
+function clamp(value, min, max)
+    if min and value <= min then
+        value = min
+    elseif max and value >= max then
+        value = max
+    end
+
+    return value
+end
+
 function round(n)
     return math.floor(n + 0.5)
 end

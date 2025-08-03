@@ -25,10 +25,8 @@ function PlantComponent:update()
 end
 
 function PlantComponent:grow()
-    if DAYS - self.started_day < self.days_to_grow then
-        if self.is_watered and day_changed then
-            self.growing_state = DAYS - self.started_day + 1
-        end
+    if self.growing_state <= self.days_to_grow and self.is_watered and day_changed then
+        self.growing_state = clamp(self.growing_state + 1, 1, self.days_to_grow)
     end
 end
 

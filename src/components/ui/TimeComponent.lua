@@ -43,24 +43,20 @@ function TimeComponent:update(dt)
         day_changed = true
     end
 
-    if day_changed then
-        DAYS = DAYS + 1
-        self.current_time = self.started_time
-        self.time_elapsed = 0
-
-        if self.label then
-            self.label:change_text(self:show_time())
-        end
-
-        day_changed = false
-    end
-
     if self.time_elapsed >= self.time_speed then
         self.current_time = self.current_time + 10
         self.time_elapsed = 0
 
+
         if self.label then
             self.label:change_text(self:show_time())
+        end
+        if day_changed then
+            DAYS = DAYS + 1
+            self.current_time = self.started_time
+            self.time_elapsed = 0
+
+            day_changed = false
         end
     end
 end
