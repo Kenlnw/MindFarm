@@ -48,10 +48,10 @@ function PlaceableAreaComponent:update(dt)
                 if self.player.current_item and self.player.current_item.properties.type == "placeable_item" and not area.entity then
                     self.player.current_item.properties.is_showed = false
                     if is_mouse_down(1) then
-                        area.entity = self.player.current_item:place(current_world, area.x, area.y)
+                        area.entity = self.player.current_item.properties:place(area.x, area.y)
                         mouse_clear_state(1)
                     else
-                        self.player.current_item:show_object(area.x, area.y)
+                        self.player.current_item.properties:show_object(area.x, area.y)
                     end
                 end
 
