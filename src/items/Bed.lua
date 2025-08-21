@@ -1,6 +1,8 @@
 local Bed = {}
 Bed.__index = Bed
 
+Bed.id = "bed"
+
 function Bed:load(x, y, flip_x, flip_y)
     SpriteComponent = require("src.components.SpriteComponent")
     AnimComponent = require("src.components.AnimComponent")

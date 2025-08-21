@@ -1,6 +1,8 @@
 local BedEntity = {}
 BedEntity.__index = BedEntity
 
+BedEntity.id = "bed_entity"
+
 function BedEntity:load(x, y, flip_x, flip_y)
     SpriteComponent = require("src.components.SpriteComponent")
     AnimComponent = require("src.components.AnimComponent")
@@ -15,16 +17,6 @@ function BedEntity:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim:gotoFrame(1)
 
     self.properties = EntityComponent:load(self.sprite)
-    -- self.area = nil
-
-    -- if current_world  then
-    --     self.area = self:set_collider()
-    -- end
-
-    -- self.properties = {}
-    -- self.properties.is_cannot_place = false
-    -- self.properties.is_placed = false
-    -- self.properties.is_activated = false
 
     return self
 end

@@ -55,8 +55,13 @@ function PlantableAreaComponent:update(dt)
                 self.current_area = area
                 if is_mouse_down(1) then
                     if self.player.current_item then
-                        if self.player.current_item.id == "water_can" then
-                            self.player.current_item:water(area)
+                        if self.player.current_item.properties.type == "tool" then
+                            if self.player.current_item.tool_id == "water_can" then
+                                self.player.current_item:water(area)
+                            end
+                            if self.player.current_item.id == "hoe" then
+                                print("hoe")
+                            end
                         end
                         if self.player.current_item.properties.type == "seed" then
                             area:plant_crop(self.player.current_item)

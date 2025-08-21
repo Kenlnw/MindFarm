@@ -3,9 +3,10 @@ SlotBar.__index = SlotBar
 
 function SlotBar:load()
     StrawberrySeed = require("src.items.seeds.StrawberrySeed")
-    WaterCan = require("src.items.tools.WaterCan")
-    Bed = require("src.items.Bed")
     Strawberry = require("src.items.crops.Strawberry")
+    WaterCan = require("src.items.tools.WaterCan")
+    Hoe = require("src.items.tools.Hoe")
+    Bed = require("src.items.Bed")
     SlotComponent = require("src.components.ui.SlotComponent")
 
     local self = setmetatable({}, SlotBar)
@@ -63,6 +64,10 @@ function SlotBar:load_slots()
             item = Strawberry:load(slot_x, self.y)
             item_amount = 1
             item_capacity = SLOT_CAPACITY
+        elseif i == 5 then
+            item = Hoe:load(slot_x, self.y)
+            item_amount = 1
+            item_capacity = 1
         end
 
         self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, item)

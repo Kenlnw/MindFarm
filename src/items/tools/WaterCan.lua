@@ -2,6 +2,7 @@ local WaterCan = {}
 WaterCan.__index = WaterCan
 
 WaterCan.id = "water_can"
+WaterCan.tool_id = "water_can"
 
 function WaterCan:load(x, y, flip_x, flip_y)
     AnimComponent = require("src.components.AnimComponent")
@@ -29,7 +30,7 @@ function WaterCan:water(target)
 end
 
 function WaterCan:update(dt)
-    
+
 end
 
 function WaterCan:draw()
