@@ -1,7 +1,7 @@
 local PlantableTileComponent = {}
 PlantableTileComponent.__index = PlantableTileComponent
 
-function PlantableTileComponent:load(world, x, y, width, height)
+function PlantableTileComponent:load(world, x, y, width, height, gid)
     local self = setmetatable({}, PlantableTileComponent)
     current_world = world
     self.x = x
@@ -12,10 +12,13 @@ function PlantableTileComponent:load(world, x, y, width, height)
     self.is_active = false
     self.is_planted = false
     self.is_watered = false
+    self.is_soiled = false
     self.plant = nil
 
     self.area = {}
     self:set_area()
+
+    self.gid = gid
 
     return self
 end
@@ -30,7 +33,7 @@ function PlantableTileComponent:set_area()
     self.area.fixture:setUserData(self.area)
 end
 
-function PlantableTileComponent:update()
+function PlantableTileComponent:update(dt)
     if self.is_watered and self.plant and not self.plant.properties.is_watered then
         self.plant.properties.is_watered = true
     end

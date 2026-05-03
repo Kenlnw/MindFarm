@@ -30,7 +30,8 @@ function PlantableAreaComponent:create_triggers()
                     (x - 1) * self.map.tilewidth * self.map_scale,
                     (y - 1) * self.map.tileheight * self.map_scale,
                     self.map.tilewidth * self.map_scale,
-                    self.map.tileheight * self.map_scale
+                    self.map.tileheight * self.map_scale,
+                    self.layer.data[y][x].gid
                 )
                 table.insert(plantable_areas, plantable_tile)
             end
@@ -41,6 +42,7 @@ function PlantableAreaComponent:create_triggers()
 end
 
 function PlantableAreaComponent:update(dt)
+    local item = self.player.current_item
     if self.placeable_areas then
         local mouse_x, mouse_y = self.camera:mousePosition()
         local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
@@ -54,17 +56,17 @@ function PlantableAreaComponent:update(dt)
                 area.is_active = true
                 self.current_area = area
                 if is_mouse_down(1) then
-                    if self.player.current_item then
-                        if self.player.current_item.properties.type == "tool" then
-                            if self.player.current_item.tool_id == "water_can" then
-                                self.player.current_item:water(area)
+                    if item then
+                        if item.properties.type == "tool" then
+                            if item.tool_id == "water_can" and self.current_area.is_soiled then
+                                item:water(area)
                             end
-                            if self.player.current_item.id == "hoe" then
-                                print("hoe")
+                            if item.id == "hoe" then
+                                item:soil(area)
                             end
                         end
-                        if self.player.current_item.properties.type == "seed" then
-                            area:plant_crop(self.player.current_item)
+                        if item.properties.type == "seed" and self.current_area.is_soiled then
+                            area:plant_crop(item)
                             break
                         end
                     end
@@ -89,30 +91,61 @@ function PlantableAreaComponent:update(dt)
             area:update()
         end
 
-        -- if is_mouse_down(1) then
-        --     self:interact_left_click()
-        -- end
-        -- if is_mouse_down(2) then
-        --     self:interact_right_click()
-        -- end
-
     end
 end
 
+function PlantableAreaComponent:paint_area(area, red, green, blue, alpha)
+    set_color(red, green, blue, alpha)
+    local adjust_factor = 0.8
+    local x, y, width, height = area.x, area.y, area.width, area.height
+    local s_width = width * adjust_factor  -- scaled width
+    local s_height = height * adjust_factor  -- scaled height
+
+    if area.gid == 105 then        -- top-left corner
+        x = x + (width - s_width)
+        y = y + (height - s_height)
+        width, height = s_width, s_height
+    elseif area.gid == 107 then    -- side top
+        y = y + (height - s_height)
+        height = s_height
+    elseif area.gid == 108 then    -- top-right corner
+        y = y + (height - s_height)
+        width, height = s_width, s_height
+    elseif area.gid == 132 then    -- side right
+        width = s_width
+    elseif area.gid == 144 then    -- bottom-right corner
+        width, height = s_width, s_height
+    elseif area.gid == 142 then    -- side bottom
+        height = s_height
+    elseif area.gid == 141 then    -- bottom-left corner
+        x = x + (width - s_width)
+        width, height = s_width, s_height
+    elseif area.gid == 117 then    -- side left
+        x = x + (width - s_width)
+        width = s_width
+    end
+
+    love.graphics.rectangle("fill", x, y, width, height)
+    reset_color()
+end
+
 function PlantableAreaComponent:draw()
+    local item = self.player.current_item
     if self.placeable_areas  then
         for _, area in ipairs(self.placeable_areas) do
-            if area == self.current_area and area.is_active then
-                set_color(0, 0, 0)
+            if area == self.current_area and area.is_active and (item and item.id == "hoe" or area.is_soiled) then
+                set_color(73, 59, 47, 0.9)
                 love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
                 reset_color()
             end
 
             if area.is_watered then
-                set_color(67, 148, 176, 0.5)
-                love.graphics.rectangle("fill", area.x, area.y, area.width, area.height)
-                reset_color()
+                self:paint_area(area, 73, 59, 47, 0.5)
             end
+            if area.is_soiled then
+                self:paint_area(area, 73, 59, 47, 0.5)
+            end
+
             if area.is_planted and area.plant then
                 area.plant:draw()
             end

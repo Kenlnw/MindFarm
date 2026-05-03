@@ -41,10 +41,10 @@ function love.wheelmoved(x, y)
     if scroll_timer > 0 then return end
 
     if y > 0 then
-        game.interface.slot_bar:change_slot_slide("right")
+        game.interface.slot_bar:change_slot_slide("left")
         scroll_timer = scroll_delay
     elseif y < 0 then
-        game.interface.slot_bar:change_slot_slide("left")
+        game.interface.slot_bar:change_slot_slide("right")
         scroll_timer = scroll_delay
     end
 

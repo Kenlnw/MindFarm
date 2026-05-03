@@ -21,6 +21,14 @@ function Hoe:load(x, y, flip_x, flip_y)
     return self
 end
 
+function Hoe:soil(target)
+    if target and not target.is_soiled and not self.properties.is_used then
+        self.properties.is_used = true
+        target.is_soiled = true
+        self.properties.is_used = false
+    end
+end
+
 function Hoe:update(dt)
 
 end
