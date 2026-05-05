@@ -1,4 +1,4 @@
-TILE_SCALE = 4
+TILE_SCALE = height_scale(3.5)
 DAYS = 1
 day_changed = false
 SLOT_CAPACITY = 64

@@ -18,7 +18,7 @@ function SlotComponent:load(x, y, width, height, id, item)
     self.item_amount =  0
     self.capacity = SLOT_CAPACITY
 
-    self.amount_label = TextBox:load(self.item_amount, self.x, self.y + self.height - 20, self.width, 20, 20)
+    self.amount_label = TextBox:load(self.item_amount, self.x, self.y + self.height - height_scale(20), self.width, height_scale(20), 5*TILE_SCALE)
 
     return self
 end

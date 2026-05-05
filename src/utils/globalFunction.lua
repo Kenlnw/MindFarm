@@ -87,3 +87,11 @@ function update_mouse_position(camera)
         mouse_position.x, mouse_position.y = nil, nil
     end
 end
+
+function width_scale(width)
+    return (width/1280) * love.graphics.getWidth()
+end
+
+function height_scale(height)
+    return (height/720) * love.graphics.getHeight()
+end

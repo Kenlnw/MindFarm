@@ -13,11 +13,11 @@ function SlotBar:load()
 
     self.max_slots = 5
     self.slots = {}
-    self.slot_width = 64
-    self.slot_height = 64
+    self.slot_width = 16*TILE_SCALE
+    self.slot_height = 16*TILE_SCALE
 
-    self.offset_x = 5
-    self.offset_y = 5
+    self.offset_x = height_scale(5)
+    self.offset_y = height_scale(5)
 
     self.x = 0
     self.y = love.graphics.getHeight() - (self.slot_height + self.offset_y)

@@ -42,6 +42,11 @@ function game.update(dt)
         key_clear_state("escape")
     end
 
+    if is_key_down("f11") then
+        local fs = love.window.getFullscreen()
+        love.window.setFullscreen(not fs)
+    end
+
     game.time.bed_transition:update(dt)
 
     if game_states["running"] and not game.time.bed_transition.active then
@@ -56,6 +61,7 @@ function game.update(dt)
             day_changed = true
             key_clear_state("l")
         end
+
 
         current_world:update(dt)
         game.prototype_town:update(dt)

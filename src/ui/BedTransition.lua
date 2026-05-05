@@ -12,7 +12,7 @@ function BedTransition:load()
         fade_out_duration = 1.0,
     })
     setmetatable(self, BedTransition)
-    self.day_text = TextBox:load("", 0, 0, love.graphics.getWidth(), love.graphics.getHeight(), 200)
+    self.day_text = TextBox:load("", 0, 0, love.graphics.getWidth(), love.graphics.getHeight(), height_scale(100))
     return self
 end
 

@@ -146,6 +146,7 @@ function PlantableAreaComponent:draw()
         for _, area in ipairs(self.plantable_areas) do
             if area == self.current_area and area.is_active and (item and item.id == "hoe" or area.is_soiled) then
                 set_color(73, 59, 47, 0.9)
+                love.graphics.setLineWidth(height_scale(TILE_SCALE))
                 love.graphics.rectangle("line", area.x, area.y, area.width, area.height)
                 reset_color()
             end

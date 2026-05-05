@@ -7,9 +7,9 @@ function Interface:load(time)
 
     local self = setmetatable({}, Interface)
     self.slot_bar = SlotBar:load()
-    self.date_label = TextBox:load("Day: " .. DAYS, love.graphics.getWidth() - 180, 0, 180, 80, 40)
+    self.date_label = TextBox:load("Day: " .. DAYS, love.graphics.getWidth() - width_scale(180), 0, width_scale(180), height_scale(80), height_scale(40))
     self.time = time
-    self.time:set_label(love.graphics.getWidth() - 100, self.date_label.height, 100, 50, 20)
+    self.time:set_label(love.graphics.getWidth() - width_scale(100), self.date_label.height, width_scale(100), height_scale(50), height_scale(20))
 
     return self
 end
