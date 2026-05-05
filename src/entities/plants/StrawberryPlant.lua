@@ -21,9 +21,9 @@ function StrawberryPlant:load(x, y, flip_x, flip_y)
 end
 
 function StrawberryPlant:update(dt)
-    self.properties:update()
-
     self.sprite.sprites.current_anim:gotoFrame(self.properties.growing_state)
+
+    self.properties:update()
 end
 
 function StrawberryPlant:draw()

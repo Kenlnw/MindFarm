@@ -13,7 +13,7 @@ function PlantableAreaComponent:load(layer, map, player, camera)
     self.player = player
     self.camera = camera
 
-    self.placeable_areas = self:create_triggers()
+    self.plantable_areas = self:create_triggers()
     self.current_area = nil
 
     return self
@@ -41,16 +41,27 @@ function PlantableAreaComponent:create_triggers()
     return plantable_areas
 end
 
+function PlantableAreaComponent:plant_update(dt)
+    if self.plantable_areas then
+        for _, area in ipairs(self.plantable_areas) do
+            if area.plant then
+                area.plant:update(dt)
+                if area.is_watered then
+                    area.plant.properties.is_watered = false
+                end
+            end
+            area.is_watered = false
+        end
+    end
+end
+
 function PlantableAreaComponent:update(dt)
     local item = self.player.current_item
-    if self.placeable_areas then
+    if self.plantable_areas then
         local mouse_x, mouse_y = self.camera:mousePosition()
         local mouse_distance = distance_between(mouse_x, mouse_y, self.player.sensor_point.x, self.player.sensor_point.y)
 
-        for _, area in ipairs(self.placeable_areas) do
-            if area.plant then
-                area.plant:update(dt)
-            end
+        for _, area in ipairs(self.plantable_areas) do
 
             if is_inside(mouse_x, mouse_y, area) and mouse_distance <= area.width * 2 then
                 area.is_active = true
@@ -88,7 +99,7 @@ function PlantableAreaComponent:update(dt)
                 area.is_active = false
             end
 
-            area:update()
+            area:update(dt)
         end
 
     end
@@ -131,8 +142,8 @@ end
 
 function PlantableAreaComponent:draw()
     local item = self.player.current_item
-    if self.placeable_areas  then
-        for _, area in ipairs(self.placeable_areas) do
+    if self.plantable_areas  then
+        for _, area in ipairs(self.plantable_areas) do
             if area == self.current_area and area.is_active and (item and item.id == "hoe" or area.is_soiled) then
                 set_color(73, 59, 47, 0.9)
                 love.graphics.rectangle("line", area.x, area.y, area.width, area.height)

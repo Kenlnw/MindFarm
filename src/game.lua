@@ -6,16 +6,18 @@ function game.load()
     Player = require("src.Player")
     Camera = require("libraries.camera")
     Interface = require("src.ui.Interface")
+    TimeComponent = require("src.components.ui.TimeComponent")
 
     love.graphics.setDefaultFilter("nearest", "nearest")
 
     game.width = love.graphics.getWidth()
     game.height = love.graphics.getHeight()
 
+    game.time = TimeComponent:load(1440, 360, 2)
 
     current_world = map_lists["prototype_town"].world
 
-    game.interface = Interface:load()
+    game.interface = Interface:load(game.time)
     game.player = Player:load(game.width/2, game.height/2, game.interface)
 
     game.camera = Camera()
@@ -23,6 +25,7 @@ function game.load()
     game.prototype_town = Map:load(map_lists["prototype_town"].src, game.player, game.camera)
 
     game.can_check_collider = false
+
 
     change_game_states("running")
 end
@@ -39,8 +42,9 @@ function game.update(dt)
         key_clear_state("escape")
     end
 
-    if game_states["running"] then
+    game.time.bed_transition:update(dt)
 
+    if game_states["running"] and not game.time.bed_transition.active then
         if is_key_down("p") then
             if game.can_check_collider then
                 game.can_check_collider = false
@@ -53,12 +57,14 @@ function game.update(dt)
             key_clear_state("l")
         end
 
-
         current_world:update(dt)
         game.prototype_town:update(dt)
+        game.time:update(dt)
         game.player:update(dt)
         game.interface:update(dt)
         game:set_camera()
+    elseif game.time.bed_transition.active and game.time.bed_transition.phase == "hold" then
+        game.prototype_town.plantable_area_component:plant_update(dt)
     end
 end
 

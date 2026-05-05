@@ -6,7 +6,7 @@ function PlantComponent:load(crop)
     self.type = "plant"
     self.is_watered = false
     self.days_to_grow = 6
-    self.started_day = DAYS
+    self.last_grown_days = DAYS
     self.growing_state = 1
 
     self.can_harvest = false
@@ -25,8 +25,9 @@ function PlantComponent:update()
 end
 
 function PlantComponent:grow()
-    if self.growing_state <= self.days_to_grow and self.is_watered and day_changed then
+    if self.growing_state <= self.days_to_grow and self.is_watered and self.last_grown_days < DAYS then
         self.growing_state = clamp(self.growing_state + 1, 1, self.days_to_grow)
+        self.last_grown_days = DAYS
     end
 end
 

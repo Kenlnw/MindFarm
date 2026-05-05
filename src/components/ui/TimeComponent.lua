@@ -3,6 +3,7 @@ TimeComponent.__index = TimeComponent
 
 function TimeComponent:load(max_time, started_time, timer_speed)
     TextBox = require("src.components.ui.TextboxComponent")
+    BedTransition = require("src.ui.BedTransition")
 
     local self = setmetatable({}, TimeComponent)
     self.time_elapsed = 0
@@ -12,6 +13,7 @@ function TimeComponent:load(max_time, started_time, timer_speed)
     self.time_speed = timer_speed or 2
     self.label = nil
 
+    self.bed_transition = BedTransition:load()
 
     return self
 end
@@ -47,24 +49,30 @@ function TimeComponent:update(dt)
         self.current_time = self.current_time + 10
         self.time_elapsed = 0
 
-
         if self.label then
             self.label:change_text(self:show_time())
         end
-        if day_changed then
-            DAYS = DAYS + 1
-            self.current_time = self.started_time
-            self.time_elapsed = 0
-
-            day_changed = false
-        end
     end
+
+    if day_changed then
+        self.bed_transition:start(function()
+            if self.label then
+                DAYS = DAYS + 1
+                self.current_time = self.started_time
+                self.time_elapsed = 0
+                self.label:change_text(self:show_time())
+            end
+        end)
+    end
+
 end
 
 function TimeComponent:draw(r1, g1, b1, r2, g2, b2, a1, a2)
     if self.label then
         self.label:draw(r1, g1, b1, r2, g2, b2, a1, a2)
     end
+
+    self.bed_transition:draw()
 end
 
 
