@@ -6,6 +6,7 @@ function Map:load(map, player, camera)
     CollisionAreaComponent = require("src.components.areas.CollisionAreaComponent")
     PlantableAreaComponent = require("src.components.areas.PlantableAreaComponent")
     PlaceableAreaComponent = require("src.components.areas.PlaceableAreaComponent")
+    UseableObjComponent = require("src.components.areas.UseableObjComponent")
 
     local self = setmetatable({}, Map)
     self.x = 0
@@ -22,6 +23,7 @@ function Map:load(map, player, camera)
     self.collision_component = {}
     self.plantable_area_component = {}
     self.placeable_area_component = {}
+    self.useable_obj_component = {}
 
     self.player = player
     self.camera = camera
@@ -35,6 +37,8 @@ function Map:load_map_layers()
     for _, layer in ipairs(self.map.layers) do
         if layer.class == "CollisionArea" then
             self.collision_component = CollisionAreaComponent:load(layer)
+        elseif layer.class == "UseableObj" then
+            self.useable_obj_component = UseableObjComponent:load(layer)
         else
             if layer.properties.is_plantable then
                 self.plantable_area_component = PlantableAreaComponent:load(layer, self.map, self.player, self.camera)
@@ -48,7 +52,8 @@ end
 
 function Map:update(dt)
     self.plantable_area_component:update(dt)
-    self.placeable_area_component:update()
+    self.placeable_area_component:update(dt)
+    self.useable_obj_component:update(dt)
 end
 
 function Map:draw()
@@ -63,6 +68,7 @@ function Map:draw()
 
     self.plantable_area_component:draw()
     self.placeable_area_component:draw()
+    self.useable_obj_component:draw()
 end
 
 return Map

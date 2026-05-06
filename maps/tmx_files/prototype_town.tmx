@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="12">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="19">
  <editorsettings>
   <export target="../prototype_town.lua" format="lua"/>
  </editorsettings>
@@ -11,6 +11,9 @@
  </tileset>
  <tileset firstgid="340" name="mind-fence" tilewidth="16" tileheight="16" tilecount="15" columns="3">
   <image source="../../sprites/Fence's copiar.png" width="48" height="80"/>
+ </tileset>
+ <tileset firstgid="355" name="Chest" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="../../sprites/items/Chest.png" width="16" height="16"/>
  </tileset>
  <layer id="1" name="Grass" width="60" height="30">
   <properties>
@@ -189,6 +192,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="10" name="Chest_obj" class="UseableObj">
+  <object id="12" name="Chest" x="336" y="160" width="16" height="16"/>
+ </objectgroup>
  <objectgroup id="6" name="Femces_obj" class="CollisionArea">
   <object id="1" x="336" y="32" width="16" height="128"/>
   <object id="2" x="16" y="32" width="16" height="128"/>
