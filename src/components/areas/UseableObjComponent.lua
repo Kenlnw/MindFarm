@@ -1,7 +1,7 @@
 local UseableObjComponent = {}
 UseableObjComponent.__index = UseableObjComponent
 
-function UseableObjComponent:load(layer)
+function UseableObjComponent:load(layer, player)
     ChestEntity = require("src.entities.ChestEntity")
 
     local self = setmetatable({}, UseableObjComponent)
@@ -9,6 +9,8 @@ function UseableObjComponent:load(layer)
     self.map_scale = TILE_SCALE
 
     self.useable_objs = self:create_obj(self.layer)
+
+    self.player = player
 
     return self
 end
@@ -32,13 +34,21 @@ end
 
 function UseableObjComponent:update(dt)
     for _, useable_obj in ipairs(self.useable_objs) do
-        useable_obj:update(dt)
+        useable_obj:update(dt, self.player)
     end
 end
 
 function UseableObjComponent:draw()
     for _, useable_obj in ipairs(self.useable_objs) do
         useable_obj:draw()
+    end
+end
+
+function UseableObjComponent:storage_draw()
+    for _, useable_obj in ipairs(self.useable_objs) do
+        if useable_obj.id == "chest_entity" then
+            useable_obj.storage:draw(self.player)
+        end
     end
 end
 

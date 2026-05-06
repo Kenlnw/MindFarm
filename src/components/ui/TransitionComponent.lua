@@ -55,7 +55,7 @@ function TransitionComponent:draw()
     local width, height = love.graphics.getWidth(), love.graphics.getHeight()
     love.graphics.setColor(0, 0, 0, self.alpha)
     love.graphics.rectangle("fill", 0, 0, width, height)
-    love.graphics.setColor(1, 1, 1, 1)
+    reset_color()
 end
 
 return TransitionComponent

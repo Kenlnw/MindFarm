@@ -15,7 +15,6 @@ function Interface:load(time)
 end
 
 function Interface:update(dt)
-    self.slot_bar:update(dt)
     self.date_label:change_text("Day: " .. DAYS)
 end
 

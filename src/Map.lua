@@ -38,7 +38,7 @@ function Map:load_map_layers()
         if layer.class == "CollisionArea" then
             self.collision_component = CollisionAreaComponent:load(layer)
         elseif layer.class == "UseableObj" then
-            self.useable_obj_component = UseableObjComponent:load(layer)
+            self.useable_obj_component = UseableObjComponent:load(layer, self.player)
         else
             if layer.properties.is_plantable then
                 self.plantable_area_component = PlantableAreaComponent:load(layer, self.map, self.player, self.camera)
@@ -53,7 +53,6 @@ end
 function Map:update(dt)
     self.plantable_area_component:update(dt)
     self.placeable_area_component:update(dt)
-    self.useable_obj_component:update(dt)
 end
 
 function Map:draw()

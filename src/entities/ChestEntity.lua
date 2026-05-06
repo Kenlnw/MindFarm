@@ -7,6 +7,7 @@ function ChestEntity:load(x, y, flip_x, flip_y)
     SpriteComponent = require("src.components.SpriteComponent")
     AnimComponent = require("src.components.AnimComponent")
     EntityComponent = require("src.components.items.EntityComponent")
+    StorageComponent = require("src.components.ui.StorageComponent")
 
     local self = setmetatable({}, ChestEntity)
 
@@ -18,22 +19,24 @@ function ChestEntity:load(x, y, flip_x, flip_y)
 
     self.properties = EntityComponent:load(self.sprite)
 
+    self.storage = StorageComponent:load(5, 3)
+
     return self
 end
 
-function ChestEntity:update(dt)
-    self.properties:update(dt, self.sprite, self.use)
-end
-
-function ChestEntity.use(dt)
-    if is_mouse_down(2) then
-        print("Opened chest")
-        mouse_clear_state(2)
-    end
+function ChestEntity:update(dt, player)
+    self.properties:update(dt, self.sprite, function()
+        if is_mouse_down(2) then
+            self.storage:open()
+            mouse_clear_state(2)
+        end
+    end)
+    self.storage:update(dt, player)
 end
 
 function ChestEntity:draw()
     self.properties:draw(self.sprite)
 end
+
 
 return ChestEntity

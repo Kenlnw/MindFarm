@@ -9,6 +9,8 @@ function Strawberry:load(x, y, flip_x, flip_y)
     CropComponent = require("src.components.items.CropComponent")
 
     local self = setmetatable({}, Strawberry)
+
+    self.class = Strawberry
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
     self.sprite.sprites = AnimComponent:load("sprites/items/Strawberry.png", 6, 3, 1, "rows")
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[3]

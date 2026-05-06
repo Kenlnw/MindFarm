@@ -18,7 +18,7 @@ function game.load()
     current_world = map_lists["prototype_town"].world
 
     game.interface = Interface:load(game.time)
-    game.player = Player:load(game.width/2, game.height/2, game.interface)
+    game.player = Player:load(423*TILE_SCALE, 231*TILE_SCALE, game.interface)
 
     game.camera = Camera()
 
@@ -38,12 +38,9 @@ function game.update(dt)
         key_clear_state("escape")
     end
 
-    if is_key_down("f11") then
-        local fs = love.window.getFullscreen()
-        love.window.setFullscreen(not fs)
-    end
-
     game.time.bed_transition:update(dt)
+    game.interface.slot_bar:update(dt)
+    game.prototype_town.useable_obj_component:update(dt)
 
     if game_states["running"] and not game.time.bed_transition.active then
         if is_key_down("p") then
@@ -122,7 +119,14 @@ function game.draw()
         game.player:draw()
     game.camera:detach()
 
+    if game_states["paused"] then
+        love.graphics.setColor(0, 0, 0, 0.5)
+        love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+        reset_color()
+    end
+
     game.interface:draw()
+    game.prototype_town.useable_obj_component:storage_draw()
 end
 
 return game

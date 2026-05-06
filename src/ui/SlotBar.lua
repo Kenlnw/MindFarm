@@ -51,15 +51,15 @@ function SlotBar:load_slots()
         local item_capacity = SLOT_CAPACITY
         if i == 1 then
             item = StrawberrySeed:load(slot_x, self.y)
-            item_amount = SLOT_CAPACITY
+            item_amount = 10
         elseif i == 2 then
             item = WaterCan:load(slot_x, self.y)
             item_amount = 1
             item_capacity = 1
         elseif i == 3 then
             item = Bed:load(slot_x, self.y)
-            item_amount = 3
-            item_capacity = SLOT_CAPACITY
+            item_amount = 1
+            item_capacity = 1
         elseif i == 4 then
             item = Strawberry:load(slot_x, self.y)
             item_amount = 1

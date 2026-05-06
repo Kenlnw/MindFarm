@@ -22,14 +22,12 @@ function BedEntity:load(x, y, flip_x, flip_y)
 end
 
 function BedEntity:update(dt)
-    self.properties:update(dt, self.sprite, self.use)
-end
-
-function BedEntity.use()
-    if is_mouse_down(2) then
-        day_changed = true
-        mouse_clear_state(2)
-    end
+    self.properties:update(dt, self.sprite, function()
+        if is_mouse_down(2) then
+            day_changed = true
+            mouse_clear_state(2)
+        end
+    end)
 end
 
 function BedEntity:draw()
