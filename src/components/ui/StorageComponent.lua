@@ -1,10 +1,14 @@
 local StorageComponent = {}
 StorageComponent.__index = StorageComponent
 
-function StorageComponent:load(cols, rows)
+function StorageComponent:load(title, cols, rows, allowed_types)
     SlotComponent = require("src.components.ui.SlotComponent")
+    TextBoxComponent = require("src.components.ui.TextboxComponent")
 
     local self = setmetatable({}, StorageComponent)
+
+    self.title = title or "Storage"
+
     self.cols = cols or 5
     self.rows = rows or 3
     self.max_slots = self.cols * self.rows
@@ -20,7 +24,21 @@ function StorageComponent:load(cols, rows)
     self.x = math.floor((love.graphics.getWidth() - total_width) / 2)
     self.y = math.floor((love.graphics.getHeight() - total_height) / 2)
 
+    local panel_x = self.x - height_scale(16)
+    local panel_w = self.cols * (self.slot_width + self.padding) - self.padding + height_scale(32)
+    local label_height = height_scale(24)
+    self.title_label = TextBoxComponent:load(
+        self.title,
+        panel_x,
+        self.y - height_scale(16) - label_height,
+        panel_w,
+        label_height,
+        5 * TILE_SCALE
+    )
+
     self.slots = self:create_slots()
+
+    self.allowed_types = allowed_types or nil
 
     return self
 end
@@ -114,6 +132,20 @@ function StorageComponent:withdraw(player, storage_slot)
     self:compact()
 end
 
+function StorageComponent:filter(selected_slot)
+    if self.allowed_types then
+        if not selected_slot.item then return false end
+        for _, allowed_type in ipairs(self.allowed_types) do
+            if selected_slot.item.properties.type == allowed_type then
+                return true
+            end
+        end
+        return false
+    else
+        return true
+    end
+end
+
 function StorageComponent:update(dt, player)
     if not self.is_open then return end
 
@@ -133,7 +165,7 @@ function StorageComponent:update(dt, player)
 
         -- click on storage slot -> withdraw to player
         for _, storage_slot in ipairs(self.slots) do
-            if is_inside(mx, my, storage_slot) then
+            if is_inside(mx, my, storage_slot)then
                 self:withdraw(player, storage_slot)
                 mouse_clear_state(1)
                 return
@@ -142,7 +174,7 @@ function StorageComponent:update(dt, player)
 
         -- click on player slot -> deposit to storage
         for _, player_slot in ipairs(player.slot_bar.slots) do
-            if is_inside(mx, my, player_slot) then
+            if is_inside(mx, my, player_slot) and self:filter(player_slot) then
                 self:deposit(player_slot)
                 mouse_clear_state(1)
                 return
@@ -170,9 +202,22 @@ function StorageComponent:draw(player)
     )
     reset_color()
 
+    -- title above panel
+    self.title_label:draw(0, 0, 0, 255, 255, 255, 0, 1, 0)
+
     -- storage slots
     for _, slot in ipairs(self.slots) do
         slot:draw()
+    end
+
+    if self.allowed_types then
+        for _, player_slot in ipairs(player.slot_bar.slots) do
+            if not self:filter(player_slot) then
+                set_color(255, 255, 100, 0.25)
+                love.graphics.rectangle("fill", player_slot.x, player_slot.y, player_slot.width, player_slot.height)
+                reset_color()
+            end
+        end
     end
 end
 

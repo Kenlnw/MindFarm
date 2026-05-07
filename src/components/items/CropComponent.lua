@@ -3,7 +3,7 @@ CropComponent.__index = CropComponent
 
 function CropComponent:load()
     local self = setmetatable({}, CropComponent)
-    self.type = "food"
+    self.type = "crop"
     self.is_eatable = false
     self.is_used = false
 

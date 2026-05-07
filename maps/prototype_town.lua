@@ -10,7 +10,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 15,
-  nextobjectid = 53,
+  nextobjectid = 54,
   properties = {},
   tilesets = {
     {
@@ -468,37 +468,8 @@ return {
     {
       type = "objectgroup",
       draworder = "topdown",
-      id = 12,
-      name = "SellingTruck_obj",
-      class = "CollisionArea",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      parallaxx = 1,
-      parallaxy = 1,
-      properties = {},
-      objects = {
-        {
-          id = 28,
-          name = "SellingTruck",
-          type = "UseableObj",
-          shape = "rectangle",
-          x = 448,
-          y = 0,
-          width = 64,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        }
-      }
-    },
-    {
-      type = "objectgroup",
-      draworder = "topdown",
       id = 10,
-      name = "Chest_obj",
+      name = "Useable_obj",
       class = "UseableObj",
       visible = true,
       opacity = 1,
@@ -517,6 +488,19 @@ return {
           y = 176,
           width = 16,
           height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 53,
+          name = "SellingTruck",
+          type = "",
+          shape = "rectangle",
+          x = 448,
+          y = 0,
+          width = 64,
+          height = 48,
           rotation = 0,
           visible = true,
           properties = {}

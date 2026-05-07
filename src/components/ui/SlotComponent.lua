@@ -56,7 +56,7 @@ function SlotComponent:update(dt)
     self.amount_label:change_text(self.item_amount)
 
     if self.item then
-        if self.item.properties.type == "food" then
+        if self.item.properties.type == "crop" then
             if is_mouse_down(2) then
                 if self.item.properties.is_eatable and self.is_selected then
                     mouse_current_state.is_using = true
