@@ -159,7 +159,7 @@ function StorageComponent:draw(player)
     local bg_padding = height_scale(16)
 
     -- background panel
-    set_color(0, 0, 0, 0.75)
+    set_color(0, 0, 0, 0.5)
     love.graphics.rectangle(
         "fill",
         self.x - bg_padding,
