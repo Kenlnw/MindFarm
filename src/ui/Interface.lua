@@ -9,10 +9,10 @@ function Interface:load(time)
 
     self.slot_bar = SlotBar:load()
 
-    self.date_label = TextBox:load("Day: " .. DAYS, love.graphics.getWidth() - width_scale(180), 0, width_scale(180), height_scale(80), height_scale(40))
+    self.date_label = TextBox:load("Day: " .. DAYS, love.graphics.getWidth() - width_scale(200), 0, width_scale(200), height_scale(80), height_scale(40))
 
     self.time = time
-    self.time:set_label(love.graphics.getWidth() - width_scale(110), self.date_label.height, width_scale(180), height_scale(50), height_scale(20))
+    self.time:set_label(love.graphics.getWidth() - width_scale(125), self.date_label.height, width_scale(125), height_scale(50), height_scale(20))
     self.time.label:set_icon("sprites/items/Clock.png", TILE_SCALE/2)
 
     self.cash_label = TextBox:load(" " .. CASH, 0, 0, love.graphics.getWidth()/4, height_scale(80), height_scale(40))
@@ -24,7 +24,7 @@ end
 function Interface:cash_animation(dt)
     local display_cash = PREV_CASH
     local target_cash = CASH
-    local anim_speed = 500
+    local anim_speed = CASH*1.5
 
     -- money increased
     if display_cash < target_cash  then

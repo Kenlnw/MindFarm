@@ -85,13 +85,26 @@ function PlantableAreaComponent:update(dt)
                 end
                 if is_mouse_down(2) then
                     if area.plant and area.plant.properties.can_harvest then
+                        local can_havest = false
                         for _, slot in ipairs(self.player.slot_bar.slots) do
                             local crop = area.plant.properties:harvest(slot.x, slot.y)
-                            if not slot.item or (slot.item_amount < slot.capacity and slot.item.id == crop.id) then
-                                slot:store_item(crop, 1)
+                            if slot.item and slot.item.id == crop.id  and slot.item_amount < slot.capacity then
+                                slot.item_amount = slot.item_amount + 1
+                                can_havest = true
                                 break
                             end
                         end
+
+                        if not can_havest then
+                            for _, slot in ipairs(self.player.slot_bar.slots) do
+                                local crop = area.plant.properties:harvest(slot.x, slot.y)
+                                if not slot.item then
+                                    slot:store_item(crop, 1, SLOT_CAPACITY)
+                                    break
+                                end
+                            end
+                        end
+
                         area:reset_area()
                         break
                     end

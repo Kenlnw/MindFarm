@@ -19,7 +19,7 @@ function TimeComponent:load(max_time, started_time, timer_speed)
 end
 
 function TimeComponent:set_label(x, y, width, height, font_size)
-    self.label = TextBox:load(self:show_time(), x or 0, y or 0, width or 100, height or 100, font_size or 20)
+    self.label = TextBox:load(" " .. self:show_time(), x or 0, y or 0, width or 100, height or 100, font_size or 20)
 end
 
 function TimeComponent:show_time()
@@ -50,7 +50,7 @@ function TimeComponent:update(dt)
         self.time_elapsed = 0
 
         if self.label then
-            self.label:change_text(self:show_time())
+            self.label:change_text(" " .. self:show_time())
         end
     end
 
