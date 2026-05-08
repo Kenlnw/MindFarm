@@ -41,7 +41,8 @@ function PlantableAreaComponent:create_triggers()
     return plantable_areas
 end
 
-function PlantableAreaComponent:plant_update(dt)
+function PlantableAreaComponent:update_between_day(dt)
+    -- plant update
     if self.plantable_areas then
         for _, area in ipairs(self.plantable_areas) do
             if area.plant then

@@ -2,6 +2,10 @@ TILE_SCALE = height_scale(3.5)
 DAYS = 1
 day_changed = false
 SLOT_CAPACITY = 64
+PREV_CASH = 0
+CASH = 0
+
+cash_updated = false
 
 game_states = {
     menu = true,

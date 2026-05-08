@@ -26,6 +26,7 @@ function BedTransition:update(dt)
 
     if self.phase == "fade_out" then
         day_changed = false
+        cash_updated = false
     end
 end
 

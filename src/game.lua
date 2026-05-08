@@ -63,7 +63,8 @@ function game.update(dt)
         game.interface:update(dt)
         game:set_camera()
     elseif game.time.bed_transition.active and game.time.bed_transition.phase == "hold" then
-        game.prototype_town.plantable_area_component:plant_update(dt)
+        game.prototype_town.plantable_area_component:update_between_day(dt)
+        game.prototype_town.useable_obj_component:update_between_day(dt)
     end
 end
 

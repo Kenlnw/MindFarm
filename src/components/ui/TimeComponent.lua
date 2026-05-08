@@ -69,7 +69,7 @@ end
 
 function TimeComponent:draw(r1, g1, b1, r2, g2, b2, a1, a2)
     if self.label then
-        self.label:draw(r1, g1, b1, r2, g2, b2, a1, a2)
+        self.label:draw_with_icon(r1, g1, b1, r2, g2, b2, a1, a2, 0, "left")
     end
 
     self.bed_transition:draw()

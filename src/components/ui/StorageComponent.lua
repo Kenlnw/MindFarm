@@ -19,21 +19,21 @@ function StorageComponent:load(title, cols, rows, allowed_types)
     self.is_open = false
 
     -- center the storage UI on screen
-    local total_width = self.cols * (self.slot_width + self.padding) - self.padding
-    local total_height = self.rows * (self.slot_height + self.padding) - self.padding
-    self.x = math.floor((love.graphics.getWidth() - total_width) / 2)
-    self.y = math.floor((love.graphics.getHeight() - total_height) / 2)
+    self.total_width = self.cols * (self.slot_width + self.padding) - self.padding
+    self.total_height = self.rows * (self.slot_height + self.padding) - self.padding
+    self.x = math.floor((love.graphics.getWidth() - self.total_width) / 2)
+    self.y = math.floor((love.graphics.getHeight() - self.total_height) / 2)
 
     local panel_x = self.x - height_scale(16)
     local panel_w = self.cols * (self.slot_width + self.padding) - self.padding + height_scale(32)
-    local label_height = height_scale(24)
+    local label_height = height_scale(36)
     self.title_label = TextBoxComponent:load(
         self.title,
         panel_x,
         self.y - height_scale(16) - label_height,
         panel_w,
         label_height,
-        5 * TILE_SCALE
+        8 * TILE_SCALE
     )
 
     self.slots = self:create_slots()
@@ -186,8 +186,6 @@ end
 function StorageComponent:draw(player)
     if not self.is_open then return end
 
-    local total_width = self.cols * (self.slot_width + self.padding) - self.padding
-    local total_height = self.rows * (self.slot_height + self.padding) - self.padding
     local bg_padding = height_scale(16)
 
     -- background panel
@@ -196,8 +194,8 @@ function StorageComponent:draw(player)
         "fill",
         self.x - bg_padding,
         self.y - bg_padding,
-        total_width + bg_padding * 2,
-        total_height + bg_padding * 2,
+        self.total_width + bg_padding * 2,
+        self.total_height + bg_padding * 2,
         10
     )
     reset_color()

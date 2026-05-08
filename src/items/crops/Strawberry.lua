@@ -16,7 +16,9 @@ function Strawberry:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[3]
     self.sprite.sprites.current_anim:gotoFrame(1)
 
-    self.properties = CropComponent:load()
+    self.sell_price = 200
+
+    self.properties = CropComponent:load(self.sell_price)
 
     return self
 end
