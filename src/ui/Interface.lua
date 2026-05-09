@@ -9,13 +9,13 @@ function Interface:load(time)
 
     self.slot_bar = SlotBar:load()
 
-    self.date_label = TextBox:load("Day: " .. DAYS, love.graphics.getWidth() - width_scale(200), 0, width_scale(200), height_scale(80), height_scale(40))
+    self.date_label = TextBox:load("Day: " .. DAYS, love.graphics.getWidth() - width_scale(200), 0, width_scale(200), height_scale(80), width_scale(40))
 
     self.time = time
-    self.time:set_label(love.graphics.getWidth() - width_scale(125), self.date_label.height, width_scale(125), height_scale(50), height_scale(20))
+    self.time:set_label(love.graphics.getWidth()* 11/12, self.date_label.height, love.graphics.getWidth()/12, height_scale(50), width_scale(20))
     self.time.label:set_icon("sprites/items/Clock.png", TILE_SCALE/2)
 
-    self.cash_label = TextBox:load(" " .. CASH, 0, 0, love.graphics.getWidth()/4, height_scale(80), height_scale(40))
+    self.cash_label = TextBox:load(" " .. CASH, 0, 0, love.graphics.getWidth()/10, height_scale(80), width_scale(40))
     self.cash_label:set_icon("sprites/items/Cash.png", TILE_SCALE)
 
     return self
@@ -39,6 +39,8 @@ function Interface:cash_animation(dt)
     end
 
     PREV_CASH = display_cash
+
+    self.cash_label:resize_to_text()
 end
 
 function Interface:update(dt)

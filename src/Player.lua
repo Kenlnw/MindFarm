@@ -13,9 +13,9 @@ function Player:load(x, y, interface)
     self.sprite.offset.x = self.sprite.sprites.idle.frame_width / 2
     self.sprite.offset.y = self.sprite.sprites.idle.frame_height / 2
 
-    self.speed = 10000
+    self.speed = height_scale(5000)
     self.acc = 0
-    self.acc_max = 20000
+    self.acc_max = height_scale(10000)
 
     self.facing_index = 1
 
@@ -107,11 +107,7 @@ function Player:update(dt)
     end
 
     if is_key_down("lshift") then
-        if self.acc >= self.acc_max then
-            self.acc = self.acc_max
-        else
-            self.acc = self.acc + 1000
-        end
+        self.acc = math.min(self.acc + 100000 * dt, self.acc_max)
         self.speed = 10000 + self.acc
     else
         self.speed = 10000
@@ -142,6 +138,17 @@ function Player:update(dt)
     --     --     mouse_clear_state(2)
     --     -- end
     -- end
+end
+
+function Player:update_between_day(dt)
+    self.states.moving = false
+
+    if self.facing_index == 4 then
+            self.sprite.sprites.idle.current_anim = self.sprite.sprites.idle.anims[3]
+            self.sprite.flip.x = -1
+        else
+            self.sprite.sprites.idle.current_anim = self.sprite.sprites.idle.anims[self.facing_index]
+        end
 end
 
 function Player:normalized_move(dx, dy, dt)

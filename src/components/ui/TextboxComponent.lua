@@ -24,6 +24,12 @@ function TextBoxComponent:change_text(new_text)
     self.text = new_text
 end
 
+function TextBoxComponent:resize_to_text(padding)
+    padding = padding or love.graphics.getWidth()/25
+    local text_width = self.font:getWidth(tostring(self.text))
+    self.width = TILE_SCALE + text_width + padding * 2
+end
+
 function TextBoxComponent:draw(r1, g1, b1, r2, g2, b2, a1, a2, corner_segment, align)
     -- background
     set_color(r1, g1, b1, a1 or 1)
