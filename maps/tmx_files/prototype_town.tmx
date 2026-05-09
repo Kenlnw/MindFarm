@@ -230,8 +230,12 @@
 </data>
  </layer>
  <objectgroup id="10" name="Useable_obj" class="UseableObj">
-  <object id="26" name="Chest" x="352" y="176" width="16" height="16"/>
-  <object id="53" name="SellingTruck" x="448" y="0" width="64" height="48"/>
+  <object id="26" name="Chest" type="Chest" x="352" y="176" width="16" height="16">
+   <properties>
+    <property name="type" value="Starter"/>
+   </properties>
+  </object>
+  <object id="53" name="SellingTruck" type="SellingTruck" x="448" y="0" width="64" height="48"/>
  </objectgroup>
  <objectgroup id="6" name="Femces_obj" class="CollisionArea">
   <object id="1" x="336" y="32" width="16" height="128"/>

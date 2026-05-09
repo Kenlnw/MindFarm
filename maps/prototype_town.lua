@@ -482,7 +482,7 @@ return {
         {
           id = 26,
           name = "Chest",
-          type = "",
+          type = "Chest",
           shape = "rectangle",
           x = 352,
           y = 176,
@@ -490,12 +490,14 @@ return {
           height = 16,
           rotation = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["type"] = "Starter"
+          }
         },
         {
           id = 53,
           name = "SellingTruck",
-          type = "",
+          type = "SellingTruck",
           shape = "rectangle",
           x = 448,
           y = 0,

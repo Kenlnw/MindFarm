@@ -45,34 +45,7 @@ function SlotBar:load_slots()
 
     for i = 1, self.max_slots do
         local id = i - 1
-
-        local item = nil
-        local item_amount = 0
-        local item_capacity = SLOT_CAPACITY
-        if i == 1 then
-            item = StrawberrySeed:load(slot_x, self.y)
-            item_amount = 10
-        elseif i == 2 then
-            item = WaterCan:load(slot_x, self.y)
-            item_amount = 1
-            item_capacity = 1
-        elseif i == 3 then
-            item = Bed:load(slot_x, self.y)
-            item_amount = 1
-            item_capacity = 1
-        elseif i == 4 then
-            item = Strawberry:load(slot_x, self.y)
-            item_amount = 1
-            item_capacity = SLOT_CAPACITY
-        elseif i == 5 then
-            item = Hoe:load(slot_x, self.y)
-            item_amount = 1
-            item_capacity = 1
-        end
-
-        self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, item)
-        self.slots[i]:store_item(item, item_amount, item_capacity)
-
+        self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, nil)
         slot_x = slot_x + self.slots[i].width + self.offset_x
     end
 end

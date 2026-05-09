@@ -24,6 +24,32 @@ function ChestEntity:load(x, y, flip_x, flip_y)
     return self
 end
 
+function ChestEntity:init_items(type)
+    if type then
+        local items = {}
+        if type == "Starter" then
+            StrawberrySeed = require("src.items.seeds.StrawberrySeed")
+            Hoe = require("src.items.tools.Hoe")
+            WaterCan = require("src.items.tools.WaterCan")
+            Bed = require("src.items.Bed")
+
+            items = {
+                { class = StrawberrySeed, item_amount = 10, capacity = SLOT_CAPACITY },
+                { class = Hoe, item_amount = 1, capacity = 1 },
+                { class = WaterCan, item_amount = 1, capacity = 1 },
+                { class = Bed, item_amount = 1, capacity = 1 }
+            }
+        end
+
+        for idx, item in ipairs(items) do
+            local slot = self.storage.slots[idx]
+            if slot then
+                slot:store_item(item.class:load(slot.x, slot.y), item.item_amount, item.capacity)
+            end
+        end
+    end
+end
+
 function ChestEntity:update(dt, player)
     self.properties:update(dt, self.sprite, function()
         if is_mouse_down(2) then
