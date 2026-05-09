@@ -15,7 +15,7 @@ function StrawberryPlant:load(x, y, flip_x, flip_y)
     self.sprite.sprites = AnimComponent:load("sprites/items/Strawberry.png", 6, 3, 1, "rows")
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[2]
 
-    self.properties = PlantComponent:load(Strawberry)
+    self.properties = PlantComponent:load(Strawberry, 6)
 
     return self
 end
