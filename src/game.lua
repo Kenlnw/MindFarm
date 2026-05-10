@@ -124,6 +124,8 @@ function game.draw()
         game.player:draw()
     game.camera:detach()
 
+    game.interface.item_info:draw()
+
     if game_states["paused"] then
         love.graphics.setColor(0, 0, 0, 0.5)
         love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())

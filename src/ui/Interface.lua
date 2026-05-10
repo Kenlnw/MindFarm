@@ -59,7 +59,6 @@ function Interface:draw()
     self.date_label:draw(30, 55, 25, 220, 200, 150, 0.85, 1)
     self.cash_label:draw_with_icon(42, 28, 10, 255, 200, 80, 0.5, 1, 0, "left")
     self.time:draw(25, 35, 55, 180, 210, 255, 0.75, 1)
-    self.item_info:draw()
 end
 
 return Interface
