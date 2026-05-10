@@ -16,7 +16,7 @@ function BedEntity:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[1]
     self.sprite.sprites.current_anim:gotoFrame(1)
 
-    self.properties = EntityComponent:load(self.sprite)
+    self.properties = EntityComponent:load(self.sprite, "Bed")
 
     return self
 end

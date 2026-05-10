@@ -33,3 +33,16 @@ mouse_position = {
 }
 
 entities = {}
+
+item_type_actions = {
+    seed = { "Plant", "None" },
+    tool = { "Use", "None" },
+    crop = { "None", "None" },
+    placeable_item = { "Place", "None" }
+}
+
+entity_id_actions = {
+    chest = { "None",  "Open"  },
+    selling_truck = { "None", "Sell"  },
+    bed = { "None",  "Sleep" }
+}

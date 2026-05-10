@@ -10,6 +10,8 @@ function Potato:load(x, y, flip_x, flip_y)
 
     local self = setmetatable({}, Potato)
 
+    self.name = "Potato"
+
     self.class = Potato
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
     self.sprite.sprites = AnimComponent:load("sprites/items/crops/Potato.png", 4, 3, 1, "rows")

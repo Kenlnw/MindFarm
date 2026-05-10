@@ -11,6 +11,8 @@ function WaterCan:load(x, y, flip_x, flip_y)
 
     local self = setmetatable({}, WaterCan)
 
+    self.name = "Water Can"
+
     self.class = WaterCan
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
     self.sprite.sprites = AnimComponent:load("sprites/items/tools/WaterCan.png", 1, 1, 1, "rows")

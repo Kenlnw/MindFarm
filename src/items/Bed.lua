@@ -11,6 +11,8 @@ function Bed:load(x, y, flip_x, flip_y)
 
     local self = setmetatable({}, Bed)
 
+    self.name = "Bed"
+
     self.class = Bed
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
     self.sprite.sprites = AnimComponent:load("sprites/items/entities/Bed.png", 1, 4, 1, "rows")

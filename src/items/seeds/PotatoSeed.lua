@@ -12,6 +12,8 @@ function PotatoSeed:load(x, y, flip_x, flip_y)
 
     local self = setmetatable({}, PotatoSeed)
 
+    self.name = "Potato Seed"
+
     self.class = PotatoSeed
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
     self.sprite.sprites = AnimComponent:load("sprites/items/crops/Potato.png", 4, 3, 1, "rows")

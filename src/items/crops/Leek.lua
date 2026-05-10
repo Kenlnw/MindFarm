@@ -10,6 +10,8 @@ function Leek:load(x, y, flip_x, flip_y)
 
     local self = setmetatable({}, Leek)
 
+    self.name = "Leek"
+
     self.class = Leek
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
     self.sprite.sprites = AnimComponent:load("sprites/items/crops/Leek.png", 7, 3, 1, "rows")

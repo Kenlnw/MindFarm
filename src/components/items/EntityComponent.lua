@@ -1,8 +1,11 @@
 local EntityComponent = {}
 EntityComponent.__index = EntityComponent
 
-function EntityComponent:load(sprite)
+function EntityComponent:load(sprite, name)
     local self = setmetatable({}, EntityComponent)
+
+    self.name = name or nil
+
     self.type = "entity"
     self.is_cannot_place = false
     self.is_placed = false

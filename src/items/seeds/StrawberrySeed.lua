@@ -11,6 +11,8 @@ function StrawberrySeed:load(x, y, flip_x, flip_y)
 
     local self = setmetatable({}, StrawberrySeed)
 
+    self.name = "Strawberry Seed"
+
     self.class = StrawberrySeed
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
     self.sprite.sprites = AnimComponent:load("sprites/items/crops/Strawberry.png", 6, 3, 1, "rows")

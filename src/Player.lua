@@ -26,6 +26,8 @@ function Player:load(x, y, interface)
 
     self.sensor_point = self:set_sensor_point()
 
+    self.interface = interface
+
     self.slot_bar = interface.slot_bar
 
     self.current_item = self:set_current_item()

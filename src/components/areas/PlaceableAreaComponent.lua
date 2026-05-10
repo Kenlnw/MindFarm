@@ -60,6 +60,12 @@ function PlaceableAreaComponent:update(dt)
             end
 
             area:update(dt)
+
+            -- local entity = nil
+            -- if area.entity and area.entity.properties.is_activated then
+            --     entity = area.entity
+            -- end
+            -- self.player.interface.entity_info:entity_update(entity)
         end
     end
 end
