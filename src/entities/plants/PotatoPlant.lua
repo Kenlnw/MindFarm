@@ -12,7 +12,7 @@ function PotatoPlant:load(x, y, flip_x, flip_y)
     local self = setmetatable({}, PotatoPlant)
 
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
-    self.sprite.sprites = AnimComponent:load("sprites/items/Potato.png", 4, 3, 1, "rows")
+    self.sprite.sprites = AnimComponent:load("sprites/items/crops/Potato.png", 4, 3, 1, "rows")
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[2]
 
     self.properties = PlantComponent:load(Potato, 4)

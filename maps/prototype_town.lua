@@ -99,64 +99,6 @@ return {
       wangsets = {},
       tilecount = 15,
       tiles = {}
-    },
-    {
-      name = "Chest",
-      firstgid = 355,
-      class = "",
-      tilewidth = 16,
-      tileheight = 16,
-      spacing = 0,
-      margin = 0,
-      columns = 1,
-      image = "../sprites/items/Chest.png",
-      imagewidth = 16,
-      imageheight = 16,
-      objectalignment = "unspecified",
-      tilerendersize = "tile",
-      fillmode = "stretch",
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 16,
-        height = 16
-      },
-      properties = {},
-      wangsets = {},
-      tilecount = 1,
-      tiles = {}
-    },
-    {
-      name = "SellingTruck",
-      firstgid = 356,
-      class = "",
-      tilewidth = 16,
-      tileheight = 16,
-      spacing = 0,
-      margin = 0,
-      columns = 4,
-      image = "../sprites/items/SellingTruck.png",
-      imagewidth = 64,
-      imageheight = 48,
-      objectalignment = "unspecified",
-      tilerendersize = "tile",
-      fillmode = "stretch",
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      grid = {
-        orientation = "orthogonal",
-        width = 16,
-        height = 16
-      },
-      properties = {},
-      wangsets = {},
-      tilecount = 12,
-      tiles = {}
     }
   },
   layers = {

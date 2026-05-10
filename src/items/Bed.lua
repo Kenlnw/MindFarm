@@ -13,7 +13,7 @@ function Bed:load(x, y, flip_x, flip_y)
 
     self.class = Bed
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
-    self.sprite.sprites = AnimComponent:load("sprites/items/Bed.png", 1, 4, 1, "rows")
+    self.sprite.sprites = AnimComponent:load("sprites/items/entities/Bed.png", 1, 4, 1, "rows")
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[4]
     self.sprite.sprites.current_anim:gotoFrame(1)
 

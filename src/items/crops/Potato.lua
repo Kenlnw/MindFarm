@@ -12,7 +12,7 @@ function Potato:load(x, y, flip_x, flip_y)
 
     self.class = Potato
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
-    self.sprite.sprites = AnimComponent:load("sprites/items/Potato.png", 4, 3, 1, "rows")
+    self.sprite.sprites = AnimComponent:load("sprites/items/crops/Potato.png", 4, 3, 1, "rows")
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[3]
     self.sprite.sprites.current_anim:gotoFrame(1)
 

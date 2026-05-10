@@ -12,12 +12,6 @@
  <tileset firstgid="340" name="mind-fence" tilewidth="16" tileheight="16" tilecount="15" columns="3">
   <image source="../../sprites/Fence's copiar.png" width="48" height="80"/>
  </tileset>
- <tileset firstgid="355" name="Chest" tilewidth="16" tileheight="16" tilecount="1" columns="1">
-  <image source="../../sprites/items/Chest.png" width="16" height="16"/>
- </tileset>
- <tileset firstgid="356" name="SellingTruck" tilewidth="16" tileheight="16" tilecount="12" columns="4">
-  <image source="../../sprites/items/SellingTruck.png" width="64" height="48"/>
- </tileset>
  <layer id="1" name="Grass" width="60" height="30">
   <properties>
    <property name="is_placeable" type="bool" value="true"/>

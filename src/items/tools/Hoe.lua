@@ -13,7 +13,7 @@ function Hoe:load(x, y, flip_x, flip_y)
 
     self.class = Hoe
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
-    self.sprite.sprites = AnimComponent:load("sprites/items/Hoe.png", 1, 1, 1, "rows")
+    self.sprite.sprites = AnimComponent:load("sprites/items/tools/Hoe.png", 1, 1, 1, "rows")
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[1]
     self.sprite.sprites.current_anim:gotoFrame(1)
 

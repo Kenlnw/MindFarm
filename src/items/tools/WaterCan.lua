@@ -13,7 +13,7 @@ function WaterCan:load(x, y, flip_x, flip_y)
 
     self.class = WaterCan
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
-    self.sprite.sprites = AnimComponent:load("sprites/items/WaterCan.png", 1, 1, 1, "rows")
+    self.sprite.sprites = AnimComponent:load("sprites/items/tools/WaterCan.png", 1, 1, 1, "rows")
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[1]
     self.sprite.sprites.current_anim:gotoFrame(1)
 

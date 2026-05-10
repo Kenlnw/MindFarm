@@ -12,7 +12,7 @@ function ChestEntity:load(x, y, flip_x, flip_y)
     local self = setmetatable({}, ChestEntity)
 
     self.sprite = SpriteComponent:load(x, y, flip_x, flip_y)
-    self.sprite.sprites = AnimComponent:load("sprites/items/Chest.png", 1, 1, 1, "rows")
+    self.sprite.sprites = AnimComponent:load("sprites/items/entities/Chest.png", 1, 1, 1, "rows")
     self.sprite:set_size(self.sprite.sprites:get_size())
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[1]
     self.sprite.sprites.current_anim:gotoFrame(1)

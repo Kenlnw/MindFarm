@@ -55,7 +55,6 @@ function game.update(dt)
             key_clear_state("l")
         end
 
-
         current_world:update(dt)
         game.prototype_town:update(dt)
         game.time:update(dt)
@@ -65,6 +64,10 @@ function game.update(dt)
     elseif game.time.bed_transition.active and game.time.bed_transition.phase == "hold" then
         game.prototype_town.plantable_area_component:update_between_day(dt)
         game.prototype_town.useable_obj_component:update_between_day(dt)
+        game.player:update_between_day(dt)
+    end
+
+    if game_states["paused"] then
         game.player:update_between_day(dt)
     end
 end
