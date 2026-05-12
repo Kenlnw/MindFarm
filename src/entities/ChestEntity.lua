@@ -31,6 +31,7 @@ function ChestEntity:init_items(type)
             StrawberrySeed = require("src.items.seeds.StrawberrySeed")
             PotatoSeed = require("src.items.seeds.PotatoSeed")
             LeekSeed = require("src.items.seeds.LeekSeed")
+            HotPepperSeed = require("src.items.seeds.HotPepperSeed")
             Hoe = require("src.items.tools.Hoe")
             WaterCan = require("src.items.tools.WaterCan")
             Bed = require("src.items.Bed")
@@ -38,7 +39,8 @@ function ChestEntity:init_items(type)
             items = {
                 { class = StrawberrySeed, item_amount = 10, capacity = SLOT_CAPACITY },
                 { class =  PotatoSeed, item_amount = 20, capacity = SLOT_CAPACITY },
-                { class = LeekSeed, item_amount = 5, capacity = SLOT_CAPACITY },
+                { class = LeekSeed, item_amount = 9, capacity = SLOT_CAPACITY },
+                { class = HotPepperSeed, item_amount = 9, capacity = SLOT_CAPACITY },
                 { class = Hoe, item_amount = 1, capacity = 1 },
                 { class = WaterCan, item_amount = 1, capacity = 1 },
                 { class = Bed, item_amount = 1, capacity = 1 }

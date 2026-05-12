@@ -85,29 +85,38 @@ function PlantableAreaComponent:update(dt)
                 end
                 if is_mouse_down(2) then
                     if area.plant and area.plant.properties.can_harvest then
-                        local can_havest = false
+                        local havested = false
+                        local crop = area.plant.properties:harvest(0, 0)
                         for _, slot in ipairs(self.player.slot_bar.slots) do
-                            local crop = area.plant.properties:harvest(slot.x, slot.y)
-                            if slot.item and slot.item.id == crop.id  and slot.item_amount < slot.capacity then
+                            if crop and slot.item and slot.item.id == crop.id  and slot.item_amount < slot.capacity then
                                 slot.item_amount = slot.item_amount + 1
-                                can_havest = true
+                                havested = true
                                 break
                             end
                         end
 
-                        if not can_havest then
+                        if not havested then
                             for _, slot in ipairs(self.player.slot_bar.slots) do
-                                local crop = area.plant.properties:harvest(slot.x, slot.y)
-                                if not slot.item then
+                                if not slot.item and crop then
+                                    crop.sprite.x = slot.x
+                                    crop.sprite.y = slot.y
                                     slot:store_item(crop, 1, SLOT_CAPACITY)
+                                    havested = true
                                     break
                                 end
                             end
                         end
 
-                        area:reset_area()
+                        if havested then
+                            if area.plant.properties.regrow_activate then
+                                area.plant.sprite.sprites.current_anim:gotoFrame(area.plant.properties.ongoing_state)
+                            else
+                                area:reset_area()
+                            end
+                        end
                         break
                     end
+                    mouse_clear_state(2)
                 end
             else
                 area.is_active = false
