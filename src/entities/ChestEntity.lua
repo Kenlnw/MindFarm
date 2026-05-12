@@ -3,7 +3,7 @@ ChestEntity.__index = ChestEntity
 
 ChestEntity.id = "chest_entity"
 
-function ChestEntity:load(x, y, flip_x, flip_y)
+function ChestEntity:load(x, y, type, flip_x, flip_y)
     SpriteComponent = require("src.components.SpriteComponent")
     AnimComponent = require("src.components.AnimComponent")
     EntityComponent = require("src.components.items.EntityComponent")
@@ -19,39 +19,24 @@ function ChestEntity:load(x, y, flip_x, flip_y)
 
     self.properties = EntityComponent:load(self.sprite)
 
-    self.storage = StorageComponent:load("Chest", 5, 3)
+    self.type = type or nil
+
+    self.storage = StorageComponent:load(self.type or "Chest", 5, 3)
+
+    self:init_items()
 
     return self
 end
 
-function ChestEntity:init_items(type)
-    if type then
-        local items = {}
-        if type == "Starter" then
-            StrawberrySeed = require("src.items.seeds.StrawberrySeed")
-            PotatoSeed = require("src.items.seeds.PotatoSeed")
-            LeekSeed = require("src.items.seeds.LeekSeed")
-            HotPepperSeed = require("src.items.seeds.HotPepperSeed")
-            Hoe = require("src.items.tools.Hoe")
-            WaterCan = require("src.items.tools.WaterCan")
-            Bed = require("src.items.Bed")
+function ChestEntity:init_items()
+    if not self.type then return end
 
-            items = {
-                { class = StrawberrySeed, item_amount = 10, capacity = SLOT_CAPACITY },
-                { class =  PotatoSeed, item_amount = 20, capacity = SLOT_CAPACITY },
-                { class = LeekSeed, item_amount = 9, capacity = SLOT_CAPACITY },
-                { class = HotPepperSeed, item_amount = 9, capacity = SLOT_CAPACITY },
-                { class = Hoe, item_amount = 1, capacity = 1 },
-                { class = WaterCan, item_amount = 1, capacity = 1 },
-                { class = Bed, item_amount = 1, capacity = 1 }
-            }
-        end
+    local items = items_for_chest[self.type]
 
-        for idx, item in ipairs(items) do
-            local slot = self.storage.slots[idx]
-            if slot then
-                slot:store_item(item.class:load(slot.x, slot.y), item.item_amount, item.capacity)
-            end
+    for idx, item in ipairs(items) do
+        local slot = self.storage.slots[idx]
+        if slot then
+            slot:store_item(item.class:load(slot.x, slot.y), item.item_amount, item.capacity)
         end
     end
 end

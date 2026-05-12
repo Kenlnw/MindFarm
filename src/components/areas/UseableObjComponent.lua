@@ -22,13 +22,9 @@ function UseableObjComponent:create_obj(layer)
     for _, obj in ipairs(layer.objects) do
         local useable_obj = nil
         if obj.name == "Chest" then
-            useable_obj = ChestEntity:load(obj.x*self.map_scale, obj.y*self.map_scale)
+            useable_obj = ChestEntity:load(obj.x*self.map_scale, obj.y*self.map_scale, obj.properties.type)
             useable_obj.properties:update_collider_position(false, useable_obj.id)
             useable_obj.properties.is_placed = true
-
-            if obj.properties.type == "Starter" then
-                useable_obj:init_items(obj.properties.type)
-            end
         end
 
         if obj.name == "SellingTruck" then

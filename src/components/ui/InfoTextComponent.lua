@@ -41,22 +41,6 @@ function InfoTextComponent:item_update(current_slot)
     end
 end
 
--- function InfoTextComponent:entity_update(entity)
---      if not entity then
---         self.entity_visible = false
---         return
---     end
-
---     self.entity_visible = true
-
---     self.name_label:change_text(entity.properties.name or "Unknown")
-
---     local actions = entity_id_actions[entity.id] or { "None", "Interact" }
---     for idx, action in ipairs(self.actions) do
---         action.label:change_text(actions[idx])
---     end
--- end
-
 function InfoTextComponent:draw()
     if not self.visible then return end
 

@@ -18,7 +18,7 @@ function game.load()
     current_world = map_lists["prototype_town"].world
 
     game.interface = Interface:load(game.time)
-    game.player = Player:load(423*TILE_SCALE, 231*TILE_SCALE, game.interface)
+    game.player = Player:load(480*TILE_SCALE, 49*TILE_SCALE, game.interface)
 
     game.camera = Camera()
 
