@@ -51,7 +51,6 @@ function PlantComponent:grow()
         self.growing_state = clamp(self.growing_state + 1, 1, self.days_to_grow)
     elseif self.regrow_activate and self.regrowing_state <= self.days_to_regrow then
         self.regrowing_state = clamp(self.regrowing_state + 1, 1, self.days_to_regrow)
-        print(self.regrowing_state)
     end
     self.last_grown_days = DAYS
 end

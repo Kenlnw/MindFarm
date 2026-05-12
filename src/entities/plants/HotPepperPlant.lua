@@ -24,7 +24,6 @@ end
 
 function HotPepperPlant:update(dt)
     if self.properties.regrow_activate then
-        print(self.properties.harvest_state, self.properties.ongoing_state)
         if self.properties.can_harvest then
             self.sprite.sprites.current_anim:gotoFrame(self.properties.harvest_state)
         end

@@ -40,7 +40,7 @@ function Interface:cash_animation(dt)
     self.cash_label:change_text(" " .. math.floor(display_cash))
 
     PREV_CASH = display_cash
-    print(display_cash, target_cash)
+
 
     self.cash_label:resize_to_text()
 end
