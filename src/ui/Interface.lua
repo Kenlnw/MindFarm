@@ -3,7 +3,7 @@ Interface.__index = Interface
 
 function Interface:load(time)
     SlotBar = require("src.ui.SlotBar")
-    TextBox = require("src.components.ui.TextboxComponent")
+    TextBox = require("src.components.ui.TextBoxComponent")
     InfoTextComponent = require("src.components.ui.InfoTextComponent")
 
     local self = setmetatable({}, Interface)

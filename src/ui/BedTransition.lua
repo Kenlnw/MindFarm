@@ -2,7 +2,7 @@ local BedTransition = {}
 BedTransition.__index = BedTransition
 
 local TransitionComponent = require("src.components.ui.TransitionComponent")
-local TextBox = require("src.components.ui.TextboxComponent")
+local TextBox = require("src.components.ui.TextBoxComponent")
 setmetatable(BedTransition, { __index = TransitionComponent })
 
 function BedTransition:load()

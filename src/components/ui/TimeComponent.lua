@@ -2,7 +2,7 @@ local TimeComponent = {}
 TimeComponent.__index = TimeComponent
 
 function TimeComponent:load(max_time, started_time, timer_speed)
-    TextBox = require("src.components.ui.TextboxComponent")
+    TextBox = require("src.components.ui.TextBoxComponent")
     BedTransition = require("src.ui.BedTransition")
 
     local self = setmetatable({}, TimeComponent)

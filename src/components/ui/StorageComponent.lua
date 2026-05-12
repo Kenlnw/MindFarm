@@ -3,7 +3,7 @@ StorageComponent.__index = StorageComponent
 
 function StorageComponent:load(title, cols, rows, allowed_types)
     SlotComponent = require("src.components.ui.SlotComponent")
-    TextBoxComponent = require("src.components.ui.TextboxComponent")
+    TextBoxComponent = require("src.components.ui.TextBoxComponent")
 
     local self = setmetatable({}, StorageComponent)
 

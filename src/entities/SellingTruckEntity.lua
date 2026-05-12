@@ -8,7 +8,7 @@ function SellingTruckEntity:load(x, y, flip_x, flip_y)
     AnimComponent = require("src.components.AnimComponent")
     EntityComponent = require("src.components.items.EntityComponent")
     StorageComponent = require("src.components.ui.StorageComponent")
-    TextBoxComponent = require("src.components.ui.TextboxComponent")
+    TextBoxComponent = require("src.components.ui.TextBoxComponent")
 
     local self = setmetatable({}, SellingTruckEntity)
 
