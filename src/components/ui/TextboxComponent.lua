@@ -8,7 +8,7 @@ function TextBoxComponent:load(text, x, y, width, height,text_size)
     self.width = width
     self.height = height
     self.text = text
-    self.font = love.graphics.newFont(text_size)
+    self.font = love.graphics.newFont(TEXT_FONT, text_size)
     self.icon = nil
     self.icon_scale = nil
 

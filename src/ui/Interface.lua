@@ -10,7 +10,7 @@ function Interface:load(time)
 
     self.slot_bar = SlotBar:load()
 
-    self.date_label = TextBox:load("Day: " .. DAYS, love.graphics.getWidth() - width_scale(200), 0, width_scale(200), height_scale(80), width_scale(40))
+    self.date_label = TextBox:load("Day    " .. DAYS, love.graphics.getWidth() - width_scale(200), 0, width_scale(200), height_scale(80), width_scale(40))
 
     self.time = time
     self.time:set_label(love.graphics.getWidth()* 11/12, self.date_label.height, love.graphics.getWidth()/12, height_scale(50), width_scale(20))
@@ -20,7 +20,6 @@ function Interface:load(time)
     self.cash_label:set_icon("sprites/items/Cash.png", TILE_SCALE)
 
     self.item_info = InfoTextComponent:load()
-    -- self.entity_info = InfoTextComponent:load()
 
     return self
 end
@@ -32,23 +31,22 @@ function Interface:cash_animation(dt)
 
     -- money increased
     if display_cash < target_cash  then
-        display_cash = math.floor(math.min(display_cash + anim_speed*dt, target_cash))
-        self.cash_label:change_text(" " .. display_cash)
+        display_cash = math.min(display_cash + anim_speed*dt, target_cash)
     end
-
     -- money decreased
     if display_cash > target_cash then
-        display_cash = math.floor(math.max(display_cash - anim_speed*dt, target_cash))
-        self.cash_label:change_text(" " .. display_cash)
+        display_cash = math.max(display_cash - anim_speed*dt, target_cash)
     end
+    self.cash_label:change_text(" " .. math.floor(display_cash))
 
     PREV_CASH = display_cash
+    print(display_cash, target_cash)
 
     self.cash_label:resize_to_text()
 end
 
 function Interface:update(dt)
-    self.date_label:change_text("Day: " .. DAYS)
+    self.date_label:change_text("Day    " .. DAYS)
     self:cash_animation(dt)
 
     self.item_info:item_update(self.slot_bar.slots[self.slot_bar.current_slot_id + 1])
