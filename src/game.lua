@@ -43,17 +43,6 @@ function game.update(dt)
     game.prototype_town.useable_obj_component:update(dt)
 
     if game_states["running"] and not game.time.bed_transition.active then
-        if is_key_down("p") then
-            if game.can_check_collider then
-                game.can_check_collider = false
-            else
-                game.can_check_collider = true
-            end
-            key_clear_state("p")
-        elseif is_key_down("l") then
-            day_changed = true
-            key_clear_state("l")
-        end
 
         current_world:update(dt)
         game.prototype_town:update(dt)

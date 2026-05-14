@@ -23,8 +23,9 @@ end
 
 function BedEntity:update(dt)
     self.properties:update(dt, self.sprite, function()
-        if is_mouse_down(2) then
+        if is_mouse_down(2) or is_key_down("e") then
             day_changed = true
+            key_clear_state("e")
             mouse_clear_state(2)
         end
     end)

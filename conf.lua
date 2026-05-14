@@ -3,6 +3,6 @@ function love.conf(t)
     t.window.height = 720
     t.window.fullscreen = true
     t.window.fullscreentype = "desktop"
-    t.console = false
+    t.console = true
     t.window.title = "MindFarm"
 end

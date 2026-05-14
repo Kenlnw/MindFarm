@@ -23,14 +23,14 @@ function UseableObjComponent:create_obj(layer)
         local useable_obj = nil
         if obj.name == "Chest" then
             useable_obj = ChestEntity:load(obj.x*self.map_scale, obj.y*self.map_scale, obj.properties.type)
-            useable_obj.properties:update_collider_position(false, useable_obj.id)
             useable_obj.properties.is_placed = true
+            useable_obj.properties:update_collider_position(false, useable_obj.id)
         end
 
         if obj.name == "SellingTruck" then
             useable_obj = SellingTruckEntity:load(obj.x*self.map_scale, obj.y*self.map_scale)
-            useable_obj.properties:update_collider_position(false, useable_obj.id)
             useable_obj.properties.is_placed = true
+            useable_obj.properties:update_collider_position(false, useable_obj.id)
         end
 
         table.insert(useable_objs, useable_obj)

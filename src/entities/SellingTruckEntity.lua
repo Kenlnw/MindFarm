@@ -75,13 +75,14 @@ function SellingTruckEntity:cash_update()
 end
 
 function SellingTruckEntity:update(dt, player)
+    self.storage:update(dt, player)
     self.properties:update(dt, self.sprite, function()
-        if is_mouse_down(2) then
+        if is_mouse_down(2) or is_key_down("e") then
             self.storage:open()
+            key_clear_state("e")
             mouse_clear_state(2)
         end
     end)
-    self.storage:update(dt, player)
 
     self.cash_per_day = self:cash_calculate()
     self.cash_label:change_text(" " .. self.cash_per_day)

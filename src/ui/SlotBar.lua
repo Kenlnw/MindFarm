@@ -48,6 +48,13 @@ function SlotBar:load_slots()
         self.slots[i] = SlotComponent:load(slot_x, self.y, self.slot_width, self.slot_height, id, nil)
         slot_x = slot_x + self.slots[i].width + self.offset_x
     end
+
+    for idx, item in ipairs(items_for_player["Start"]) do
+        local slot = self.slots[idx]
+        if slot then
+            slot:store_item(item.class:load(slot.x, slot.y), item.item_amount, item.capacity)
+        end
+    end
 end
 
 function SlotBar:update(dt)

@@ -55,3 +55,9 @@ items_for_chest = {
         { class = require("src.items.Bed"), item_amount = 1, capacity = 1 }
     }
 }
+
+items_for_player = {
+    Start = {
+        { class = require("src.items.seeds.StrawberrySeed"), item_amount = SLOT_CAPACITY, capacity = SLOT_CAPACITY }
+    }
+}

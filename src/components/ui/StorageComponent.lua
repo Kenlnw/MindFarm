@@ -60,6 +60,7 @@ end
 
 function StorageComponent:open()
     self.is_open = true
+    self.open_timer = 0.1
     change_game_states("paused")
 end
 
@@ -78,21 +79,30 @@ function StorageComponent:transfer(slots_a, slot_b, shift_held)
 
     for _, slot_a in ipairs(slots_a) do
         if slot_a.item and slot_a.item.id == slot_b.item.id and slot_a.item_amount < slot_a.capacity then
-            slot_a.item_amount = slot_a.item_amount + 1
-            slot_b.item_amount = slot_b.item_amount - 1
+            local transfer_amount = 1
+            if shift_held then
+                transfer_amount = math.min(slot_b.item_amount, slot_a.capacity - slot_a.item_amount)
+            end
+            slot_a.item_amount = slot_a.item_amount + transfer_amount
+            slot_b.item_amount = slot_b.item_amount - transfer_amount
 
             if slot_b.item_amount == 0 then
                 slot_b.item = nil
             end
-            return
+
+            if not shift_held or slot_b.item_amount <= 0 then return end
         end
     end
 
     -- place in empty slot
     for _, slot_a in ipairs(slots_a) do
         if not slot_a.item then
-            slot_a:store_item(slot_b.item.class:load(slot_a.x, slot_a.y), 1, slot_b.capacity)
-            slot_b.item_amount = slot_b.item_amount - 1
+            local transfer_amount = 1
+            if shift_held then
+                transfer_amount = slot_b.item_amount
+            end
+            slot_a:store_item(slot_b.item.class:load(slot_a.x, slot_a.y), transfer_amount, slot_b.capacity)
+            slot_b.item_amount = slot_b.item_amount - transfer_amount
 
             if slot_b.item_amount == 0 then
                 slot_b.item = nil
@@ -123,12 +133,12 @@ function StorageComponent:compact()
     end
 end
 
-function StorageComponent:deposit(player_slot)
-    self:transfer(self.slots, player_slot)
+function StorageComponent:deposit(player_slot, shift_held)
+    self:transfer(self.slots, player_slot, shift_held)
 end
 
-function StorageComponent:withdraw(player, storage_slot)
-    self:transfer(player.slot_bar.slots, storage_slot)
+function StorageComponent:withdraw(player, storage_slot, shift_held)
+    self:transfer(player.slot_bar.slots, storage_slot, shift_held)
     self:compact()
 end
 
@@ -162,11 +172,12 @@ function StorageComponent:update(dt, player)
 
     if is_mouse_down(1) then
         local mx, my = love.mouse.getPosition()
+        local shift_held = is_key_down("lshift") or is_key_down("rshift")
 
         -- click on storage slot -> withdraw to player
         for _, storage_slot in ipairs(self.slots) do
             if is_inside(mx, my, storage_slot)then
-                self:withdraw(player, storage_slot)
+                self:withdraw(player, storage_slot, shift_held)
                 mouse_clear_state(1)
                 return
             end
@@ -175,8 +186,10 @@ function StorageComponent:update(dt, player)
         -- click on player slot -> deposit to storage
         for _, player_slot in ipairs(player.slot_bar.slots) do
             if is_inside(mx, my, player_slot) and self:filter(player_slot) then
-                self:deposit(player_slot)
-                mouse_clear_state(1)
+                self:deposit(player_slot, shift_held)
+
+                if not shift_held then mouse_clear_state(1) end
+
                 return
             end
         end

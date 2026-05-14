@@ -42,13 +42,14 @@ function ChestEntity:init_items()
 end
 
 function ChestEntity:update(dt, player)
+    self.storage:update(dt, player)
     self.properties:update(dt, self.sprite, function()
-        if is_mouse_down(2) then
+        if is_key_down("e") or is_mouse_down(2) then
             self.storage:open()
+            key_clear_state("e")
             mouse_clear_state(2)
         end
     end)
-    self.storage:update(dt, player)
 end
 
 function ChestEntity:draw()
