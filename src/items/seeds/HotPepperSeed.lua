@@ -20,6 +20,7 @@ function HotPepperSeed:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim:gotoFrame(1)
 
     self.sell_price = 5
+    self.buy_price = 100
 
     self.properties = SeedComponent:load(HotPepperPlant, "plantable_area", self.sell_price)
 

@@ -7,6 +7,7 @@ CASH = 0
 TEXT_FONT = "fonts/Amasis MT Std Black.ttf"
 
 cash_updated = false
+shop_restock = true
 
 game_states = {
     menu = true,
@@ -57,7 +58,20 @@ items_for_chest = {
 }
 
 items_for_player = {
-    Start = {
+    Init = {
         { class = require("src.items.seeds.StrawberrySeed"), item_amount = SLOT_CAPACITY, capacity = SLOT_CAPACITY }
+    }
+}
+
+items_for_shop = {
+    Init = {
+        { class = require("src.items.seeds.StrawberrySeed"), item_amount = 20, capacity = 20 },
+        { class =  require("src.items.seeds.PotatoSeed"), item_amount = 20, capacity = 20 },
+        { class = require("src.items.seeds.LeekSeed"), item_amount = 20, capacity = 20 },
+        { class = require("src.items.seeds.HotPepperSeed"), item_amount = 20, capacity = 20 },
+        { class = require("src.items.crops.Strawberry"), item_amount = 20, capacity = 20 },
+        { class =  require("src.items.crops.Potato"), item_amount = 20, capacity = 20 },
+        { class = require("src.items.crops.Leek"), item_amount = 20, capacity = 20 },
+        { class = require("src.items.crops.HotPepper"), item_amount = 20, capacity = 20 }
     }
 }

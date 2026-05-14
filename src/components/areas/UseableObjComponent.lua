@@ -54,9 +54,12 @@ end
 
 function UseableObjComponent:update_between_day()
     for _, useable_obj in ipairs(self.useable_objs) do
-        -- cash update(for selling truck)
         if useable_obj.id == "selling_truck_entity" then
             useable_obj:cash_update()
+        end
+
+        if useable_obj.id == "shop_entity" then
+            useable_obj:restore_items()
         end
     end
 end
@@ -80,7 +83,7 @@ function UseableObjComponent:storage_draw()
 
         if useable_obj.id == "shop_entity" then
             useable_obj.shop:draw(self.player)
-            useable_obj:cash_label_draw()
+            useable_obj:price_label_draw()
         end
     end
 end

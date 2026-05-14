@@ -18,7 +18,8 @@ function Potato:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim = self.sprite.sprites.anims[3]
     self.sprite.sprites.current_anim:gotoFrame(1)
 
-    self.sell_price = 100
+    self.sell_price = 60
+    self.buy_price = 60
 
     self.properties = CropComponent:load(self.sell_price)
 

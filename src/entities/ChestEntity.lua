@@ -36,6 +36,7 @@ function ChestEntity:init_items()
     for idx, item in ipairs(items) do
         local slot = self.storage.slots[idx]
         if slot then
+            slot:clear_item()
             slot:store_item(item.class:load(slot.x, slot.y), item.item_amount, item.capacity)
         end
     end

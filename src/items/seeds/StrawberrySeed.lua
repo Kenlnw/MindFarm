@@ -20,6 +20,7 @@ function StrawberrySeed:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim:gotoFrame(1)
 
     self.sell_price = 20
+    self.buy_price = 70
 
     self.properties = SeedComponent:load(StrawberryPlant, "plantable_area", self.sell_price)
 

@@ -27,6 +27,8 @@ function SlotBar:load()
     self.current_slot_id = self.slots[1].id
     self:find_slots()
 
+    self.inventory_fulled = false
+
     return self
 end
 
@@ -49,7 +51,7 @@ function SlotBar:load_slots()
         slot_x = slot_x + self.slots[i].width + self.offset_x
     end
 
-    for idx, item in ipairs(items_for_player["Start"]) do
+    for idx, item in ipairs(items_for_player["Init"]) do
         local slot = self.slots[idx]
         if slot then
             slot:store_item(item.class:load(slot.x, slot.y), item.item_amount, item.capacity)
@@ -58,8 +60,18 @@ function SlotBar:load_slots()
 end
 
 function SlotBar:update(dt)
+    local slot_used_count = 0
     for _, slot in ipairs(self.slots) do
         slot:update(dt)
+        if slot.item then
+            slot_used_count = slot_used_count + 1
+        end
+    end
+
+    if slot_used_count == self.max_slots then
+        self.inventory_fulled = true
+    else
+        self.inventory_fulled = false
     end
 
     if is_key_down("right") then

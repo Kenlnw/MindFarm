@@ -39,6 +39,12 @@ function SlotComponent:store_item(item, amount, capacity)
     end
 end
 
+function SlotComponent:clear_item()
+    self.item = nil
+    self.item_amount = 0
+    self.capacity = 0
+end
+
 function SlotComponent:handle_item_used()
     if self.item and self.item.properties.is_used and not self.item.properties.is_reuseable then
         self.item_amount = self.item_amount - 1

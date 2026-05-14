@@ -25,6 +25,7 @@ function BedEntity:update(dt)
     self.properties:update(dt, self.sprite, function()
         if is_mouse_down(2) or is_key_down("e") then
             day_changed = true
+            shop_restock = false
             key_clear_state("e")
             mouse_clear_state(2)
         end

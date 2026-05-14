@@ -20,6 +20,7 @@ function LeekSeed:load(x, y, flip_x, flip_y)
     self.sprite.sprites.current_anim:gotoFrame(1)
 
     self.sell_price = 10
+    self.buy_price = 85
 
     self.properties = SeedComponent:load(LeekPlant, "plantable_area", self.sell_price)
 
