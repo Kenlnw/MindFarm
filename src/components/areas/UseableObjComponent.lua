@@ -4,6 +4,7 @@ UseableObjComponent.__index = UseableObjComponent
 function UseableObjComponent:load(layer, player)
     ChestEntity = require("src.entities.ChestEntity")
     SellingTruckEntity = require("src.entities.SellingTruckEntity")
+    ShopEntity = require("src.entities.ShopEntity")
 
     local self = setmetatable({}, UseableObjComponent)
     self.layer = layer
@@ -29,6 +30,12 @@ function UseableObjComponent:create_obj(layer)
 
         if obj.name == "SellingTruck" then
             useable_obj = SellingTruckEntity:load(obj.x*self.map_scale, obj.y*self.map_scale)
+            useable_obj.properties.is_placed = true
+            useable_obj.properties:update_collider_position(false, useable_obj.id)
+        end
+
+        if obj.name == "Shop" then
+            useable_obj = ShopEntity:load(obj.x*self.map_scale, obj.y*self.map_scale)
             useable_obj.properties.is_placed = true
             useable_obj.properties:update_collider_position(false, useable_obj.id)
         end
@@ -64,9 +71,16 @@ function UseableObjComponent:storage_draw()
     for _, useable_obj in ipairs(self.useable_objs) do
         if useable_obj.id == "chest_entity" or useable_obj.id == "selling_truck_entity" then
             useable_obj.storage:draw(self.player)
-            if useable_obj.id == "selling_truck_entity" then
-                useable_obj:cash_label_draw()
-            end
+        end
+
+        if useable_obj.id == "selling_truck_entity" then
+            useable_obj.storage:draw(self.player)
+            useable_obj:cash_label_draw()
+        end
+
+        if useable_obj.id == "shop_entity" then
+            useable_obj.shop:draw(self.player)
+            useable_obj:cash_label_draw()
         end
     end
 end

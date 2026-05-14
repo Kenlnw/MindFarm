@@ -10,7 +10,7 @@ function Interface:load(time)
 
     self.slot_bar = SlotBar:load()
 
-    self.date_label = TextBox:load("Day    " .. DAYS, love.graphics.getWidth() - width_scale(200), 0, width_scale(200), height_scale(80), width_scale(40))
+    self.date_label = TextBox:load("Day " .. DAYS, love.graphics.getWidth() - width_scale(200), 0, width_scale(200), height_scale(80), width_scale(40))
 
     self.time = time
     self.time:set_label(love.graphics.getWidth()* 11/12, self.date_label.height, love.graphics.getWidth()/12, height_scale(50), width_scale(20))
@@ -46,7 +46,7 @@ function Interface:cash_animation(dt)
 end
 
 function Interface:update(dt)
-    self.date_label:change_text("Day    " .. DAYS)
+    self.date_label:change_text("Day " .. DAYS)
     self:cash_animation(dt)
 
     self.item_info:item_update(self.slot_bar.slots[self.slot_bar.current_slot_id + 1])

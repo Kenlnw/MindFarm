@@ -224,7 +224,7 @@ function StorageComponent:draw(player)
     if self.allowed_types then
         for _, player_slot in ipairs(player.slot_bar.slots) do
             if not self:filter(player_slot) then
-                set_color(255, 255, 100, 0.25)
+                set_color(255, 0, 0, 0.25)
                 love.graphics.rectangle("fill", player_slot.x, player_slot.y, player_slot.width, player_slot.height)
                 reset_color()
             end

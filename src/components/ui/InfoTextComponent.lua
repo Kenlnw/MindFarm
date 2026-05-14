@@ -18,7 +18,7 @@ function InfoTextComponent:load()
     }
 
     for _, action in ipairs(self.actions) do
-        action.label = TextBoxComponent:load(action.text, 0, 0, width_scale(60), height_scale(30), 4 * TILE_SCALE)
+        action.label = TextBoxComponent:load(action.text, 0, 0, width_scale(60), height_scale(30), 5 * TILE_SCALE)
         action.label:set_icon(action.icon, TILE_SCALE * 0.5)
     end
 

@@ -31,7 +31,7 @@ function SellingTruckEntity:load(x, y, flip_x, flip_y)
     local panel_w = self.storage.cols * (self.storage.slot_width + self.storage.padding) - self.storage.padding + height_scale(32)
     local label_height = height_scale(50)
     self.cash_label = TextBoxComponent:load(
-        "Total: 0 G",
+        " 0",
         panel_x,
         self.storage.y + self.storage.total_height + height_scale(8),
         panel_w,
