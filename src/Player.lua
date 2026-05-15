@@ -186,7 +186,6 @@ function Player:draw()
     else
         self.sprite:draw(self.sprite.sprites.idle)
     end
-    -- love.graphics.circle("fill", self.sensor_point.x, self.sensor_point.y, 10)
 end
 
 return Player

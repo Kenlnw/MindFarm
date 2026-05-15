@@ -88,17 +88,21 @@ function ShopEntity:shop_update(dt, player)
 
     --
     for _, slot in ipairs(shop.slots) do
-        if is_inside(mx, my, slot) and is_mouse_down(1) and slot.item and slot.item.buy_price <= CASH then
-            mouse_clear_state(1)
+        if is_mouse_down(1) then
+            if is_inside(mx, my, slot) and slot.item and slot.item.buy_price <= CASH then
+                if cash_updated or player.interface.slot_bar.inventory_fulled then return end
 
-            if cash_updated or player.interface.slot_bar.inventory_fulled then return end
-
-            shop:withdraw(player, slot, false)
-            CASH = CASH - slot.item.buy_price
-            cash_updated = true
-
-            return
+                shop:withdraw(player, slot, false)
+                CASH = CASH - slot.item.buy_price
+                cash_updated = true
+                mouse_clear_state(1)
+                return
+            end
         end
+    end
+
+    if is_mouse_down(1) then
+        mouse_clear_state(1)
     end
 
     player.interface:cash_animation(dt)

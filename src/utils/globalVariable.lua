@@ -26,7 +26,8 @@ mouse_states = {}
 mouse_current_state = {
     x = nil,
     y = nil,
-    button = nil
+    button = nil,
+    is_using = false
 }
 
 mouse_position = {
@@ -45,10 +46,7 @@ item_type_actions = {
 
 items_for_chest = {
     Seeds = {
-        { class = require("src.items.seeds.StrawberrySeed"), item_amount = 20, capacity = SLOT_CAPACITY },
-        { class =  require("src.items.seeds.PotatoSeed"), item_amount = 20, capacity = SLOT_CAPACITY },
-        { class = require("src.items.seeds.LeekSeed"), item_amount = 20, capacity = SLOT_CAPACITY },
-        { class = require("src.items.seeds.HotPepperSeed"), item_amount = 20, capacity = SLOT_CAPACITY }
+        { class =  require("src.items.seeds.PotatoSeed"), item_amount = 20, capacity = SLOT_CAPACITY }
     },
     Tools = {
         { class = require("src.items.tools.Hoe"), item_amount = 1, capacity = 1 },
@@ -57,7 +55,11 @@ items_for_chest = {
     }
 }
 
-items_for_player = {}
+items_for_player = {
+    Init = {
+        { class = require("src.items.crops.Leek"), item_amount = SLOT_CAPACITY, capacity = SLOT_CAPACITY }
+    }
+}
 
 items_for_shop = {
     Init = {

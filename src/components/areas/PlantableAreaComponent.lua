@@ -52,6 +52,9 @@ function PlantableAreaComponent:update_between_day(dt)
                 end
             end
             area.is_watered = false
+            if area.is_soiled and not area.plant then
+                area.is_soiled = false
+            end
         end
     end
 end
@@ -116,7 +119,6 @@ function PlantableAreaComponent:update(dt)
                         end
                         break
                     end
-                    mouse_clear_state(2)
                 end
             else
                 area.is_active = false
