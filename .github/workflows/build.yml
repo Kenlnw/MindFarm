@@ -30,36 +30,39 @@ jobs:
 
       - name: Build Windows
         run: |
+          TAG=${GITHUB_REF#refs/tags/}
           cat love-11.5-win64/love.exe MindFarm.love > MindFarm.exe
           mkdir MindFarm-windows
           cp MindFarm.exe MindFarm-windows/
           cp love-11.5-win64/*.dll MindFarm-windows/
-          zip -r MindFarm-windows.zip MindFarm-windows/
+          zip -r MindFarm-windows-${TAG}.zip MindFarm-windows/
 
       - name: Build Mac
         run: |
+          TAG=${GITHUB_REF#refs/tags/}
           find . -name "*.app" -type d | head -5
           APP_PATH=$(find . -name "love.app" -type d | head -1)
           echo "Found love.app at: $APP_PATH"
           cp -r "$APP_PATH" MindFarm.app
           cp MindFarm.love MindFarm.app/Contents/Resources/
-          zip -r MindFarm-mac.zip MindFarm.app/
+          zip -r MindFarm-mac-${TAG}.zip MindFarm.app/
 
       - name: Build Linux
         run: |
+          TAG=${GITHUB_REF#refs/tags/}
           mkdir MindFarm-linux
           cp MindFarm.love MindFarm-linux/
           echo '#!/bin/bash\nlove MindFarm.love' > MindFarm-linux/MindFarm.sh
           chmod +x MindFarm-linux/MindFarm.sh
-          zip -r MindFarm-linux.zip MindFarm-linux/
+          zip -r MindFarm-linux-${TAG}.zip MindFarm-linux/
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            MindFarm-windows.zip
-            MindFarm-mac.zip
-            MindFarm-linux.zip
+            MindFarm-windows-*.zip
+            MindFarm-mac-*.zip
+            MindFarm-linux-*.zip
             MindFarm.love
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
