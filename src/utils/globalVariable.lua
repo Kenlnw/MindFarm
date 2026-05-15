@@ -55,11 +55,7 @@ items_for_chest = {
     }
 }
 
-items_for_player = {
-    Init = {
-        { class = require("src.items.crops.Leek"), item_amount = SLOT_CAPACITY, capacity = SLOT_CAPACITY }
-    }
-}
+items_for_player = {}
 
 items_for_shop = {
     Init = {
