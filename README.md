@@ -49,7 +49,7 @@ A cozy farming simulation game built with LÖVE2D. Tend your farm, buy and sell 
 |--------------|--------|
 | `Scroll Wheel` | Cycle through slots |
 | `← →` Arrow Keys | Cycle through slots |
-| `1` - `9` | Select slot directly |
+| `1` - `5` | Select slot directly |
 
 ---
 
