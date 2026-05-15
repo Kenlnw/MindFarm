@@ -21,6 +21,9 @@ jobs:
           wget https://github.com/love2d/love/releases/download/11.5/love-11.5-macos.zip
           unzip love-11.5-win64.zip
           unzip love-11.5-macos.zip
+          echo "=== Mac zip contents ==="
+          ls -la
+          ls -la love-11.5-macos/ || true
 
       - name: Build Windows
         run: |
@@ -32,9 +35,11 @@ jobs:
 
       - name: Build Mac
         run: |
-          cp -r love-11.5-macos/love.app MindFarm.app
+          find . -name "*.app" -type d | head -5
+          APP_PATH=$(find . -name "love.app" -type d | head -1)
+          echo "Found love.app at: $APP_PATH"
+          cp -r "$APP_PATH" MindFarm.app
           cp MindFarm.love MindFarm.app/Contents/Resources/
-          mv MindFarm.app/Contents/Resources/love.icns MindFarm.app/Contents/Resources/MindFarm.icns
           zip -r MindFarm-mac.zip MindFarm.app/
 
       - name: Build Linux
