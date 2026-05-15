@@ -27,7 +27,6 @@ function game.load()
 
     game.can_check_collider = false
 
-
     change_game_states("running")
 end
 

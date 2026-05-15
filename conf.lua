@@ -4,5 +4,6 @@ function love.conf(t)
     t.window.fullscreen = true
     t.window.fullscreentype = "desktop"
     t.console = false
+    t.version = "11.5"
     t.window.title = "MindFarm"
 end
