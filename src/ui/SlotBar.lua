@@ -51,6 +51,8 @@ function SlotBar:load_slots()
         slot_x = slot_x + self.slots[i].width + self.offset_x
     end
 
+    if  not items_for_player["Init"] then return end
+
     for idx, item in ipairs(items_for_player["Init"]) do
         local slot = self.slots[idx]
         if slot then

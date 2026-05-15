@@ -57,21 +57,17 @@ items_for_chest = {
     }
 }
 
-items_for_player = {
-    Init = {
-        { class = require("src.items.seeds.StrawberrySeed"), item_amount = SLOT_CAPACITY, capacity = SLOT_CAPACITY }
-    }
-}
+items_for_player = {}
 
 items_for_shop = {
     Init = {
-        { class = require("src.items.seeds.StrawberrySeed"), item_amount = 20, capacity = 20 },
-        { class =  require("src.items.seeds.PotatoSeed"), item_amount = 20, capacity = 20 },
-        { class = require("src.items.seeds.LeekSeed"), item_amount = 20, capacity = 20 },
-        { class = require("src.items.seeds.HotPepperSeed"), item_amount = 20, capacity = 20 },
-        { class = require("src.items.crops.Strawberry"), item_amount = 20, capacity = 20 },
-        { class =  require("src.items.crops.Potato"), item_amount = 20, capacity = 20 },
-        { class = require("src.items.crops.Leek"), item_amount = 20, capacity = 20 },
-        { class = require("src.items.crops.HotPepper"), item_amount = 20, capacity = 20 }
+        { class = require("src.items.seeds.StrawberrySeed") },
+        { class =  require("src.items.seeds.PotatoSeed") },
+        { class = require("src.items.seeds.LeekSeed") },
+        { class = require("src.items.seeds.HotPepperSeed") },
+        { class = require("src.items.crops.Strawberry") },
+        { class =  require("src.items.crops.Potato") },
+        { class = require("src.items.crops.Leek") },
+        { class = require("src.items.crops.HotPepper") }
     }
 }

@@ -224,13 +224,13 @@
 </data>
  </layer>
  <objectgroup id="10" name="Useable_obj" class="UseableObj">
-  <object id="26" name="Chest" type="Chest" x="368" y="48" width="16" height="16">
+  <object id="26" name="Chest" type="Chest" x="416" y="48" width="16" height="16">
    <properties>
     <property name="type" value="Seeds"/>
    </properties>
   </object>
   <object id="53" name="SellingTruck" type="SellingTruck" x="448" y="0" width="64" height="48"/>
-  <object id="54" name="Chest" x="400" y="48" width="16" height="16">
+  <object id="54" name="Chest" x="432" y="48" width="16" height="16">
    <properties>
     <property name="type" value="Tools"/>
    </properties>

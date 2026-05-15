@@ -70,30 +70,34 @@ function ShopEntity:shop_update(dt, player)
 
     for _, slot in ipairs(shop.slots) do
         slot:update(dt)
-
-        local mx, my = love.mouse.getPosition()
-
-        if is_inside(mx, my, slot) and slot.item then
-            self.price_label:change_text(" " .. slot.item.buy_price)
-        end
     end
 
     cash_updated = false
 
-    if is_mouse_down(1) then
-        local mx, my = love.mouse.getPosition()
+    local mx, my = love.mouse.getPosition()
 
-        for _, slot in ipairs(shop.slots) do
-            if is_inside(mx, my, slot) and slot.item and slot.item.buy_price <= CASH then
-                mouse_clear_state(1)
+    -- Update the price_label
+    for _, slot in ipairs(shop.slots) do
+         if is_inside(mx, my, slot) and slot.item then
+            self.price_label:change_text(" " .. slot.item.buy_price)
+            break
+         else
+            self.price_label:change_text(" ")
+         end
+    end
 
-                if cash_updated or player.interface.slot_bar.inventory_fulled then return end
-                shop:withdraw(player, slot, false)
-                CASH = CASH - slot.item.buy_price
-                cash_updated = true
+    --
+    for _, slot in ipairs(shop.slots) do
+        if is_inside(mx, my, slot) and is_mouse_down(1) and slot.item and slot.item.buy_price <= CASH then
+            mouse_clear_state(1)
 
-                return
-            end
+            if cash_updated or player.interface.slot_bar.inventory_fulled then return end
+
+            shop:withdraw(player, slot, false)
+            CASH = CASH - slot.item.buy_price
+            cash_updated = true
+
+            return
         end
     end
 

@@ -23,6 +23,7 @@ function game.load()
     game.camera = Camera()
 
     game.prototype_town = Map:load(map_lists["prototype_town"].src, game.player, game.camera)
+    game.player:set_map(game.prototype_town)
 
     game.can_check_collider = false
 

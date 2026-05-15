@@ -61,7 +61,6 @@ function EntityComponent:update(dt, sprite, func)
                 self.is_activated = true
                 func()
             end
-            return false
         end
         return true
         end)

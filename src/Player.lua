@@ -32,6 +32,8 @@ function Player:load(x, y, interface)
 
     self.current_item = self:set_current_item()
 
+    self.map = nil
+
     return self
 end
 
@@ -43,6 +45,10 @@ function Player:set_current_item()
             end
         end
     end
+end
+
+function Player:set_map(map)
+    self.map = map or nil
 end
 
 function Player:set_collider()
@@ -157,6 +163,16 @@ function Player:normalized_move(dx, dy, dt)
 
     self.collider.body:setLinearVelocity(vx, vy)
     self.collider.body:setFixedRotation(true)
+
+    if self.map then
+        local x, y = self.collider.body:getPosition()
+        local player_width = self.collider.width
+        local player_height = self.collider.height + 9*self.sprite.sprite_scale
+
+        x = clamp(x, self.map.x + player_width, self.map.x + self.map.width  - player_width)
+        y = clamp(y, self.map.y + player_height, self.map.y + self.map.height - player_height)
+        self.collider.body:setPosition(x, y)
+    end
 
     self.sprite.x, self.sprite.y = self.collider.body:getPosition()
 
