@@ -6,4 +6,5 @@ function love.conf(t)
     t.console = false
     t.version = "11.5"
     t.window.title = "MindFarm"
+    t.window.icon = "icon.png"
 end
