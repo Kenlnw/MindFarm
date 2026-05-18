@@ -10,10 +10,9 @@ cash_updated = false
 shop_restock = true
 
 game_states = {
-    menu = true,
     paused = false,
     running = false,
-    ended = false
+    menu = false
 }
 
 key_states = {}

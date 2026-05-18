@@ -76,6 +76,8 @@ function SlotBar:update(dt)
         self.inventory_fulled = false
     end
 
+    if not game_states["running"] then return end
+
     if is_key_down("right") then
         self:change_slot_slide("right")
         key_clear_state("right")
@@ -91,6 +93,8 @@ function SlotBar:update(dt)
 end
 
 function SlotBar:change_slot_slide(direction)
+    if not game_states["running"] then return end
+
     if direction == "right" then
         self.current_slot_id = (self.current_slot_id + 1) % self.max_slots
     elseif direction == "left" then
@@ -100,6 +104,8 @@ function SlotBar:change_slot_slide(direction)
 end
 
 function SlotBar:change_slot_at(num)
+    if not game_states["running"] then return end
+    
     if num <= self.max_slots then
         self.current_slot_id = num - 1
         self:find_slots()

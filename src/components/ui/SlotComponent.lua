@@ -26,7 +26,7 @@ end
 function SlotComponent:select()
     set_color(255, 255, 255)
     love.graphics.push()
-    love.graphics.setLineWidth(5)
+    love.graphics.setLineWidth(height_scale(5))
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
     love.graphics.pop()
 end
@@ -91,7 +91,7 @@ function SlotComponent:draw()
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     reset_color()
 
-    if self.is_selected == true then
+    if self.is_selected == true and game_states["running"] then
         self:select()
     end
 

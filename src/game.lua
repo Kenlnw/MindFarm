@@ -7,6 +7,7 @@ function game.load()
     Camera = require("libraries.camera")
     Interface = require("src.ui.Interface")
     TimeComponent = require("src.components.ui.TimeComponent")
+    QuitDialog = require("src.ui.QuitDialog")
 
     love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -25,6 +26,8 @@ function game.load()
     game.prototype_town = Map:load(map_lists["prototype_town"].src, game.player, game.camera)
     game.player:set_map(game.prototype_town)
 
+    game.quit_dialog = QuitDialog:load()
+
     game.can_check_collider = false
 
     change_game_states("running")
@@ -33,16 +36,16 @@ end
 function game.update(dt)
     update_mouse_position(game.camera)
 
-    if is_key_down("escape") then
-        love.event.quit()
-        key_clear_state("escape")
-    end
-
     game.time.bed_transition:update(dt)
     game.interface.slot_bar:update(dt)
     game.prototype_town.useable_obj_component:update(dt)
 
     if game_states["running"] and not game.time.bed_transition.active then
+
+        if is_key_down("escape") then
+            game.quit_dialog:open()
+            key_clear_state("escape")
+        end
 
         current_world:update(dt)
         game.prototype_town:update(dt)
@@ -58,6 +61,10 @@ function game.update(dt)
 
     if game_states["paused"] then
         game.player:update_between_day(dt)
+    end
+
+    if game_states["menu"] then
+        game.quit_dialog:update()
     end
 end
 
@@ -123,6 +130,9 @@ function game.draw()
 
     game.interface:draw()
     game.prototype_town.useable_obj_component:storage_draw()
+
+    game.quit_dialog:draw()
+
 end
 
 return game
