@@ -41,7 +41,7 @@ A cozy farming simulation game built with LÖVE2D. Tend your farm, buy and sell 
 | `Left Click` | Use current tool/item |
 | `E` or `Right Click` | Interact with entity (open/close chest, sleep.) |
 | `Shift + Left Click` | Quick withdraw / deposit from storage |
-| `Esc` | Quit the game |
+| `Esc` | Quit the game (`Y` for Yes, `N` for no) |
 
 ### Inventory
 | Key / Button | Action |
