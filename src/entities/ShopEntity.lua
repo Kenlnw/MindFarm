@@ -38,6 +38,28 @@ function ShopEntity:load(x, y, flip_x, flip_y)
     return self
 end
 
+function ShopEntity:can_buy(player, slot)
+    if not slot.item then return false end
+
+    -- check if player has the same item with remaining capacity
+    for _, player_slot in ipairs(player.interface.slot_bar.slots) do
+        if player_slot.item and
+           player_slot.item.id == slot.item.id and
+           player_slot.item_amount < player_slot.capacity then
+            return true  -- found a slot with same item and space
+        end
+    end
+
+    -- check if player has an empty slot
+    for _, player_slot in ipairs(player.interface.slot_bar.slots) do
+        if not player_slot.item then
+            return true  -- found an empty slot
+        end
+    end
+
+    return false  -- inventory truly full
+end
+
 function ShopEntity:init_items()
     for idx, item in ipairs(items_for_shop["Init"]) do
         local slot = self.shop.slots[idx]
@@ -90,7 +112,7 @@ function ShopEntity:shop_update(dt, player)
     for _, slot in ipairs(shop.slots) do
         if is_mouse_down(1) then
             if is_inside(mx, my, slot) and slot.item and slot.item.buy_price <= CASH then
-                if cash_updated or player.interface.slot_bar.inventory_fulled then return end
+                if cash_updated or not self:can_buy(player, slot) then return end
 
                 shop:withdraw(player, slot, false)
                 CASH = CASH - slot.item.buy_price

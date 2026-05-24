@@ -3,7 +3,7 @@ DAYS = 1
 day_changed = false
 SLOT_CAPACITY = 64
 PREV_CASH = 0
-CASH = 0
+CASH = 10000
 TEXT_FONT = "fonts/Amasis MT Std Black.ttf"
 
 cash_updated = false
